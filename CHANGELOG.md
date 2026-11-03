@@ -5,10 +5,16 @@ All notable changes to the Architect Command Center. Newest first.
 ### v1.3 (Nov 3, 2026)
 
 #### Added
-- Pipeline on my accounts (Opportunities tab): new and existing opportunities on your focus accounts, grouped by account, with tiles for open pipeline, new this quarter, closing this quarter, where you hold a DC and where you don't. Each opportunity shows your DC (role and split), meetings you've had on it, and flags for no next step, quiet 30 days or past due, with an Add DC link and a Prep button. The Opportunities card on the Briefing shows the headline numbers.
+- Pipeline on my accounts (Opportunities tab): new and existing opportunities on your focus accounts, grouped by account, with tiles for open pipeline, new this quarter, pipeline you helped open, closing this quarter, where you hold a DC and where you don't.
+- Quarter shortlist: the open deals closing this fiscal quarter, ranked by a sell score (stage, next step, recent activity, your involvement, date) times amount, with the reasons to watch and a "Suggest next moves" button that writes one concrete next move per deal.
+- Pipeline I helped open: new opportunities this quarter where you hold a DC or have had meetings, as a tile, a filter and a line in the summary.
+- Whitespace by account: which product lines each account has bought in the last 4 years (from won opportunity line items), which are already in open deals, and which are open, with an Ideas button that suggests up to three plays for opening new pipeline.
+- Charts: pipeline by stage, close timing by month with the quarter outlined, my coverage donut, deal health (healthy, watch, at risk), and pipeline age.
+- Each opportunity shows your DC role and split, meetings you've had on it, a sell score, and flags for no next step, quiet 30 days and past due, with Add DC and Prep actions.
 
 #### Improved
 - Log my time: suggested hours come from your calendar meetings only (overlaps counted once), and the Slackbot prompt carries just the meetings and their total.
+- The Opportunities card on the Briefing shows the headline pipeline numbers.
 
 ### v1.2 (Nov 2, 2026)
 
