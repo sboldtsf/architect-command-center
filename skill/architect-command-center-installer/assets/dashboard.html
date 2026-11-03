@@ -2194,7 +2194,7 @@ const IDENT = (async () => {
   let SIGN = null, SIGB = false, SIGERR = "", OUPFX = lsg("pipeOU", ""), OUOPT = [], SIGSTEP = 0;
   const SIG_STEPS = ["Finding your OU from your deals", "Reading closed ACV and open pipe in Tableau", "Reading Slack for wins", "Building the signals"];
   const ouLabel = p => { const a = String(p).split(" - "); return a.length > 3 ? a.slice(2).join(" · ") : a.join(" · "); };
-  const sigKey = p => "pipeSig3:" + p;
+  const sigKey = p => "pipeSig4:" + p;
   const tierOfLine = (L, T) => { const sh = T.c ? L.c / T.c : 0, shS = T.cs ? L.cs / T.cs : 0, shO = T.o ? L.o / T.o : 0; L.sh = sh; L.shS = shS; L.shO = shO; if (sh >= .04 && L.nC >= 5) return "sell"; if (shS >= .03 && sh < .5 * shS) return "under"; if (shO >= .03 && shO >= 1.5 * shS && sh < .5 * shO) return "convert"; if (STRAT.includes(L.k) && sh < .015 && shS < .015) return "gap"; return "mid"; };
   const sigOf = k => (SIGN && SIGN.data && SIGN.data.lines.find(x => x.k === k)) || null;
   const pc = v => (100 * (v || 0)).toFixed(v >= .1 ? 0 : 1) + "%";
@@ -2207,11 +2207,11 @@ const IDENT = (async () => {
         if (!rn.length) { try { const inF = "('" + Object.keys(D.fN).join("','") + "')"; rn = (await soql("SELECT Owner.UserRole.Name rn, COUNT(Id) n FROM Account WHERE Global_Ultimate__c IN " + inF + " GROUP BY Owner.UserRole.Name ORDER BY COUNT(Id) DESC LIMIT 10")).records || []; } catch (e) {} }
         const top = (rn.find(x => x.rn) || {}).rn; if (!top) throw new Error("Could not read owner roles to find your OU"); const a = top.split(" - "), set = []; for (let n = 3; n < a.length; n++) set.push(a.slice(0, n).join(" - ")); if (!set.length) set.push(top); OUOPT = set; if (!OUPFX || !set.includes(OUPFX)) OUPFX = set[Math.min(2, set.length - 1)]; }
       const pfx = OUPFX, c = !force && lsg(sigKey(pfx), null);
-      if (c && Date.now() - c.t < 24 * 36e5) { SIGN = c; }
+      if (c && Date.now() - c.t < 24 * 36e5 && c.data && c.data.lines && c.data.lines.every(x => x.shS !== undefined)) { SIGN = c; }
       else { step(1, "Closed ACV and open pipe in Tableau for " + ouLabel(pfx));
         const TQ = "mcp__7000d52a-c498-493c-b039-3887b388ec6b__query-datasource", sv = pfx.split(" - ").slice(0, 4).join(" - ");
         const rows = x => (x && (x.data || (x.structuredContent && x.structuredContent.data))) || [];
-        const rd = async (luid, q) => { const r = await gcall(TQ, { datasourceLuid: luid, query: q, limit: 400 }); if (r && r.data) return r.data; if (typeof r === "string") { try { return JSON.parse(r).data || []; } catch (e) { return []; } } return rows(r); };
+        const rd = async (luid, q) => { const r = await withTO(gcall(TQ, { datasourceLuid: luid, query: q, limit: 400 }), 90000); if (r && r.data) return r.data; if (typeof r === "string") { try { return JSON.parse(r).data || []; } catch (e) { return []; } } return rows(r); };
         const [w, o, ws] = await Promise.all([
           rd("c4e2cc15-fe0e-4632-91ba-5fd9506257c7", { fields: [{ fieldCaption: "APM L1", fieldAlias: "l1" }, { fieldCaption: "APM L3", fieldAlias: "l3" }, { fieldCaption: "Amount (USD)", function: "SUM", fieldAlias: "amt" }, { fieldCaption: "Opportunity Id", function: "COUNTD", fieldAlias: "n" }], filters: [{ field: { fieldCaption: "Is ACV?" }, filterType: "SET", values: [true], exclude: false }, { field: { fieldCaption: "Close Date" }, filterType: "DATE", periodType: "MONTHS", dateRangeType: "LASTN", rangeN: 12 }, { field: { fieldCaption: "Level 05 User Role" }, filterType: "MATCH", startsWith: pfx }] }),
           rd("c4e2cc15-fe0e-4632-91ba-5fd9506257c7", { fields: [{ fieldCaption: "APM L1", fieldAlias: "l1" }, { fieldCaption: "APM L3", fieldAlias: "l3" }, { fieldCaption: "Amount (USD)", function: "SUM", fieldAlias: "amt" }, { fieldCaption: "Opportunity Id", function: "COUNTD", fieldAlias: "n" }], filters: [{ field: { fieldCaption: "Is ACV?" }, filterType: "SET", values: [true], exclude: false }, { field: { fieldCaption: "Close Date" }, filterType: "DATE", periodType: "MONTHS", dateRangeType: "LASTN", rangeN: 12 }, { field: { fieldCaption: "Level 05 User Role" }, filterType: "MATCH", startsWith: sv }] }).catch(() => []),
@@ -2231,7 +2231,8 @@ const IDENT = (async () => {
   const attOf = id => { if (ATT[id] === undefined) { const c = lsg("pipeAtt:" + id, null); ATT[id] = c && Date.now() - c.t < 24 * 36e5 ? c : null; } return ATT[id]; };
   const attList = R => R.filter(r => r.inQ).sort((a, b) => (b.o.Amount || 0) - (a.o.Amount || 0));
   const attText = R => { const L = attList(R); return ["Attach plays for deals closing " + FQ.fy + " Q" + FQ.q + (SIGN ? " (signals from " + SIGN.data.label + ")" : ""), "", ...L.map(r => { const T = attOf(r.o.Id); return "- " + clean(r.o.Name) + " (" + fmt(r.o.Amount || 0) + ", " + stg(r.o.StageName) + ", closes " + sd(r.o.CloseDate) + "): " + attFor(r).map(p => p.l).join("; ") + (T && T.data.first ? ". First move: " + T.data.first : ""); })].join("\n"); };
-  const attView = R => { if (!SIGN && !SIGB && !SIGERR) { SIGB = true; setTimeout(() => { SIGB = false; startSig(false); }, 0); }
+  const attView = R => { try { return attView0(R); } catch (e) { const m = String(e && e.message || e).slice(0, 160); SIGN = null; SIGERR = "Could not draw the signals: " + m; return `<div class="plS"><div class="plSh"><h5>Attach plays this quarter</h5></div><div class="plHint"><b>Could not show the signals.</b> ${esc(SIGERR)}<div class="plAct"><button class="stBtn pri" type="button" data-sigre="1">Try again</button></div></div></div>`; } };
+  const attView0 = R => { if (!SIGN && !SIGB && !SIGERR) { SIGB = true; setTimeout(() => { SIGB = false; startSig(false); }, 0); }
     if (!SIGN) return `<div class="plS"><div class="plSh"><h5>Attach plays this quarter<small>reading what sells in your OU</small></h5></div>` + (SIGB || !SIGERR ? loaderHtml("Reading what sells in your OU", SIG_STEPS, SIGSTEP, "", "sig") : `<div class="plHint"><b>Could not read selling signals.</b> ${esc(SIGERR)}<div class="plAct"><button class="stBtn pri" type="button" data-sigre="1">Try again</button></div></div>`) + `</div>`;
     const S = SIGN.data, SL = sigLists(), L = attList(R), cnt = {}; L.forEach(r => attFor(r).forEach(p => { cnt[p.id] = (cnt[p.id] || 0) + 1; }));
     const sum = APL.filter(p => cnt[p.id]).sort((a, b) => cnt[b.id] - cnt[a.id]).map(p => `<span class="atC ${playTier(p).t}">${esc(p.l)} <b>${cnt[p.id]}</b></span>`).join("");
