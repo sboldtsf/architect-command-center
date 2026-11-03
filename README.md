@@ -2,7 +2,7 @@
 
 A single-page dashboard for Salesforce architects that runs as a Claude Desktop artifact. It reads org62, Tableau, Slack, Google Calendar, Drive and Lucid through the user's own connectors, so there is no server and no separate login. Anything it writes (Slack, calendar, slides) is a draft the user reviews.
 
-Current version: **1.2** (Nov 2, 2026). See [CHANGELOG.md](CHANGELOG.md).
+Current version: **1.3** (Nov 3, 2026). See [CHANGELOG.md](CHANGELOG.md).
 
 ## Layout
 

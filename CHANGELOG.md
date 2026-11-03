@@ -2,6 +2,14 @@
 
 All notable changes to the Architect Command Center. Newest first.
 
+### v1.3 (Nov 3, 2026)
+
+#### Added
+- Pipeline on my accounts (Opportunities tab): new and existing opportunities on your focus accounts, grouped by account, with tiles for open pipeline, new this quarter, closing this quarter, where you hold a DC and where you don't. Each opportunity shows your DC (role and split), meetings you've had on it, and flags for no next step, quiet 30 days or past due, with an Add DC link and a Prep button. The Opportunities card on the Briefing shows the headline numbers.
+
+#### Improved
+- Log my time: suggested hours come from your calendar meetings only (overlaps counted once), and the Slackbot prompt carries just the meetings and their total.
+
 ### v1.2 (Nov 2, 2026)
 
 #### Added
