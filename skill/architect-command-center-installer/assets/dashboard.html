@@ -944,6 +944,7 @@ html[data-palette=matrix] #soonBanner.rdr{border-color:#00ff41;box-shadow:0 0 30
 @media(max-width:820px){.rdTop{grid-template-columns:1fr 40px}.rdRad{display:none}.rdM{grid-template-columns:70px 1fr;gap:10px}.rdCd,.rdRg{width:70px;height:70px}.rdCdT b{font-size:24px}.rdName{white-space:normal;font-size:17px}}
 @media print{#soonBanner.rdr{display:none}}
 </style>
+<script>(function(){var o=window.requestAnimationFrame.bind(window),c=window.cancelAnimationFrame.bind(window),M={},n=1e9,cl=document.documentElement.classList;window.requestAnimationFrame=function(cb){if(!(cl.contains("calm")||cl.contains("nomo")))return o(cb);var id=++n;M[id]=setTimeout(function(){delete M[id];cb(performance.now());},250);return id;};window.cancelAnimationFrame=function(i){if(M[i]){clearTimeout(M[i]);delete M[i];}else c(i);};})();</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
 </head>
 <body>
