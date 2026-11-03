@@ -5,16 +5,15 @@ All notable changes to the Architect Command Center. Newest first.
 ### v1.3 (Nov 3, 2026)
 
 #### Added
-- Pipeline on my accounts (Opportunities tab): new and existing opportunities on your focus accounts, grouped by account, with tiles for open pipeline, new this quarter, pipeline you helped open, closing this quarter, where you hold a DC and where you don't.
-- Quarter shortlist: the open deals closing this fiscal quarter, ranked by a sell score (stage, next step, recent activity, your involvement, date) times amount, with the reasons to watch and a "Suggest next moves" button that writes one concrete next move per deal.
-- Pipeline I helped open: new opportunities this quarter where you hold a DC or have had meetings, as a tile, a filter and a line in the summary.
-- Whitespace by account: which product lines each account has bought in the last 4 years (from won opportunity line items), which are already in open deals, and which are open, with an Ideas button that suggests up to three plays for opening new pipeline.
-- Charts: pipeline by stage, close timing by month with the quarter outlined, my coverage donut, deal health (healthy, watch, at risk), and pipeline age.
-- Each opportunity shows your DC role and split, meetings you've had on it, a sell score, and flags for no next step, quiet 30 days and past due, with Add DC and Prep actions.
+- **Pipeline tab** (new): the health view of the pipeline on your focus accounts, moved out of Opportunities to keep that tab focused. It has three views: Health, Account plans and Whitespace.
+- Health view: tiles for open pipeline, new this quarter, pipeline you helped open, closing this quarter, where you hold a DC and where you don't; charts for stage, close timing, coverage, deal health and pipeline age; and a quarter shortlist ranked by sell score (stage, next step, activity, your involvement, date) times amount, with suggested next moves from Claude.
+- Account plans: for each focus account, scans the last 60 days of Slack (public and private channels you can see) and the org62 deals, then writes the signals (blockers, asks, competitors, technical needs, momentum), the products worth pitching or using from an architecture perspective with a fit score and the play, and a step by step plan across Now, Next 2 weeks and Before close. Steps are color coded by how an architect adds value (technical validation, solution design, proof, de-risk, align, enable), can be ticked off with saved progress, and the plan can be copied or saved as a Slack draft to yourself. Includes a path-to-close view with a dot per deal by stage, and a Scan all accounts button.
+- Whitespace view: which product lines each account has bought in the last 4 years, which are in open deals, and which are open, with an Ideas button for plays on opening new pipeline.
+- Pipeline I helped open: new opportunities this quarter where you hold a DC or have had meetings.
+- Pipeline card on the Briefing jump cards.
 
 #### Improved
 - Log my time: suggested hours come from your calendar meetings only (overlaps counted once), and the Slackbot prompt carries just the meetings and their total.
-- The Opportunities card on the Briefing shows the headline pipeline numbers.
 
 ### v1.2 (Nov 2, 2026)
 
