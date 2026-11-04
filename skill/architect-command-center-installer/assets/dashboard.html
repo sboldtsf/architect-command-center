@@ -6096,19 +6096,22 @@ html.nomo body .plOrb,html.calm body .plOrb{animation:plSpin 6s linear infinite!
 .ccSlow{display:block;margin-top:4px;font-size:12px;color:var(--warn,#f59e0b)}
 .ccSlow button{margin-left:6px;font:inherit;font-size:12px;padding:2px 10px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--txt);cursor:pointer}
 #ccPrefs{position:fixed;inset:0;z-index:100000;display:grid;place-items:center;background:rgba(2,6,23,.9)}
-#ccPrefs .pfC{width:min(560px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;background:#0f172a;color:var(--txt,#e2e8f0);border:1px solid var(--line,#334155);border-radius:16px;padding:22px 22px 18px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-#ccPrefs h3{margin:0 0 4px;font-size:20px}#ccPrefs .pfSub{color:var(--dim,#94a3b8);font-size:13px;margin:0 0 14px}
-#ccPrefs .pfNew{margin:0 0 14px;padding:10px 12px;border:1px solid var(--line,#334155);border-radius:12px;font-size:13px;line-height:1.5}
-#ccPrefs .pfNew b{display:block;margin-bottom:2px}
-#ccPrefs .pfQ{margin:12px 0}#ccPrefs .pfQ>b{display:block;font-size:14px;margin-bottom:2px}#ccPrefs .pfQ>small{display:block;color:var(--dim,#94a3b8);font-size:12px;margin-bottom:6px}
-#ccPrefs .pfO{display:flex;gap:6px;flex-wrap:wrap}
-#ccPrefs .pfO button{font:inherit;font-size:13px;padding:7px 14px;border-radius:999px;border:1px solid var(--line,#334155);background:transparent;color:var(--txt,#e2e8f0);cursor:pointer}
-#ccPrefs .pfO button.on{background:var(--accent,#38bdf8);border-color:transparent;color:#fff;font-weight:700}
-#ccPrefs .pfA{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
-#ccPrefs .pfA button{font:inherit;font-size:14px;padding:9px 18px;border-radius:12px;cursor:pointer;border:1px solid var(--line,#334155);background:transparent;color:var(--txt,#e2e8f0)}
-#ccPrefs .pfA .pri{background:linear-gradient(135deg,var(--accent,#38bdf8),var(--accent2,#a855f7));border:0;color:#fff;font-weight:700}
-#ccPrefs .pfBg{margin-top:10px;font-size:12px;color:var(--dim,#94a3b8)}
-html[data-theme="light"] #ccPrefs .pfC{background:#fff;color:#0f172a}html[data-theme="light"] #ccPrefs{background:rgba(15,23,42,.55)}
+#ccPrefs .pfC{width:min(440px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;background:#0f172a;color:var(--txt,#e2e8f0);border:1px solid var(--line,#334155);border-radius:16px;padding:16px 18px 12px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+#ccPrefs .pfHd b{display:block;font-size:16px}#ccPrefs .pfHd span{display:block;font-size:12px;color:var(--dim,#94a3b8);margin:2px 0 10px}
+#ccPrefs .pfG{display:grid;gap:6px}
+#ccPrefs .pfR{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0;border-top:1px solid color-mix(in srgb,var(--line,#334155) 60%,transparent)}
+#ccPrefs .pfR:first-child{border-top:0}#ccPrefs .pfR>span{font-size:13px;font-weight:600}
+#ccPrefs select{font:inherit;font-size:13px;padding:5px 8px;border-radius:8px;border:1px solid var(--line,#334155);background:transparent;color:inherit;min-width:170px}
+#ccPrefs select option,#ccPrefs select optgroup{background:#0f172a;color:#e2e8f0}
+#ccPrefs .pfSeg{display:inline-flex;border:1px solid var(--line,#334155);border-radius:999px;padding:2px}
+#ccPrefs .pfSeg button{font:inherit;font-size:12.5px;padding:4px 12px;border-radius:999px;border:0;background:transparent;color:inherit;cursor:pointer}
+#ccPrefs .pfSeg button.on{background:var(--accent,#38bdf8);color:var(--onAccent,#fff);font-weight:700}
+#ccPrefs .pfF{display:flex;align-items:center;gap:8px;margin-top:12px}
+#ccPrefs .pfTour{font-size:12.5px;display:flex;align-items:center;gap:6px;cursor:pointer}#ccPrefs .pfSp{flex:1}
+#ccPrefs .pfF button{font:inherit;font-size:13px;padding:7px 14px;border-radius:10px;cursor:pointer;border:1px solid var(--line,#334155);background:transparent;color:inherit}
+#ccPrefs .pfF .pri{background:var(--accent,#38bdf8);border:0;color:var(--onAccent,#fff);font-weight:700;padding:7px 18px}
+#ccPrefs .pfBg{margin-top:6px;font-size:11.5px;color:var(--dim,#94a3b8);text-align:right}
+html[data-theme="light"] #ccPrefs .pfC{background:#fff;color:#0f172a}html[data-theme="light"] #ccPrefs select option,html[data-theme="light"] #ccPrefs select optgroup{background:#fff;color:#0f172a}html[data-theme="light"] #ccPrefs{background:rgba(15,23,42,.55)}
 </style>
 <script id="ccLoadClarity">(function(){
 /* 1. Plain "Loading…" placeholders become a spinner plus what is actually being read */
@@ -6131,7 +6134,7 @@ run();setInterval(watch,5000);
 })();</script>
 <script id="ccPrefsOnce">(function(){
 /* One-time "set it up your way" screen for people updating to this build. New users get the full Personalize setup instead. */
-var BUILD="1.3-nov4c",KEY="ccPrefsSeen";var seen=null,done=null;try{seen=localStorage.getItem(KEY);done=localStorage.getItem("profileDone");}catch(e){}
+var BUILD="1.3-nov4d",KEY="ccPrefsSeen";var seen=null,done=null;try{seen=localStorage.getItem(KEY);done=localStorage.getItem("profileDone");}catch(e){}
 if(seen===BUILD)return;if(!done){try{localStorage.setItem(KEY,BUILD);}catch(e){}return;}
 var H=document.documentElement,cur={anim:(function(){try{return localStorage.getItem("nomoMode")==="0"?"on":"off";}catch(e){return "off";}})(),theme:H.dataset.theme==="light"?"light":"dark",hdr:(function(){try{return (localStorage.getItem("ccHero1")||"min")==="min"?"min":"full";}catch(e){return "min";}})(),land:(function(){try{var t=localStorage.getItem("tab")||"briefing";return ["briefing","pipeline","deals","score"].indexOf(t)>=0?t:"briefing";}catch(e){return "briefing";}})(),tour:"no",style:(window.ccStyle?window.ccStyle():"futuristic"),pal:(H.dataset.palette||"command")};
 var PALQ=(function(){var cur0=H.dataset.palette||"command",o=[[cur0,"Keep "+(window.ccThemeName?window.ccThemeName(cur0):cur0)]];var r=window.ccThemeRec&&window.ccThemeRec();if(r&&r.id!==cur0)o.push([r.id,r.n+" (recommended for your team)"]);["blueprint","salesforce","agentforce","graphite"].forEach(function(id){if(!o.some(function(x){return x[0]===id;}))o.push([id,window.ccThemeName?window.ccThemeName(id):id]);});return o.slice(0,5);})();
@@ -6140,11 +6143,17 @@ var Q=[["pal","Colour theme","More themes in Settings > Appearance, grouped as A
  ["hdr","Header","Compact keeps the header to the essentials. Full shows every shortcut.",[["min","Compact"],["full","Full"]]],
  ["land","Open on","The tab you land on each time.",[["briefing","Today"],["pipeline","Pipeline"],["deals","Deals"],["score","Performance"]]],
  ["tour","Quick tour of the new layout","A couple of minutes, and you can stop any time.",[["no","Not now"],["yes","Yes, show me"]]]];
-function html(){return '<div class="pfC" role="dialog" aria-modal="true" aria-label="Set up the Command Center"><h3>The Command Center has a new layout</h3><p class="pfSub">Take ten seconds to set it up your way. Your data is loading in the background.</p>'
- +'<div class="pfNew"><b>What changed</b>Seven tabs: Today, Pipeline, Deals, Performance, Team, Assets, Settings. One plan number across Pipeline and the Scoreboard. Long tabs are split into sections, and it starts faster.</div>'
- +Q.map(function(q){return '<div class="pfQ"><b>'+q[1]+'</b><small>'+q[2]+'</small><div class="pfO">'+q[3].map(function(o){return '<button type="button" data-k="'+q[0]+'" data-v="'+o[0]+'" class="'+(cur[q[0]]===o[0]?"on":"")+'">'+o[1]+'</button>';}).join("")+'</div></div>';}).join("")
- +'<div class="pfA"><button type="button" data-pf="skip">Skip, keep my current settings</button><button type="button" class="pri" data-pf="save">Save and open the dashboard</button></div><div class="pfBg">You can change all of these later in Settings.</div></div>';}
+function html(){var rec=window.ccThemeRec&&window.ccThemeRec(),TH=window.ccThemes||[],gs=[];TH.forEach(function(t){if(gs.indexOf(t.g)<0)gs.push(t.g);});
+ var pal='<select data-k="pal" aria-label="Colour theme">'+gs.map(function(g){return '<optgroup label="'+g+'">'+TH.filter(function(t){return t.g===g;}).map(function(t){return '<option value="'+t.id+'"'+(cur.pal===t.id?" selected":"")+'>'+t.n+(rec&&rec.id===t.id?" (recommended)":"")+'</option>';}).join("")+'</optgroup>';}).join("")+(["custom","matrix"].indexOf(cur.pal)>=0?'<option value="'+cur.pal+'" selected>'+(window.ccThemeName?window.ccThemeName(cur.pal):cur.pal)+'</option>':'')+'</select>';
+ var sty='<select data-k="style" aria-label="Design style">'+(window.ccStyles||[]).map(function(x){return '<option value="'+x[0]+'"'+(cur.style===x[0]?" selected":"")+'>'+x[1]+'</option>';}).join("")+'</select>';
+ var land='<select data-k="land" aria-label="Open on">'+[["briefing","Today"],["pipeline","Pipeline"],["deals","Deals"],["score","Performance"]].map(function(x){return '<option value="'+x[0]+'"'+(cur.land===x[0]?" selected":"")+'>'+x[1]+'</option>';}).join("")+'</select>';
+ var seg=function(k,opts){return '<div class="pfSeg" role="group">'+opts.map(function(o){return '<button type="button" data-k="'+k+'" data-v="'+o[0]+'" class="'+(cur[k]===o[0]?"on":"")+'">'+o[1]+'</button>';}).join("")+'</div>';};
+ var row=function(l,c,hint){return '<div class="pfR"><span title="'+(hint||"")+'">'+l+'</span>'+c+'</div>';};
+ return '<div class="pfC" role="dialog" aria-modal="true" aria-label="Set up the Command Center"><div class="pfHd"><b>Set up the new Command Center</b><span>Seven tabs, one plan number, faster start. Your data is loading behind this.</span></div>'
+  +'<div class="pfG">'+row("Colour theme",pal,rec?"Recommended for your team: "+rec.n:"")+row("Style",sty,"How the whole page looks")+row("Mode",seg("theme",[["dark","Dark"],["light","Light"]]))+row("Animations",seg("anim",[["off","Off"],["on","On"]]),"Off is calmer and lighter. Loading spinners always move.")+row("Header",seg("hdr",[["min","Compact"],["full","Full"]]))+row("Open on",land)+'</div>'
+  +'<div class="pfF"><label class="pfTour"><input type="checkbox" data-k="tour"'+(cur.tour==="yes"?" checked":"")+'> Show me a quick tour</label><span class="pfSp"></span><button type="button" data-pf="skip">Skip</button><button type="button" class="pri" data-pf="save">Save</button></div><div class="pfBg">Change any of these later in Settings.</div></div>';}
 function show(){if(document.getElementById("ccPrefs"))return;var o=document.createElement("div");o.id="ccPrefs";o.innerHTML=html();document.body.appendChild(o);
+ o.addEventListener("change",function(e){var el=e.target;if(!el.dataset||!el.dataset.k)return;var k2=el.dataset.k,v2=el.type==="checkbox"?(el.checked?"yes":"no"):el.value;cur[k2]=v2;if(k2==="pal"){H.dataset.palette=v2;if(window.applyCustomTheme)window.applyCustomTheme();}if(k2==="style"){if(v2==="futuristic")delete H.dataset.style;else H.dataset.style=v2;}});
  o.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;if(b.dataset.k){cur[b.dataset.k]=b.dataset.v;if(b.dataset.k==="pal"){H.dataset.palette=b.dataset.v;if(window.applyCustomTheme)window.applyCustomTheme();}if(b.dataset.k==="style"){if(b.dataset.v==="futuristic")delete H.dataset.style;else H.dataset.style=b.dataset.v;}o.querySelectorAll('[data-k="'+b.dataset.k+'"]').forEach(function(x){x.classList.toggle("on",x===b);});return;}
   if(b.dataset.pf==="skip"){try{localStorage.setItem(KEY,BUILD);H.dataset.palette=localStorage.getItem("palette")||"command";if(window.applyCustomTheme)window.applyCustomTheme();var sv=localStorage.getItem("ccStyle")||"futuristic";if(sv==="futuristic")delete H.dataset.style;else H.dataset.style=sv;}catch(x){}o.remove();return;}
   if(b.dataset.pf==="save"){var reload=false;try{localStorage.setItem(KEY,BUILD);localStorage.setItem("nomoMode",cur.anim==="on"?"0":"1");H.classList.toggle("nomo",cur.anim!=="on");var lb=document.getElementById("liteBtn");if(lb)lb.textContent=cur.anim==="on"?"Animations: on":"Animations: off";
