@@ -5919,5 +5919,33 @@ nav#tabs button[data-tab=assets] .tTx,nav#tabs button[data-tab=settings] .tTx{di
 var TABS=["deals","score","activity"];
 TABS.forEach(function(tab){var first=true;document.querySelectorAll('section[data-tab="'+tab+'"] .card').forEach(function(c,i){var h=c.querySelector(":scope > h2");if(!h||c.querySelector("canvas"))return;var t=((h.querySelector(".hT")||h).textContent||"").trim().slice(0,32),id=tab+":"+(t||i);c.dataset.fid=id;c.classList.add("cfold");var open=id in st?st[id]:first;first=false;if(!open)c.classList.add("cclosed");});});
 document.addEventListener("click",function(e){var h=e.target.closest&&e.target.closest("section.tab .cfold>h2");if(!h||e.target.closest("button,a,input,select,label"))return;var c=h.parentNode;c.classList.toggle("cclosed");st[c.dataset.fid]=!c.classList.contains("cclosed");try{localStorage.setItem(KEY,JSON.stringify(st));}catch(x){}});})();</script>
+<style id="ccLayout">
+body.ccv2 #tabs button[data-tab=overview],body.ccv2 #tabs button[data-tab=mission],body.ccv2 #tabs button[data-tab=opps],body.ccv2 #tabs button[data-tab=activity]{display:none!important}
+#ccSub{display:none;gap:4px;margin:-6px 0 14px;padding:4px;width:fit-content;max-width:100%;flex-wrap:wrap;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--panel) 85%,transparent)}
+body.ccv2 #ccSub.on{display:flex}
+#ccSub button{border:0;background:transparent;color:var(--dim);font:inherit;font-weight:700;font-size:12.5px;padding:6px 14px;border-radius:9px;cursor:pointer}
+#ccSub button:hover{color:var(--txt);background:color-mix(in srgb,var(--accent) 12%,transparent)}
+#ccSub button.on{color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+#ccLayoutCard .lyB{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}#ccLayoutCard .lyB button{border:1px solid var(--line);background:transparent;color:var(--txt);border-radius:10px;padding:7px 14px;font:inherit;font-weight:700;cursor:pointer}#ccLayoutCard .lyB button.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+</style>
+<script>(function(){
+var KEY="ccLayout",GRP={briefing:[["briefing","Briefing"],["overview","Overview"],["mission","Mission Control"]],pipeline:[["pipeline","Pipeline health and plan"],["opps","Opportunities"]],score:[["score","Scoreboard"],["activity","Activity"]]},PRI={overview:"briefing",mission:"briefing",opps:"pipeline",activity:"score"},LBL={briefing:["Today","Brief, overview, agent"],score:["Performance","Scoreboard and activity"],pipeline:["Pipeline","Plan, health, opportunities"]};
+var nav=document.getElementById("tabs");if(!nav)return;
+var sub=document.createElement("div");sub.id="ccSub";nav.parentNode.insertBefore(sub,nav.nextSibling);
+function mode(){try{return localStorage.getItem(KEY)||"v2";}catch(e){return "v2";}}
+function btn(t){return nav.querySelector('button[data-tab="'+t+'"]');}
+function active(){var a=document.querySelector("section.tab.active");return a?a.dataset.tab:"";}
+function labels(v2){Object.keys(LBL).forEach(function(t){var b=btn(t);if(!b)return;var tx=b.querySelector(".tTx b"),sm=b.querySelector(".tTx small");if(!tx)return;if(!b.dataset.o){b.dataset.o=tx.textContent;b.dataset.os=sm?sm.textContent:"";}tx.textContent=v2?LBL[t][0]:b.dataset.o;if(sm)sm.textContent=v2?LBL[t][1]:b.dataset.os;b.title=v2?LBL[t][0]:b.dataset.o;});}
+function sync(){var v2=mode()==="v2";document.body.classList.toggle("ccv2",v2);labels(v2);var a=active();
+ nav.querySelectorAll("button[data-tab]").forEach(function(b){if(v2&&PRI[b.dataset.tab])return;if(v2&&PRI[a]===b.dataset.tab)b.classList.add("active");});
+ var g=null;if(v2){Object.keys(GRP).forEach(function(k){if(GRP[k].some(function(m){return m[0]===a;}))g=k;});}
+ if(!g){if(sub.className)sub.className="";if(sub.innerHTML)sub.innerHTML="";return;}
+ if(sub.className!=="on")sub.className="on";sub.innerHTML=GRP[g].map(function(m){return '<button type="button" data-st="'+m[0]+'" class="'+(m[0]===a?"on":"")+'">'+m[1]+'</button>';}).join("");}
+sub.addEventListener("click",function(e){var b=e.target.closest("button[data-st]");if(!b)return;var t=btn(b.dataset.st);if(t)t.click();});
+var mo=new MutationObserver(sync);document.querySelectorAll("section.tab").forEach(function(p){mo.observe(p,{attributes:true,attributeFilter:["class"]});});
+nav.addEventListener("click",function(){setTimeout(sync,0);});
+window.ccSetLayout=function(v){try{localStorage.setItem(KEY,v);}catch(e){}sync();var c=document.getElementById("ccLayoutCard");if(c)c.querySelectorAll(".lyB button").forEach(function(b){b.classList.toggle("on",b.dataset.ly===v);});};
+var st=document.querySelector('section.tab[data-tab="settings"]');if(st){var card=document.createElement("div");card.className="card";card.id="ccLayoutCard";card.innerHTML='<h2>Layout</h2><div class="muted">Choose how the tabs are organised. You can switch back at any time.</div><div class="lyB"><button type="button" data-ly="v2">New: 7 tabs (Today, Pipeline, Deals, Performance, Team, Assets, Settings)</button><button type="button" data-ly="classic">Classic: all 11 tabs</button></div>';card.addEventListener("click",function(e){var b=e.target.closest("button[data-ly]");if(b)window.ccSetLayout(b.dataset.ly);});st.insertBefore(card,st.firstChild);card.querySelectorAll(".lyB button").forEach(function(b){b.classList.toggle("on",b.dataset.ly===mode());});}
+sync();})();</script>
 </body>
 </html>
