@@ -2,7 +2,17 @@
 
 All notable changes to the Architect Command Center. Newest first.
 
-### v1.3 (Nov 3, 2026)
+### v2.0 (Nov 4, 2026): major redesign
+
+v2.0 is a redesign of the whole Command Center: new seven-tab layout, Pipeline built around leadership's Q4 asks, one shared plan, design styles and colour themes, a one-time setup screen, faster and calmer loading, and the audit fixes. It includes everything that was in progress as v1.3.
+
+#### Changed (v2.0 finishing pass)
+- Stale wording fixed: Settings "Open on" and the Personalize landing step list the new tabs; help and setup checklist point to the right places.
+- Deals pipeline numbers say their scope (your DC split, this and next quarter); "Closing soon" on Deals is now "Closing in the next 30 days".
+- Gap to plan asks for your own number when the plan is the whole OU.
+- Prep my 1:1 on Today, next to Update my manager (copy or save as a Slack draft to yourself).
+- One overlay at a time on first load: the setup screen hides the loading screen, the tour waits for both, and "Still loading in the background" is a line under the tabs instead of a floating toast.
+- "Refresh all data" in the header and "Refresh pipeline" on the Pipeline card.
 
 #### Added (colour themes)
 - Sixteen colour themes in four groups, one list everywhere (Settings > Appearance, Personalize and the setup screen): House (Command); Architect (Blueprint with a faint grid header, Whiteboard, Graphite); Salesforce family (Salesforce re-tuned to Lightning blue, Agentforce, Slack, Tableau, Data 360); Industry (Clinical for HLS, Ledger for FINS, Maple for Canada, Signal for TMT, Ember for PACE, Horizon for TTH, Market for CBS). The Matrix stays hidden until found.
