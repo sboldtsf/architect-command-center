@@ -4,6 +4,18 @@ All notable changes to the Architect Command Center. Newest first.
 
 ### v1.3 (Nov 3, 2026)
 
+#### Changed (audit, round 2)
+- Classic 11-tab layout retired; the 7-tab layout is the only one.
+- Lazy loading: Scoreboard, Team leaderboard, Deals I may belong on, Time spent and the Settings connection test wait until their tab is opened (or until the page has been idle for 25 to 40 seconds), so Today loads without competing for the connector rate limit.
+- Pipeline has one level of navigation: the welcome screen only picks accounts (first visit), then Pipeline opens on the view you used last. The goal grid is gone; the view bar is the only view picker.
+- Consolidated: Overview is gone. Closing soon, pipeline KPIs and Deal journey moved to Deals; hours against target, time mix, weekly rhythm and capacity moved to Performance > Hours and activity. Deals I may belong on moved from Pipeline to the Deals switch, so every DC-gap view lives under Deals. Today is Briefing plus Mission Control.
+- Scoreboard trimmed: hid Deals closed by quarter (count), Account concentration and the Landing simulator (it had its own separate target); the projected close table shows instead. My 100% TA deals vs support moved to Deals.
+- Deals clean-up audits are ranked by open items, with the top two that have work opened and an open-items count on each.
+- Settings: Reset my view (sections, header, Pipeline view, shared quarter) keeps your profile, accounts, targets and plan.
+
+#### Fixed (audit, round 2)
+- Dates sent to org62 use your local date, not UTC (evening "today" and quarter boundaries were off by a day in some time zones).
+
 #### Fixed (audit, round 1)
 - One plan for the whole page: Pipeline publishes its plan, booked and remaining numbers, and the Scoreboard's Quarter outlook shows the same numbers with their source, basis and scope. The Scoreboard no longer computes its own "still to close"; it compares Commit and Best case only with your own number, and says why when the plan is the whole-OU Fin Plan.
 - Pipeline "this quarter" now counts only close dates inside the quarter. Open deals still dated in an earlier quarter are listed separately as a clean-up note instead of inflating the quarter.
