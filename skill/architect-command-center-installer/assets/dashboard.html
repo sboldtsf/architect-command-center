@@ -5927,9 +5927,29 @@ body.ccv2 #ccSub.on{display:flex}
 #ccSub button:hover{color:var(--txt);background:color-mix(in srgb,var(--accent) 12%,transparent)}
 #ccSub button.on{color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2))}
 #ccLayoutCard .lyB{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}#ccLayoutCard .lyB button{border:1px solid var(--line);background:transparent;color:var(--txt);border-radius:10px;padding:7px 14px;font:inherit;font-weight:700;cursor:pointer}#ccLayoutCard .lyB button.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+
+/* compact tab bar: one row, labels always visible */
+body.ccv2 nav#tabs{flex-wrap:nowrap!important;overflow-x:auto!important;overflow-y:hidden!important;gap:2px!important;padding:4px 4px 0!important;margin:0 0 10px!important;border-bottom:1px solid var(--line)!important;scrollbar-width:none}
+body.ccv2 nav#tabs::-webkit-scrollbar{display:none}
+body.ccv2 nav#tabs .tDiv{display:none!important}
+body.ccv2 nav#tabs button{height:36px!important;padding:0 14px 0 10px!important;gap:7px!important;border:0!important;border-radius:10px 10px 0 0!important;background:transparent!important;box-shadow:none!important;color:var(--dim)!important;transform:none!important;animation:none!important}
+body.ccv2 nav#tabs button .tIc{width:auto!important;height:auto!important;background:none!important;box-shadow:none!important;font-size:16px!important;border-radius:0!important}
+body.ccv2 nav#tabs button .tTx{display:flex!important}
+body.ccv2 nav#tabs button .tTx small{display:none!important}
+body.ccv2 nav#tabs button .tTx b{font-size:13.5px!important;font-weight:750!important}
+body.ccv2 nav#tabs button:hover{color:var(--txt)!important;background:color-mix(in srgb,var(--t1) 10%,transparent)!important;transform:none!important}
+body.ccv2 nav#tabs button.active{color:var(--txt)!important;background:color-mix(in srgb,var(--t1) 14%,transparent)!important;box-shadow:inset 0 -3px 0 var(--t1)!important}
+body.ccv2 nav#tabs button[data-tab=assets],nav#tabs button[data-tab=settings]{padding:0 14px 0 10px!important}
+body.ccv2 nav#tabs button[data-tab=assets]{margin-left:auto!important}
+@media(max-width:720px){body.ccv2 nav#tabs button .tIc{display:none!important}body.ccv2 nav#tabs button{padding:0 11px!important}}
+#ccSub{margin:-6px 0 10px!important;padding:0 2px!important;border:0!important;border-radius:0!important;background:none!important;gap:4px!important}
+#ccSub button{font-size:12px!important;padding:4px 12px!important;border-radius:99px!important;border:1px solid var(--line)!important}
+#ccSub button.on{background:color-mix(in srgb,var(--accent) 22%,transparent)!important;color:var(--txt)!important;border-color:color-mix(in srgb,var(--accent) 60%,transparent)!important}
+#mcStrip{margin:0 0 10px!important;padding:4px 12px!important;gap:10px!important;border-radius:12px!important}
+#mcStrip .msOrb{width:22px!important;height:22px!important}
 </style>
 <script>(function(){
-var KEY="ccLayout",GRP={briefing:[["briefing","Briefing"],["overview","Overview"],["mission","Mission Control"]],pipeline:[["pipeline","Pipeline health and plan"],["opps","Opportunities"]],score:[["score","Scoreboard"],["activity","Activity"]]},PRI={overview:"briefing",mission:"briefing",opps:"pipeline",activity:"score"},LBL={briefing:["Today","Brief, overview, agent"],score:["Performance","Scoreboard and activity"],pipeline:["Pipeline","Plan, health, opportunities"]};
+var KEY="ccLayout",GRP={briefing:[["briefing","Briefing"],["overview","Overview"],["mission","Mission Control"]],pipeline:[["pipeline","Pipeline health and plan"],["opps","Opportunities"]],score:[["score","Scoreboard"],["activity","Activity"]]},PRI={overview:"briefing",mission:"briefing",opps:"pipeline",activity:"score"},LBL={assets:["Assets","Decks and docs"],briefing:["Today","Brief, overview, agent"],score:["Performance","Scoreboard and activity"],pipeline:["Pipeline","Plan, health, opportunities"]};
 var nav=document.getElementById("tabs");if(!nav)return;
 var sub=document.createElement("div");sub.id="ccSub";nav.parentNode.insertBefore(sub,nav.nextSibling);
 function mode(){try{return localStorage.getItem(KEY)||"v2";}catch(e){return "v2";}}
