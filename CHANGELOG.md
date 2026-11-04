@@ -4,6 +4,15 @@ All notable changes to the Architect Command Center. Newest first.
 
 ### v1.3 (Nov 3, 2026)
 
+#### Changed (design and performance pass)
+- Design tokens: font sizes snapped to one scale (36 sizes down to 16 plus a few tiny chart labels, nothing under 11px in text), corners snapped to 4 / 8 / 12 / 16 / pill (was 24 values), one card header style, lighter card shadows, no backdrop blur on large panels.
+- Header: subtitle, heartbeat line and the theme/mode row removed (theme and mode live in Settings > Appearance); header buttons share one corner style.
+- Asset diet: embedded logos resized to the size they are shown at (about 110 KB smaller); about 130 unused CSS rules removed; the hidden deal-count chart, Account concentration and Landing simulator removed with their queries (Landing simulator kept its own target).
+- Startup: the 13-week activity history (weekly stack, heatmap) waits for Performance > Hours and activity.
+- Motion: animations are off by default (turn them on with the Animations button, now in the footer instead of floating over content); animation loops slow to one frame a second when the window is in the background.
+- Long tabs: Hours and activity has three sections (Hours against target, Rhythm and capacity, Detail) that open one at a time; Deals has Closing and pipeline, My DC records and Clean-up. Today's needs-action links open the right section. The tour shows every section while it runs.
+- Query cache moved to sessionStorage with oldest-first eviction, so it can no longer wipe your saved settings.
+
 #### Changed (audit, round 2)
 - Classic 11-tab layout retired; the 7-tab layout is the only one.
 - Lazy loading: Scoreboard, Team leaderboard, Deals I may belong on, Time spent and the Settings connection test wait until their tab is opened (or about a minute after the page opens), so Today loads without competing for the connector rate limit.
