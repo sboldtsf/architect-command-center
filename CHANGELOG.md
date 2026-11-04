@@ -39,6 +39,7 @@ All notable changes to the Architect Command Center. Newest first.
 - Log my time: suggested hours come from your calendar meetings only (overlaps counted once), and the Slackbot prompt carries just the meetings and their total.
 
 #### Fixed
+- Q4 priorities sources: broader Slack and Drive search, then an AI relevance check keeps only sources that state Q4 priorities for your OU (excludes media budget, events, other regions), with plain-English titles and a tidy card grid.
 - Stage bars in Pipeline Health overlapped after the nav rework (CSS class clash); fixed. OU plan from Tableau Next now loads in the background instead of blocking the card. Q4 priorities card is a compact grid and only offers sources that mention your OU.
 - Buttons inside a card header (such as Refresh on Pipeline health) no longer also collapse the card.
 
