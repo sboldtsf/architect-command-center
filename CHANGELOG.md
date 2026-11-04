@@ -4,6 +4,19 @@ All notable changes to the Architect Command Center. Newest first.
 
 ### v1.3 (Nov 3, 2026)
 
+#### Fixed (audit, round 1)
+- One plan for the whole page: Pipeline publishes its plan, booked and remaining numbers, and the Scoreboard's Quarter outlook shows the same numbers with their source, basis and scope. The Scoreboard no longer computes its own "still to close"; it compares Commit and Best case only with your own number, and says why when the plan is the whole-OU Fin Plan.
+- Pipeline "this quarter" now counts only close dates inside the quarter. Open deals still dated in an earlier quarter are listed separately as a clean-up note instead of inflating the quarter.
+- Pipeline shows its scope (accounts, $100K+ deals, full opportunity amount) and says when it is showing only the top 250 deals.
+- Team leaderboard uses the same 23 customer-related task types as Overview and Activity (was 11), and notes if it hit the 2,000-row limit.
+- Scoreboard: the arena tag shows scope and basis instead of a second "live from org62" badge; "Me" shows your split credit and an empty-state line instead of a bare $0; days left matches the header everywhere.
+- Scoreboard says when Pipeline is set to a quarter outside this fiscal year.
+- Pipeline is now the second tab (Today, Pipeline, Deals, Performance, Team, Assets, Settings).
+- Collapsed header also hides Personalize and Year in review.
+- Pipeline text is readable in Light mode.
+- REG Q4 planning deck is only pinned for REG roles. Wording fixes: data-handling note lists what the page writes (Slack drafts, Calendar holds, Slides), Attach plays says Tableau data refreshes daily, vetting labels are described as estimates, no unmeasured load times.
+- Accessibility: visible keyboard focus, and icon-only buttons get screen-reader labels from their tooltips.
+
 #### Changed (cleanup pass)
 - Today: removed the redundant "Jump into" cards; the Mission Control strip now shows only on Today.
 - Tab wording and the guided tour updated to the 7-tab names.
