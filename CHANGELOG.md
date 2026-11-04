@@ -40,6 +40,7 @@ All notable changes to the Architect Command Center. Newest first.
 - Log my time: suggested hours come from your calendar meetings only (overlaps counted once), and the Slackbot prompt carries just the meetings and their total.
 
 #### Fixed
+- Header is collapsible (collapsed by default: title, connections, Refresh and Log my time; Show all restores personalize, tour and theme). Removed the Tableau badge from the Performance tab.
 - Tab bar redesigned for the 7-tab layout: one compact row with text labels on every tab (no more icon-only tabs or wrapping), a slim second-level switch, and a slimmer Mission Control strip. Classic layout keeps the old look.
 - One plan number: the plan you enter in Pipeline ("Use my own plan") now also drives the Scoreboard outlook and Landing simulator (Payer view), so the two no longer disagree. Existing saved numbers are still picked up.
 - One quarter: the quarter picked in Pipeline and the Scoreboard landing simulator stay in sync.

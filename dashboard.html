@@ -1043,7 +1043,7 @@ html[data-palette=matrix] #soonBanner.rdr{border-color:#00ff41;box-shadow:0 0 30
   <button data-tab="pipeline" style="--t1:#eab308;--t2:#22c55e"><span class="tIc">🧭</span><span class="tTx"><b>Pipeline</b><small>Health and plan</small></span></button>
   <button data-tab="activity" style="--t1:#f59e0b;--t2:#ef4444"><span class="tIc">⚡</span><span class="tTx"><b>Activity</b><small>Time &amp; rhythm</small></span></button>
   <i class="tDiv" aria-hidden="true"></i>
-  <button data-tab="score" style="--t1:#3b82f6;--t2:#8b5cf6"><span class="tIc">🏁</span><span class="tTx"><b>Scoreboard</b><small>Closed &amp; projected</small></span><span class="tbAiB" title="Includes live Tableau insights"><span class="tbMark xs"></span></span></button>
+  <button data-tab="score" style="--t1:#3b82f6;--t2:#8b5cf6"><span class="tIc">🏁</span><span class="tTx"><b>Scoreboard</b><small>Closed &amp; projected</small></span></button>
   <button data-tab="team" style="--t1:#f43f5e;--t2:#f97316"><span class="tIc">🏆</span><span class="tTx"><b>Team</b><small>Leaderboard</small></span></button>
   <i class="tDiv" aria-hidden="true"></i>
   <button data-tab="assets" title="My Assets: decks and docs I built" aria-label="My Assets" style="--t1:#06b6d4;--t2:#6366f1"><span class="tIc">🗂️</span><span class="tTx"><b>My Assets</b><small>Decks &amp; docs I built</small></span></button>
@@ -5941,6 +5941,17 @@ body.ccv2 nav#tabs button:hover{color:var(--txt)!important;background:color-mix(
 body.ccv2 nav#tabs button.active{color:var(--txt)!important;background:color-mix(in srgb,var(--t1) 14%,transparent)!important;box-shadow:inset 0 -3px 0 var(--t1)!important}
 body.ccv2 nav#tabs button[data-tab=assets],nav#tabs button[data-tab=settings]{padding:0 14px 0 10px!important}
 body.ccv2 nav#tabs button[data-tab=assets]{margin-left:auto!important}
+
+header.top.hero{position:relative}
+#heroTog{position:absolute;top:10px;right:12px;z-index:3;border:1px solid var(--line);background:color-mix(in srgb,var(--panel) 80%,transparent);color:var(--dim);font:inherit;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:99px;cursor:pointer}
+#heroTog:hover{color:var(--txt)}
+header.top.heroMin{padding-top:10px!important;padding-bottom:10px!important}
+header.top.heroMin .tag,header.top.heroMin .heroChips,header.top.heroMin #appearance,header.top.heroMin .eyebrow{display:none!important}
+header.top.heroMin #appTitle{font-size:22px!important;margin:0!important}
+header.top.heroMin .hdract{margin-top:6px!important}
+header.top.heroMin .hdrRow{gap:8px!important;margin-top:4px!important}
+header.top.heroMin #slideBtn{display:none!important}
+header.top.heroMin .hbtn small,header.top.heroMin .hbtn em{display:none!important}header.top.heroMin .hbtn{padding-top:5px!important;padding-bottom:5px!important;min-height:0!important}header.top.heroMin .hgrp.hb2{padding:0!important}header.top.heroMin .heroL{padding-left:0!important}
 @media(max-width:720px){body.ccv2 nav#tabs button .tIc{display:none!important}body.ccv2 nav#tabs button{padding:0 11px!important}}
 #ccSub{margin:-6px 0 10px!important;padding:0 2px!important;border:0!important;border-radius:0!important;background:none!important;gap:4px!important}
 #ccSub button{font-size:12px!important;padding:4px 12px!important;border-radius:99px!important;border:1px solid var(--line)!important}
@@ -5967,5 +5978,9 @@ nav.addEventListener("click",function(){setTimeout(sync,0);});
 window.ccSetLayout=function(v){try{localStorage.setItem(KEY,v);}catch(e){}sync();var c=document.getElementById("ccLayoutCard");if(c)c.querySelectorAll(".lyB button").forEach(function(b){b.classList.toggle("on",b.dataset.ly===v);});};
 var st=document.querySelector('section.tab[data-tab="settings"]');if(st){var card=document.createElement("div");card.className="card";card.id="ccLayoutCard";card.innerHTML='<h2>Layout</h2><div class="muted">Choose how the tabs are organised. You can switch back at any time.</div><div class="lyB"><button type="button" data-ly="v2">New: 7 tabs (Today, Pipeline, Deals, Performance, Team, Assets, Settings)</button><button type="button" data-ly="classic">Classic: all 11 tabs</button></div>';card.addEventListener("click",function(e){var b=e.target.closest("button[data-ly]");if(b)window.ccSetLayout(b.dataset.ly);});st.insertBefore(card,st.firstChild);card.querySelectorAll(".lyB button").forEach(function(b){b.classList.toggle("on",b.dataset.ly===mode());});}
 sync();})();</script>
+<script>(function(){var h=document.querySelector("header.top.hero");if(!h)return;var KEY="ccHero1",b=document.createElement("button");b.id="heroTog";b.type="button";h.insertBefore(b,h.firstChild);
+function get(){try{var v=localStorage.getItem(KEY);return v===null?"min":v;}catch(e){return "min";}}
+function apply(){var m=get()==="min";h.classList.toggle("heroMin",m);b.textContent=m?"▸ Show all":"▾ Collapse";b.title=m?"Show the personalize, tour, theme and other header controls":"Collapse the header";}
+b.addEventListener("click",function(){try{localStorage.setItem(KEY,get()==="min"?"full":"min");}catch(e){}apply();});apply();})();</script>
 </body>
 </html>
