@@ -5920,7 +5920,7 @@ nav#tabs button[data-tab=assets] .tTx,nav#tabs button[data-tab=settings] .tTx{di
 <style id="ccFold">section.tab .cfold>h2{cursor:pointer;display:flex;align-items:center}section.tab .cfold>h2::after{content:"▾";margin-left:auto;padding-left:10px;color:#7dd3fc;font-size:13px}section.tab .cfold.cclosed>h2::after{content:"▸"}section.tab .cfold.cclosed>*:not(h2){display:none!important}</style>
 <script>(function(){var KEY="ccFold1",st={};try{st=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){}
 var TABS=["deals","score","activity"];
-TABS.forEach(function(tab){var first=true;document.querySelectorAll('section[data-tab="'+tab+'"] .card').forEach(function(c,i){var h=c.querySelector(":scope > h2");if(!h||c.querySelector("canvas"))return;var t=((h.querySelector(".hT")||h).textContent||"").trim().slice(0,32),id=tab+":"+(t||i);c.dataset.fid=id;c.classList.add("cfold");var open=id in st?st[id]:(tab==="score"?true:first);first=false;if(!open)c.classList.add("cclosed");});});
+TABS.forEach(function(tab){var first=true;document.querySelectorAll('section[data-tab="'+tab+'"] .card').forEach(function(c,i){var h=c.querySelector(":scope > h2");if(!h||c.querySelector("canvas"))return;var t=((h.querySelector(".hT")||h).textContent||"").trim().slice(0,32),id=tab+":"+(t||i);c.dataset.fid=id;c.classList.add("cfold");var open=id in st?st[id]:(tab==="score"?!/^score:(Win rate|Slippage)/.test(id):first);first=false;if(!open)c.classList.add("cclosed");});});
 document.addEventListener("click",function(e){var h=e.target.closest&&e.target.closest("section.tab .cfold>h2");if(!h||e.target.closest("button,a,input,select,label"))return;var c=h.parentNode;c.classList.toggle("cclosed");st[c.dataset.fid]=!c.classList.contains("cclosed");try{localStorage.setItem(KEY,JSON.stringify(st));}catch(x){}});})();</script>
 <style id="ccLayout">
 body.ccv2 #tabs button[data-tab=overview],body.ccv2 #tabs button[data-tab=mission],body.ccv2 #tabs button[data-tab=opps],body.ccv2 #tabs button[data-tab=activity]{display:none!important}
@@ -5992,14 +5992,14 @@ body.ccv2 .cgH{display:flex}
 .cgH .ar{color:#7dd3fc;width:12px}.cgH b{font-size:15px;color:var(--txt)}.cgH small{color:var(--dim);font-size:12px}
 body.ccv2 section[data-tab=score].cgc-results>[data-cg=results],body.ccv2 section[data-tab=score].cgc-outlook>[data-cg=outlook],body.ccv2 section[data-tab=score].cgc-mine>[data-cg=mine]{display:none!important}
 </style>
-<script>(function(){var sec=document.querySelector('section.tab[data-tab="score"]');if(!sec)return;var KEY="ccSbG1",st={};try{st=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){}
+<script>(function(){var sec=document.querySelector('section.tab[data-tab="score"]');if(!sec)return;var KEY="ccSbG2",st={};try{st=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){}
 function kid(re){var ks=[].slice.call(sec.children);for(var i=0;i<ks.length;i++){var k=ks[i];if(k.classList.contains("cgH"))continue;var h=k.querySelector("h2,h3,h4");var t=((h?h.textContent:"")||"").replace(/\s+/g," ");if(re.test(t))return k;}return null;}
 var hero=sec.querySelector("#scHero"),tb=sec.querySelector("#tbCard")||kid(/By fiscal quarter/),
  res=[kid(/^Deals closed: my team/),kid(/^Closed-won \$ by quarter/),kid(/Closed this quarter/),kid(/^Win rate/)],
  out=[kid(/projected close/),kid(/^Quarter outlook/),kid(/^Open pipe by stage/),kid(/^Slippage/)],
  mine=[kid(/^My hours against/)];
 var need=[tb].concat(res,out,mine);if(need.some(function(x){return !x;}))return;
-var DEF={results:true,outlook:true,mine:false};
+var DEF={results:true,outlook:false,mine:false};
 function mk(k,t,sub){var d=document.createElement("div");d.className="cgH";d.dataset.cgm=k;d.innerHTML='<span class="ar"></span><b>'+t+'</b><small>'+sub+'</small>';return d;}
 var H={results:mk("results","Results","closed won, deals closed and win rate"),outlook:mk("outlook","Outlook","projected close, pipe, slippage and gap to plan"),mine:mk("mine","My contribution","my hours and my role on deals")};
 var anchor=hero?hero.nextSibling:sec.firstChild;
@@ -6007,7 +6007,7 @@ var order=[H.results,tb].concat(res,[H.outlook],out,[H.mine],mine);
 order.forEach(function(n){sec.insertBefore(n,anchor);});
 function scan(){var g="";[].slice.call(sec.children).forEach(function(k){if(k.dataset&&k.dataset.cgm){g=k.dataset.cgm;return;}if(g)k.dataset.cg=g;else if(k.dataset)delete k.dataset.cg;});
  Object.keys(H).forEach(function(k){var open=k in st?st[k]:DEF[k];sec.classList.toggle("cgc-"+k,!open);H[k].querySelector(".ar").textContent=open?"▾":"▸";});}
-sec.addEventListener("click",function(e){var h=e.target.closest(".cgH");if(!h)return;var k=h.dataset.cgm,open=k in st?st[k]:DEF[k];st[k]=!open;try{localStorage.setItem(KEY,JSON.stringify(st));}catch(x){}scan();});
+sec.addEventListener("click",function(e){var h=e.target.closest(".cgH");if(!h)return;var k=h.dataset.cgm,open=k in st?st[k]:DEF[k];var nv=!open;Object.keys(H).forEach(function(z){st[z]=false;});st[k]=nv;try{localStorage.setItem(KEY,JSON.stringify(st));}catch(x){}scan();});
 new MutationObserver(function(){scan();}).observe(sec,{childList:true});scan();})();</script>
 </body>
 </html>

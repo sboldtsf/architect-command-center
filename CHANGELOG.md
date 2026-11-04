@@ -11,6 +11,7 @@ All notable changes to the Architect Command Center. Newest first.
 - Attach plays: vetting, where-to-push and the product mix are collapsible sections (mix closed by default).
 - Where I fit: "who else is in the lane" is collapsible and closed by default; shorter stage-dropdown note.
 - Present button stays visible when the header is collapsed.
+- Scoreboard sections now act as an accordion (only Results open by default; opening one closes the others). Win rate and Slippage cards start collapsed.
 
 #### Added
 - **New 7-tab layout** (Phase 2 of the declutter): Today (Briefing, Overview, Mission Control), Pipeline (health and plan, Opportunities), Deals, Performance (Scoreboard, Activity), Team, My Assets, Settings. Related pages sit behind a small switch under the tabs. Settings > Layout switches back to the Classic 11 tabs at any time.
