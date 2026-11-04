@@ -11,6 +11,7 @@ All notable changes to the Architect Command Center. Newest first.
 - Startup: the 13-week activity history (weekly stack, heatmap) waits for Performance > Hours and activity.
 - Motion: animations are off by default (turn them on with the Animations button, now in the footer instead of floating over content); animation loops slow to one frame a second when the window is in the background.
 - Long tabs: Hours and activity has three sections (Hours against target, Rhythm and capacity, Detail) that open one at a time; Deals has Closing and pipeline, My DC records and Clean-up. Today's needs-action links open the right section. The tour shows every section while it runs.
+- Fixed: Pipeline's welcome screen waited up to 90 seconds for your focus accounts (they were deferred with Deals I may belong on). Accounts load at startup again, the screen shows a spinner while they load, Open is disabled until they arrive, and returning users go straight to their last view once they do.
 - Query cache moved to sessionStorage with oldest-first eviction, so it can no longer wipe your saved settings.
 
 #### Changed (audit, round 2)
