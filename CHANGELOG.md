@@ -39,6 +39,8 @@ All notable changes to the Architect Command Center. Newest first.
 - Log my time: suggested hours come from your calendar meetings only (overlaps counted once), and the Slackbot prompt carries just the meetings and their total.
 
 #### Fixed
+- Pipeline "More" menu did nothing (its button name clashed with the Show all buttons); fixed.
+- Deals, Scoreboard and Activity: cards without charts are now collapsible, with only the first open by default. Your choices are remembered.
 - Pipeline declutter (Phase 1): Health is first in the nav; the Leadership card is split into three collapsible sections (Plan, Pipe quality, Does the pipe carry what sells) with the last one closed by default; charts sit behind a "See charts" toggle; the shortlist and Attach plays deals show the top 5 with a Show all; the header keeps quarter, scope and fluff toggle, with the brief and Slack draft under "More".
 - The Under-attached / Covered tag in "Does the real pipe carry what sells?" ran off the right edge; the row grid now fits.
 - Q4 priorities sources: broader Slack and Drive search, then an AI relevance check keeps only sources that state Q4 priorities for your OU (excludes media budget, events, other regions), with plain-English titles and a tidy card grid.
