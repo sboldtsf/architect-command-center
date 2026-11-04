@@ -4,6 +4,10 @@ All notable changes to the Architect Command Center. Newest first.
 
 ### v1.3 (Nov 3, 2026)
 
+#### Added (loading and first-run)
+- One-time setup screen for people updating to this build: animations, dark or light, compact or full header, which tab to open on, and an optional tour. It appears once over the loading screen while data loads; new users get the full Personalize setup instead.
+- Loading clarity: spinners keep moving even with animations off (they were frozen, which made loading look stuck); every plain "Loading…" placeholder now says what it is reading; a spinner running over 40 seconds explains that org62 is busy and requests are retried, and after 2.5 minutes offers Refresh; raw connector errors ("Artifact is not currently shown", "rate limit exceeded") are shown in plain language.
+
 #### Changed (design and performance pass)
 - Design tokens: font sizes snapped to one scale (36 sizes down to 16 plus a few tiny chart labels, nothing under 11px in text), corners snapped to 4 / 8 / 12 / 16 / pill (was 24 values), one card header style, lighter card shadows, no backdrop blur on large panels.
 - Header: subtitle, heartbeat line and the theme/mode row removed (theme and mode live in Settings > Appearance); header buttons share one corner style.

@@ -6068,5 +6068,73 @@ body.ccv2:not(.touring) section[data-tab=deals].cgx-cls>[data-cg=cls],body.ccv2:
 body.touring .cgH{display:none!important}
 #credit #liteBtn{position:static!important;display:inline-block!important;margin:10px auto 0!important;inset:auto!important;transform:none!important}
 </style>
+<style id="ccLoadCss">
+/* Loading indicators keep moving even when animations are off, so a page that is working never looks frozen */
+html.nomo body .spin,html.calm body .spin{animation:spn .9s linear infinite!important}
+html.nomo body .tbSp,html.calm body .tbSp{animation:tbSpin .9s linear infinite!important}
+html.nomo body .shSpin,html.calm body .shSpin{animation:shSp 1s linear infinite!important}
+html.nomo body #bootLd .ldR::after,html.calm body #bootLd .ldR::after,html.nomo body #bootLd .ldR:after{animation:ldSpin 1.5s linear infinite!important}
+html.nomo body .plOrb,html.calm body .plOrb{animation:plSpin 6s linear infinite!important}
+.ccLd{display:inline-flex;align-items:center;gap:2px;color:var(--dim)}
+.ccSlow{display:block;margin-top:4px;font-size:12px;color:var(--warn,#f59e0b)}
+.ccSlow button{margin-left:6px;font:inherit;font-size:12px;padding:2px 10px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--txt);cursor:pointer}
+#ccPrefs{position:fixed;inset:0;z-index:100000;display:grid;place-items:center;background:rgba(2,6,23,.72)}
+#ccPrefs .pfC{width:min(560px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;background:var(--panel,#0f172a);color:var(--txt,#e2e8f0);border:1px solid var(--line,#334155);border-radius:16px;padding:22px 22px 18px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+#ccPrefs h3{margin:0 0 4px;font-size:20px}#ccPrefs .pfSub{color:var(--dim,#94a3b8);font-size:13px;margin:0 0 14px}
+#ccPrefs .pfNew{margin:0 0 14px;padding:10px 12px;border:1px solid var(--line,#334155);border-radius:12px;font-size:13px;line-height:1.5}
+#ccPrefs .pfNew b{display:block;margin-bottom:2px}
+#ccPrefs .pfQ{margin:12px 0}#ccPrefs .pfQ>b{display:block;font-size:14px;margin-bottom:2px}#ccPrefs .pfQ>small{display:block;color:var(--dim,#94a3b8);font-size:12px;margin-bottom:6px}
+#ccPrefs .pfO{display:flex;gap:6px;flex-wrap:wrap}
+#ccPrefs .pfO button{font:inherit;font-size:13px;padding:7px 14px;border-radius:999px;border:1px solid var(--line,#334155);background:transparent;color:var(--txt,#e2e8f0);cursor:pointer}
+#ccPrefs .pfO button.on{background:var(--accent,#38bdf8);border-color:transparent;color:#fff;font-weight:700}
+#ccPrefs .pfA{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+#ccPrefs .pfA button{font:inherit;font-size:14px;padding:9px 18px;border-radius:12px;cursor:pointer;border:1px solid var(--line,#334155);background:transparent;color:var(--txt,#e2e8f0)}
+#ccPrefs .pfA .pri{background:linear-gradient(135deg,var(--accent,#38bdf8),var(--accent2,#a855f7));border:0;color:#fff;font-weight:700}
+#ccPrefs .pfBg{margin-top:10px;font-size:12px;color:var(--dim,#94a3b8)}
+</style>
+<script id="ccLoadClarity">(function(){
+/* 1. Plain "Loading…" placeholders become a spinner plus what is actually being read */
+var LBL={todayBar:"Reading this quarter from org62…",closeBody:"Reading your deals closing in the next 30 days…",hrsBody:"Adding up your customer hours this quarter…",weekRings:"Reading your last 13 weeks of logged time…",heatRead:"Reading your last 13 weeks of logged time…",noDc:"Comparing your meetings with your DC records…",noAct:"Comparing your DC records with your meetings…",nch:"Checking your DCs against customer hours (last 12 months)…",dupCards:"Checking for two architects at 100% on the same deal…",addlBody:"Finding accounts where you are on some deals but not all…",deadBody:"Checking DCs on deals closed as duplicates…",ts30Body:"Reading your last 30 days of logged time…",scSub:"Reading closed-won and forecast from org62…",scSlipSub:"Checking close dates pushed out of the quarter…",candCards:"Looking for open deals on your accounts that you are not on yet…"};
+function label(el){var n=el;while(n&&n!==document.body){if(n.id&&LBL[n.id])return LBL[n.id];n=n.parentElement;}return "Reading from org62…";}
+function fixPlain(root){var w=document.createTreeWalker(root||document.body,NodeFilter.SHOW_TEXT,null),hit=[];while(w.nextNode()){var t=w.currentNode;if(/^\s*Loading…\s*$/.test(t.nodeValue)&&t.parentElement&&!t.parentElement.closest("#ccPrefs"))hit.push(t);}
+ hit.forEach(function(t){var e=t.parentElement,sp=document.createElement("span");sp.className="ccLd";sp.innerHTML='<span class="spin"></span>'+label(e);e.replaceChild(sp,t);});}
+/* 2. Spinners that run long say so, and offer a way out */
+var seen=new WeakMap();
+function watch(){var now=Date.now();document.querySelectorAll(".spin,.tbSp,.shSpin").forEach(function(sp){if(!sp.offsetParent)return;if(!seen.has(sp))seen.set(sp,now);var age=now-seen.get(sp),host=sp.parentElement;if(!host)return;var note=host.querySelector(":scope > .ccSlow");
+  if(age>150000){if(!note||note.dataset.s!=="2"){if(!note){note=document.createElement("span");note.className="ccSlow";host.appendChild(note);}note.dataset.s="2";note.innerHTML='This is taking much longer than usual. <button type="button" data-ccrefresh="1">Refresh</button>';}}
+  else if(age>40000&&!note){note=document.createElement("span");note.className="ccSlow";note.dataset.s="1";note.textContent="Still working. org62 is busy, so requests are queued and retried automatically.";host.appendChild(note);}});}
+document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("[data-ccrefresh]")){var b=document.getElementById("refreshBtn");if(b)b.click();else location.reload();}});
+/* 3. Raw connector errors become plain language */
+var ERR=[[/Artifact is not currently shown\.?/g,"Paused while the Command Center was hidden. Press Refresh at the top to finish loading."],[/Artifact MCP rate limit exceeded[^.]*\.?/g,"org62 is busy right now (too many requests at once). Press Refresh in a minute."],[/try again shortly\.?/gi,"try again in a minute."]];
+function fixErr(){var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null);while(w.nextNode()){var t=w.currentNode,v=t.nodeValue;if(v&&v.length<600&&/currently shown|rate limit exceeded|try again shortly/i.test(v)){var nv=v;ERR.forEach(function(r){nv=nv.replace(r[0],r[1]);});if(nv!==v)t.nodeValue=nv;}}}
+var tt;function run(){fixPlain();fixErr();}
+try{new MutationObserver(function(){clearTimeout(tt);tt=setTimeout(run,250);}).observe(document.body,{childList:true,subtree:true});}catch(e){}
+run();setInterval(watch,5000);
+})();</script>
+<script id="ccPrefsOnce">(function(){
+/* One-time "set it up your way" screen for people updating to this build. New users get the full Personalize setup instead. */
+var BUILD="1.3-nov4",KEY="ccPrefsSeen";var seen=null,done=null;try{seen=localStorage.getItem(KEY);done=localStorage.getItem("profileDone");}catch(e){}
+if(seen===BUILD)return;if(!done){try{localStorage.setItem(KEY,BUILD);}catch(e){}return;}
+var H=document.documentElement,cur={anim:(function(){try{return localStorage.getItem("nomoMode")==="0"?"on":"off";}catch(e){return "off";}})(),theme:H.dataset.theme==="light"?"light":"dark",hdr:(function(){try{return (localStorage.getItem("ccHero1")||"min")==="min"?"min":"full";}catch(e){return "min";}})(),land:(function(){try{var t=localStorage.getItem("tab")||"briefing";return ["briefing","pipeline","deals","score"].indexOf(t)>=0?t:"briefing";}catch(e){return "briefing";}})(),tour:"no"};
+var Q=[["anim","Animations","Motion effects, glows and the Matrix rain. Off is calmer and lighter on your laptop. Loading spinners always move.",[["off","Off (recommended)"],["on","On"]]],
+ ["theme","Look","Dark is easier on the eyes; light is better for screen-sharing in a bright room.",[["dark","Dark"],["light","Light"]]],
+ ["hdr","Header","Compact keeps the header to the essentials. Full shows every shortcut.",[["min","Compact"],["full","Full"]]],
+ ["land","Open on","The tab you land on each time.",[["briefing","Today"],["pipeline","Pipeline"],["deals","Deals"],["score","Performance"]]],
+ ["tour","Quick tour of the new layout","About 2 minutes, you can stop any time.",[["no","Not now"],["yes","Yes, show me"]]]];
+function html(){return '<div class="pfC" role="dialog" aria-modal="true" aria-label="Set up the Command Center"><h3>The Command Center has a new layout</h3><p class="pfSub">Take ten seconds to set it up your way. Your data is loading in the background.</p>'
+ +'<div class="pfNew"><b>What changed</b>Seven tabs: Today, Pipeline, Deals, Performance, Team, Assets, Settings. One plan number across Pipeline and the Scoreboard. Long tabs are split into sections, and it starts faster.</div>'
+ +Q.map(function(q){return '<div class="pfQ"><b>'+q[1]+'</b><small>'+q[2]+'</small><div class="pfO">'+q[3].map(function(o){return '<button type="button" data-k="'+q[0]+'" data-v="'+o[0]+'" class="'+(cur[q[0]]===o[0]?"on":"")+'">'+o[1]+'</button>';}).join("")+'</div></div>';}).join("")
+ +'<div class="pfA"><button type="button" data-pf="skip">Skip, keep my current settings</button><button type="button" class="pri" data-pf="save">Save and open the dashboard</button></div><div class="pfBg">You can change all of these later in Settings.</div></div>';}
+function show(){if(document.getElementById("ccPrefs"))return;var o=document.createElement("div");o.id="ccPrefs";o.innerHTML=html();document.body.appendChild(o);
+ o.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;if(b.dataset.k){cur[b.dataset.k]=b.dataset.v;o.querySelectorAll('[data-k="'+b.dataset.k+'"]').forEach(function(x){x.classList.toggle("on",x===b);});return;}
+  if(b.dataset.pf==="skip"){try{localStorage.setItem(KEY,BUILD);}catch(x){}o.remove();return;}
+  if(b.dataset.pf==="save"){var reload=false;try{localStorage.setItem(KEY,BUILD);localStorage.setItem("nomoMode",cur.anim==="on"?"0":"1");H.classList.toggle("nomo",cur.anim!=="on");var lb=document.getElementById("liteBtn");if(lb)lb.textContent=cur.anim==="on"?"Animations: on":"Animations: off";
+    localStorage.setItem("ccHero1",cur.hdr);var hh=document.querySelector("header.top.hero");if(hh)hh.classList.toggle("heroMin",cur.hdr==="min");var tg=document.getElementById("heroTog");if(tg)tg.textContent=cur.hdr==="min"?"▸ Show all":"▾ Collapse";
+    localStorage.setItem("tab",cur.land);var pr={};try{pr=JSON.parse(localStorage.getItem("profile")||"{}")||{};}catch(x){}pr.landing=cur.land;localStorage.setItem("profile",JSON.stringify(pr));
+    if(cur.theme!==(H.dataset.theme==="light"?"light":"dark")){localStorage.setItem("theme",cur.theme);reload=true;}
+    if(cur.tour==="yes")localStorage.setItem("startTour","1");}catch(x){}
+   o.remove();if(reload){location.reload();return;}var tb=document.querySelector('#tabs [data-tab="'+cur.land+'"]');if(tb)tb.click();if(cur.tour==="yes"){try{localStorage.removeItem("startTour");}catch(x){}setTimeout(function(){if(window.startTour)window.startTour();},400);}}});}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",show);else show();
+})();</script>
 </body>
 </html>
