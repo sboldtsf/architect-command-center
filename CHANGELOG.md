@@ -32,6 +32,9 @@ All notable changes to the Architect Command Center. Newest first.
 #### Improved
 - Log my time: suggested hours come from your calendar meetings only (overlaps counted once), and the Slackbot prompt carries just the meetings and their total.
 
+#### Fixed
+- Buttons inside a card header (such as Refresh on Pipeline health) no longer also collapse the card.
+
 ### v1.2 (Nov 2, 2026)
 
 #### Added

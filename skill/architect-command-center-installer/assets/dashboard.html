@@ -1332,7 +1332,8 @@ try { var HID = JSON.parse(localStorage.getItem("hide") || "{}"); if (HID.ticker
   document.querySelectorAll(".card > h2").forEach(h => {
     const card = h.parentElement, key = h.textContent.trim();
     if (collapsed.includes(key)) card.classList.add("collapsed");
-    h.addEventListener("click", () => {
+    h.addEventListener("click", ev => {
+      if (ev.target.closest && ev.target.closest("button, a, select, input, label, [data-nocollapse]")) return;
       card.classList.toggle("collapsed");
       collapsed = collapsed.filter(k => k !== key); if (card.classList.contains("collapsed")) collapsed.push(key);
       store.set("collapsed", JSON.stringify(collapsed));
