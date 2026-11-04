@@ -4,6 +4,14 @@ All notable changes to the Architect Command Center. Newest first.
 
 ### v1.3 (Nov 3, 2026)
 
+#### Changed (cleanup pass)
+- Today: removed the redundant "Jump into" cards; the Mission Control strip now shows only on Today.
+- Tab wording and the guided tour updated to the 7-tab names.
+- Performance > Scoreboard: cards grouped into labelled, collapsible sections (Results, Outlook, My contribution); score cards open by default.
+- Attach plays: vetting, where-to-push and the product mix are collapsible sections (mix closed by default).
+- Where I fit: "who else is in the lane" is collapsible and closed by default; shorter stage-dropdown note.
+- Present button stays visible when the header is collapsed.
+
 #### Added
 - **New 7-tab layout** (Phase 2 of the declutter): Today (Briefing, Overview, Mission Control), Pipeline (health and plan, Opportunities), Deals, Performance (Scoreboard, Activity), Team, My Assets, Settings. Related pages sit behind a small switch under the tabs. Settings > Layout switches back to the Classic 11 tabs at any time.
 - **Q4 priorities card** (Pipeline Health): searches Slack (public and private you can see) and Google Drive/Slides for the OU's Q4 priorities, pins the REG Q4 planning deck, lets you approve which sources count (and add your own Slides/Drive links), and extracts the priorities with where each came from. Priorities are tagged as chips on matching deals, counted against open deals, and fed into Tailor steps and the 1:1 brief.
