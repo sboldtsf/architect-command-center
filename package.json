@@ -1,0 +1,8 @@
+{
+  "name": "architect-command-center",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Architect Command Center: build and test tooling",
+  "scripts": { "test": "node tests/run.js", "minify": "node tools/minify.js dashboard.html dist/dashboard.min.html" },
+  "devDependencies": { "jsdom": "^24.0.0", "terser": "^5.0.0" }
+}

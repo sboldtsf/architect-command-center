@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 *.png
 *.jpg
+node_modules/
+dist/dashboard.min.html

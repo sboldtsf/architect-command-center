@@ -27,3 +27,14 @@ Current version: **2.0** (Nov 4, 2026), a major redesign. See [CHANGELOG.md](CHA
 
 - The dashboard contains org IDs and an owner Slack profile link but no tokens or customer data. Keep the repo private.
 - Screenshots and test data can show real deal and account names. Do not commit them.
+
+
+## Development
+
+```bash
+npm install          # once: jsdom (tests) and terser (minify)
+npm test             # smoke tests on dashboard.html
+./build.sh           # minify, test, and package dist/architect-command-center-installer-v<version>.skill
+```
+
+Release notes and the Slack post for v2.0 are in `docs/release-v2.0.md`.

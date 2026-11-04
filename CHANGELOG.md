@@ -13,6 +13,11 @@ v2.0 is a redesign of the whole Command Center: new seven-tab layout, Pipeline b
 - Prep my 1:1 on Today, next to Update my manager (copy or save as a Slack draft to yourself).
 - One overlay at a time on first load: the setup screen hides the loading screen, the tour waits for both, and "Still loading in the background" is a line under the tabs instead of a floating toast.
 - "Refresh all data" in the header and "Refresh pipeline" on the Pipeline card.
+- Pipeline › Health › Pipe quality: "Check against last quarter" rebuilds last quarter's deals as they looked at mid-quarter from org62 history, tags them with the same rules, and shows how many Real, Needs vetting and Likely fluff deals actually closed won.
+- Faster start: duplicate identical org62 queries now share one request, and Activity's totals come from the by-type query (one fewer query at startup).
+- Light tour cut to 10 stops; the rest moved to Medium.
+- Simple, Executive and High contrast now also restyle the Scoreboard Arena lanes, the loading spinners, the Mission Control strip and the 3D visual.
+- Repo: `npm test` runs smoke tests in jsdom (tabs, sections, loading text, themes, setup screen), and `./build.sh` minifies the dashboard for the skill and runs the tests first. Release kit in `docs/release-v2.0.md`.
 
 #### Added (colour themes)
 - Sixteen colour themes in four groups, one list everywhere (Settings > Appearance, Personalize and the setup screen): House (Command); Architect (Blueprint with a faint grid header, Whiteboard, Graphite); Salesforce family (Salesforce re-tuned to Lightning blue, Agentforce, Slack, Tableau, Data 360); Industry (Clinical for HLS, Ledger for FINS, Maple for Canada, Signal for TMT, Ember for PACE, Horizon for TTH, Market for CBS). The Matrix stays hidden until found.
