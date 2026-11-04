@@ -2,13 +2,13 @@
 // Usage: npm test            (tests dashboard.html)
 //        node tests/run.js dist/dashboard.min.html
 process.on("unhandledRejection", () => {}); process.on("uncaughtException", () => {});
-const { JSDOM } = require("jsdom"); const fs = require("fs"); const path = require("path");
+const { JSDOM, VirtualConsole } = require("jsdom"); const vc = new VirtualConsole(); vc.on("error", () => {}); vc.on("jsdomError", () => {}); const fs = require("fs"); const path = require("path");
 const file = process.argv[2] || path.join(__dirname, "..", "dashboard.html");
 const src = fs.readFileSync(file, "utf8").replace(/<script src="https:[^>]*><\/script>/g, "");
 const sl = ms => new Promise(r => setTimeout(r, ms));
 let pass = 0, fail = 0; const ok = (c, msg) => { if (c) { pass++; console.log("  ok   " + msg); } else { fail++; console.log("  FAIL " + msg); } };
 function page(ls) {
-  return new JSDOM(src, { url: "https://example.com/", runScripts: "dangerously", pretendToBeVisual: true, beforeParse(w) {
+  return new JSDOM(src, { url: "https://example.com/", runScripts: "dangerously", pretendToBeVisual: true, virtualConsole: vc, beforeParse(w) {
     Object.entries(ls || {}).forEach(([k, v]) => w.localStorage.setItem(k, v));
     w.cowork = { callMcpTool: async () => ({ isError: true, content: [{ text: "stub" }] }), askClaude: async () => ({ text: "x" }) };
     w.Chart = function () { return { destroy() {}, update() {} }; }; w.Chart.defaults = { font: {}, plugins: { legend: { labels: {} }, tooltip: {} } };
