@@ -4,6 +4,10 @@ All notable changes to the Architect Command Center. Newest first.
 
 ### v1.3 (Nov 3, 2026)
 
+#### Added (design styles)
+- Five design styles, switchable any time: Futuristic (the current look), Simple (flat, calm, one accent), Executive (numbers first, navy and grey, larger headline figures, helper subtitles, the Mission strip and Year in review hidden), Compact (tighter spacing, more rows on screen) and High contrast (stronger text and borders, bigger focus rings, underlined links). Styles sit on top of the colour themes and Dark/Light.
+- The style question is on the one-time setup screen (with live preview; the screen shows once more for this build), in Personalize (the look step) and in Settings > Appearance. Charts pick up a new style's colours on the next load.
+
 #### Added (loading and first-run)
 - One-time setup screen for people updating to this build: animations, dark or light, compact or full header, which tab to open on, and an optional tour. It appears once over the loading screen while data loads; new users get the full Personalize setup instead.
 - Loading clarity: spinners keep moving even with animations off (they were frozen, which made loading look stuck); every plain "Loading…" placeholder now says what it is reading; a spinner running over 40 seconds explains that org62 is busy and requests are retried, and after 2.5 minutes offers Refresh; raw connector errors ("Artifact is not currently shown", "rate limit exceeded") are shown in plain language.
