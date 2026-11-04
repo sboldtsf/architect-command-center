@@ -5,6 +5,7 @@ All notable changes to the Architect Command Center. Newest first.
 ### v1.3 (Nov 3, 2026)
 
 #### Added
+- **Q4 priorities card** (Pipeline Health): searches Slack (public and private you can see) and Google Drive/Slides for the OU's Q4 priorities, pins the REG Q4 planning deck, lets you approve which sources count (and add your own Slides/Drive links), and extracts the priorities with where each came from. Priorities are tagged as chips on matching deals, counted against open deals, and fed into Tailor steps and the 1:1 brief.
 - **Real OU plan from Tableau Next (Org62)**: Gap to plan now reads the OU's Fin Plan target, booked ACV and open pipe from the Tableau Next sales model (via the Tableau Next - Org62 connector, optional). The model has no HLS/HC split, so it shows the whole OU (for example AMER REG) and keeps the manual override for your slice. Falls back to last year +30% when the connector isn't connected.
 - **Pipeline tab** (new): the health view of the pipeline on your focus accounts, moved out of Opportunities to keep that tab focused. It has three views: Health, Account plans and Whitespace.
 - Health view: tiles for open pipeline, new this quarter, pipeline you helped open, closing this quarter, where you hold a DC and where you don't; charts for stage, close timing, coverage, deal health and pipeline age; and a quarter shortlist ranked by sell score (stage, next step, activity, your involvement, date) times amount, with suggested next moves from Claude.
