@@ -11,6 +11,7 @@ All notable changes to the Architect Command Center. Newest first.
 - Attach plays: vetting, where-to-push and the product mix are collapsible sections (mix closed by default).
 - Where I fit: "who else is in the lane" is collapsible and closed by default; shorter stage-dropdown note.
 - Present button stays visible when the header is collapsed.
+- Guided tour and tab hover cards updated for the 7-tab layout: removed stale jump-card and every-page Mission strip wording, added a Pipeline hover card, reworded Today and Performance, and the "Ten tabs" step now shows only on the Classic layout ("Seven tabs" only on the new one).
 - Scoreboard sections now act as an accordion (only Results open by default; opening one closes the others). Win rate and Slippage cards start collapsed.
 
 #### Added
