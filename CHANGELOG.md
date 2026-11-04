@@ -2,6 +2,12 @@
 
 All notable changes to the Architect Command Center. Newest first.
 
+### v2.0.1 (Nov 4, 2026)
+
+**Connections**
+- The Connections check now tests Tableau Next (Org62). It confirms the connector works and that the Sales Performance - Bookings & Targets model (the OU Fin Plan) is shared with you. Without it, Gap to plan uses your own number.
+- The Tableau entry now lists everything it powers: attach plays, Scoreboard insights, and Pulse and Mission Control evidence.
+
 ### v2.0 (Nov 4, 2026): major redesign
 
 **Layout and navigation**
