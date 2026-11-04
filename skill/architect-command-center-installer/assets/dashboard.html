@@ -6289,12 +6289,5 @@ window.ccOnAccent=function(){try{var cs=getComputedStyle(H),a=rgb(cs.getProperty
 var t;try{new MutationObserver(function(){clearTimeout(t);t=setTimeout(window.ccOnAccent,30);}).observe(H,{attributes:true,attributeFilter:["data-palette","data-theme","data-style","style"]});}catch(e){}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",window.ccOnAccent);else window.ccOnAccent();
 })();</script>
-<script id="ccLeaderHint">(function(){
-/* Leaders get a one-time pointer to the Leadership Command Center */
-if(typeof IDENT==="undefined")return;IDENT.then(async function(){try{if(localStorage.getItem("ccLeadHint")==="off")return;var n=0;try{var r=await soql("SELECT COUNT(Id) n FROM User WHERE IsActive = true AND ManagerId = '"+USER_ID+"'");n=(r.records&&r.records[0]&&(r.records[0].n||r.records[0].expr0))||0;}catch(e){}
- var lead=n>0||/(^|\W)LDR(\W|$)/.test(ME.role||"");if(!lead)return;var sec=document.querySelector('section.tab[data-tab="briefing"]');if(!sec)return;
- var d=document.createElement("div");d.className="card";d.id="ccLeadHint";d.style.cssText="border-color:var(--accent)!important";d.innerHTML='<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:240px"><b>You lead a team'+(n?' of '+n+' direct report'+(n===1?'':'s'):'')+'.</b> The Leadership Command Center shows your whole org on one page: plan and coverage, customer hours against pace, pipe quality by architect, deals to help close and 1:1 briefs. Open it from your Cowork artifacts, or ask Claude to "install the Leadership Command Center".</div><button type="button" class="stBtn" id="ccLeadOff">Got it</button></div>';
- var first=sec.firstElementChild;while(first&&first.classList.contains("printonly"))first=first.nextElementSibling;sec.insertBefore(d,first);
- d.querySelector("#ccLeadOff").onclick=function(){try{localStorage.setItem("ccLeadHint","off");}catch(e){}d.remove();};}catch(e){}});})();</script>
 </body>
 </html>

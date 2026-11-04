@@ -5,7 +5,6 @@ cd "$(dirname "$0")"
 VER=$(grep -o 'APP_VERSION = "[0-9.]*' dashboard.html | grep -o '[0-9.]*$')
 SK=skill/architect-command-center-installer
 cp dashboard.html "$SK/assets/dashboard.html"
-cp leadership/leadership.html "$SK/assets/leadership.html"
 rm -rf "$SK/scripts/__pycache__"
 mkdir -p dist
 OUT="$PWD/dist/architect-command-center-installer-v${VER}.skill"

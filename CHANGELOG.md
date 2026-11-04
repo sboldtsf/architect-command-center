@@ -4,11 +4,6 @@ All notable changes to the Architect Command Center. Newest first.
 
 ### v1.3 (Nov 3, 2026)
 
-#### Added (Leadership Command Center)
-- New, separate artifact for leaders of architect teams (`leadership/leadership.html`, artifact id `leadership-command-center`). One page, no tabs: a team headline (plan, closed won, remaining, open pipe, coverage, customer hours against pace, pipe quality), an architects table grouped by first-line leader (customer hours vs pace, open pipe split into real / needs vetting / likely fluff, closed won, deals needing attention; click a row for top deals and a 1:1 brief), and the team's top deals to help close. Covers the whole reporting tree (up to four levels). About four org62 queries per load; the team list is remembered for a day.
-- Leader detection: a leader is anyone with active direct reports or an LDR role. Non-leaders open it as a preview of their manager's team, with a Team menu to switch.
-- The installer skill checks whether the user is a leader and installs the Leadership Command Center for leaders (and offers the architect page too). The architect page shows leaders a one-time pointer to it.
-
 #### Added (colour themes)
 - Sixteen colour themes in four groups, one list everywhere (Settings > Appearance, Personalize and the setup screen): House (Command); Architect (Blueprint with a faint grid header, Whiteboard, Graphite); Salesforce family (Salesforce re-tuned to Lightning blue, Agentforce, Slack, Tableau, Data 360); Industry (Clinical for HLS, Ledger for FINS, Maple for Canada, Signal for TMT, Ember for PACE, Horizon for TTH, Market for CBS). The Matrix stays hidden until found.
 - Your team's theme is marked "recommended" based on your org62 role, and is offered on the setup screen. New users start on their team's theme.

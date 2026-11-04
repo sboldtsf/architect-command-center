@@ -42,8 +42,6 @@ TOOLS = {
     "slides":   ["read_presentation", "update_presentation"],
     "tabnext":  ["analyze_data"],
 }
-# The Leadership Command Center calls only these tools.
-LEADER_TOOLS = {"org62": ["dispatch_readonly"], "slack": ["slack_search_users", "slack_send_message_draft"]}
 NAME = re.compile(r"mcp__([0-9a-fA-F-]{36})__([A-Za-z0-9_\-]+)")
 
 def load_tools(path):
@@ -56,7 +54,6 @@ def main():
     ap.add_argument("--html", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--mcp-out")
-    ap.add_argument("--leader", action="store_true", help="the HTML is the Leadership Command Center (smaller tool list)")
     a = ap.parse_args()
 
     have = {}  # tool -> set(uuid)
@@ -84,7 +81,7 @@ def main():
     # Tool allowlist for create_artifact: every tool the dashboard calls that this user's connector offers.
     allow, unavailable = [], []
     for key, uuid in ((k, mapping[v[0]]) for k, v in CONNECTORS.items() if v[0] in mapping):
-        for t in (LEADER_TOOLS.get(key, []) if a.leader else TOOLS[key]):
+        for t in TOOLS[key]:
             (allow if uuid in have.get(t, set()) else unavailable).append("mcp__%s__%s" % (uuid, t))
     report["mcp_tools"] = sorted(allow)
     report["tools_not_offered_by_your_connector"] = sorted(unavailable)
