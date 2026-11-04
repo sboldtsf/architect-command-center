@@ -2177,7 +2177,7 @@ const IDENT = (async () => {
     const pick = wMode === "pick";
     body.innerHTML = `<div class="wlH"><i class="wlO a"></i><i class="wlO b"></i><i class="wlO c"></i><h3>${gr}${nm ? ", " + esc(nm) : ""}. Let's open some pipeline.</h3><p>Choose which accounts to look at. Next time the pipeline opens straight on the view you used last.</p><div class="wlSt"><span><b>${left}</b> days left in ${esc(PQ.fy)} Q${PQ.q}</span><span>${window.getAcctFamilies ? `<b>${fams.length}</b> focus account${fams.length === 1 ? "" : "s"}` : `<span class="spin"></span> finding focus accounts`}</span>${t ? `<span>Last look: <b>${fmt(t.amt)}</b> open · <b>${t.mine}</b> of ${t.n} with my DC</span>` : ""}</div></div>`
       + `<div class="wlSec">1 · Which accounts?</div><div class="wlSeg"><button type="button" data-wsc="all" class="${pick ? "" : "on"}">All my accounts (${window.getAcctFamilies ? fams.length : "…"})</button><button type="button" data-wsc="pick" class="${pick ? "on" : ""}">Pick accounts</button></div>`
-      + (pick ? `<div class="wlCh">${fams.length ? fams.map(f => `<button type="button" data-wsa="${esc(f.id)}" class="${wPick.has(f.id) ? "on" : ""}">${wPick.has(f.id) ? "✓ " : ""}${esc(f.name)}</button>`).join("") : '<span class="muted"><span class="spin"></span> Finding your focus accounts from the last year of logged time…</span>'}</div>` : "")
+      + (pick ? `<div class="wlCh">${fams.length ? fams.map(f => `<button type="button" data-wsa="${esc(f.id)}" class="${wPick.has(f.id) ? "on" : ""}">${wPick.has(f.id) ? "✓ " : ""}${esc(f.name)}</button>`).join("") : ''}</div>` : "")
       + (!window.getAcctFamilies ? `<div class="wlLd"><span class="spin"></span> Finding your focus accounts from the last year of logged time… This usually takes a few seconds.</div>` : !fams.length ? `<div class="wlLd">No focus accounts found yet. Add accounts in Deals → Deals I may belong on, or log time on a customer account.</div>` : "")
       + `<div class="wlGo"><button type="button" class="stBtn pri" data-wg="go"${!window.getAcctFamilies || (!fams.length && !pick) ? " disabled" : ""}>Open the pipeline →</button><span class="muted">Opens on ${esc((NAVT.find(x => x[0] === lsg("pipeView", "health")) || NAVT[0])[2])}. Switch views with the bar at the top; this screen only sets which accounts you look at.</span></div>`
       + `<div class="wlMsg">${esc(wMsg)}</div><div class="wlFn">Building a view reads org62 (and Slack for plans), so it could take a second.</div>`;
@@ -3115,6 +3115,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
         box.onmouseover = e => { const x = e.target.closest("[data-k]"); set(x ? x.dataset.k : null); }; box.onmouseleave = () => set(null); box.onclick = e => { const x = e.target.closest("[data-k]"); set(x ? x.dataset.k : null); }; } }
   } catch (e) { document.getElementById("typeErr").textContent = "Activity type breakdown failed: " + e.message; }
 
+  (async () => {
   try {
     await window.ccWhen("activity", 90000);
     const mon = new Date(); mon.setUTCHours(0,0,0,0); mon.setUTCDate(mon.getUTCDate() - ((mon.getUTCDay() + 6) % 7));
@@ -3249,6 +3250,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
         `<div class="rgLine"><span>👑 Best week <b>${labels[bi]}</b> at <b>${best.toFixed(0)}h</b></span><span>📈 <b>${avg.toFixed(0)}h</b> a week on average</span><span>🎯 <b>${nAt} of 12</b> weeks at pace</span></div><div class="muted" style="font-size:12px;margin-top:6px">Bar height = hours logged · bright part = customer-related · green, orange, grey = at, near or under the dashed ~${tgt.toFixed(0)}h weekly pace · striped = this week so far</div>`;
     } catch (e) { document.getElementById("weekErr").textContent = "Weekly rhythm failed: " + e.message; }
   } catch (e) { document.getElementById("weekErr").textContent = "Weekly activity failed: " + e.message; }
+  })(); // runs on its own so the rest of the page does not wait for it
 
 
 
