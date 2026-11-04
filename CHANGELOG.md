@@ -4,6 +4,36 @@ All notable changes to the Architect Command Center. Newest first.
 
 ### v2.0 (Nov 4, 2026): major redesign
 
+**Layout and navigation**
+- Seven tabs: Today, Pipeline, Deals, Performance, Team, Assets, Settings. Overview, Mission Control, Opportunities and Activity live behind a small switch under their tab, and the Classic layout is retired.
+- Long tabs are split into labelled sections (Scoreboard, Deals, Hours and activity), with a compact header and tab bar.
+- One-level Pipeline navigation: pick your accounts once, then it opens on the view you used last.
+
+**Pipeline (leadership's Q4 asks)**
+- Health first: Plan for the quarter, then pipe quality, with every deal tagged Real, Needs vetting or Likely fluff and a last-quarter check of how often each tag closed.
+- Q4 priorities pulled from Slack and Drive (sources you approve), attach plays from live Tableau product mix, architect-led white space, account plans and Where I fit.
+- Prep my 1:1 brief on Today and Pipeline.
+
+**Numbers you can trust**
+- One plan shared by Pipeline and the Scoreboard (OU Fin Plan from Tableau Next, or your own number), with scope and basis shown on every number.
+- Same customer-related activity types everywhere, quarter-only pipe with earlier-dated deals flagged, split credit shown, "showing N of M" when a list is capped, and dates in your local time.
+
+**Look and feel**
+- Five design styles (Futuristic, Simple, Executive, Compact, High contrast) and 16 colour themes in Architect, Salesforce and Industry groups, with your team's theme recommended.
+- A one-time setup screen for style, theme, animations, header and landing tab.
+- Readable buttons in every theme, plus a design clean-up: one type and corner scale, lighter effects, smaller images, accessibility basics.
+
+**Speed and reliability**
+- Lazy loading and fewer, shared org62 queries, so startup hits the rate limit far less.
+- Animations are off by default, and loading messages say what's being read.
+- Plain-language errors, a query cache that can't wipe your settings, and Reset my view.
+
+**Tour, help and tooling**
+- Tour, hover cards and help rewritten for the new layout; the Light tour has 10 stops.
+- Smoke tests (`npm test`), a minified build, and a release kit with the Slack post.
+
+<details><summary>Full list of changes</summary>
+
 v2.0 is a redesign of the whole Command Center: new seven-tab layout, Pipeline built around leadership's Q4 asks, one shared plan, design styles and colour themes, a one-time setup screen, faster and calmer loading, and the audit fixes. It includes everything that was in progress as v1.3.
 
 #### Changed (v2.0 finishing pass)
@@ -129,6 +159,8 @@ v2.0 is a redesign of the whole Command Center: new seven-tab layout, Pipeline b
 - Q4 priorities sources: broader Slack and Drive search, then an AI relevance check keeps only sources that state Q4 priorities for your OU (excludes media budget, events, other regions), with plain-English titles and a tidy card grid.
 - Stage bars in Pipeline Health overlapped after the nav rework (CSS class clash); fixed. OU plan from Tableau Next now loads in the background instead of blocking the card. Q4 priorities card is a compact grid and only offers sources that mention your OU.
 - Buttons inside a card header (such as Refresh on Pipeline health) no longer also collapse the card.
+
+</details>
 
 ### v1.2 (Nov 2, 2026)
 
