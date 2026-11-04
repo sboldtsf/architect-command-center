@@ -12,6 +12,7 @@ All notable changes to the Architect Command Center. Newest first.
 - Where I fit: "who else is in the lane" is collapsible and closed by default; shorter stage-dropdown note.
 - Present button stays visible when the header is collapsed.
 - Guided tour and tab hover cards updated for the 7-tab layout: removed stale jump-card and every-page Mission strip wording, added a Pipeline hover card, reworded Today and Performance, and the "Ten tabs" step now shows only on the Classic layout ("Seven tabs" only on the new one).
+- Tour rework: Pipeline steps now open the right view (welcome screen, Health, shortlist, charts, Attach plays, White space, Account plans, Where I fit, 1:1 brief) with accurate text; steps follow the new tab order (Today, Pipeline, Deals, Performance, Team, Assets, Settings); the header expands during the tour; if a target is still loading the spotlight waits for it; Scoreboard is in the Light tour.
 - Scoreboard sections now act as an accordion (only Results open by default; opening one closes the others). Win rate and Slippage cards start collapsed.
 
 #### Added
