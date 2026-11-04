@@ -24,6 +24,7 @@ CONNECTORS = {
     "gmail":    ("3a223e76-6f88-46aa-83cb-936e00c53f94", ["search_threads"], False),
     "lucid":    ("c9ca0c80-35f1-4e87-805b-6d3e181a0d5c", ["lucid_list_folder_contents"], False),
     "slides":   ("a443376d-0145-4039-ac20-9cb81dc622c7", ["read_presentation", "update_presentation"], False),
+    "tabnext":  ("f1c7fd0d-0b45-455d-bd72-847eb7f0c939", ["analyze_data"], False),
 }
 # Every tool the dashboard calls, by connector. The page builds some names at runtime
 # (prefix + short name), so scanning the HTML alone misses them. This list is the source
@@ -39,6 +40,7 @@ TOOLS = {
     "gmail":    ["search_threads"],
     "lucid":    ["lucid_list_folder_contents", "search", "fetch", "lucid_get_document_metadata"],
     "slides":   ["read_presentation", "update_presentation"],
+    "tabnext":  ["analyze_data"],
 }
 NAME = re.compile(r"mcp__([0-9a-fA-F-]{36})__([A-Za-z0-9_\-]+)")
 
