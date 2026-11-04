@@ -5942,8 +5942,8 @@ body.ccv2 nav#tabs button.active{color:var(--txt)!important;background:color-mix
 body.ccv2 nav#tabs button[data-tab=assets],nav#tabs button[data-tab=settings]{padding:0 14px 0 10px!important}
 body.ccv2 nav#tabs button[data-tab=assets]{margin-left:auto!important}
 
-header.top.hero{position:relative}
-#heroTog{position:absolute;top:10px;right:12px;z-index:3;border:1px solid var(--line);background:color-mix(in srgb,var(--panel) 80%,transparent);color:var(--dim);font:inherit;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:99px;cursor:pointer}
+header.top.hero{position:relative;margin-bottom:22px!important}
+#heroTogW{position:relative;height:0;z-index:6}#heroTog{position:absolute;top:-34px;right:28px;z-index:5;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,.35);border:1px solid var(--line);background:color-mix(in srgb,var(--panel) 80%,transparent);color:var(--dim);font:inherit;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:99px;cursor:pointer}
 #heroTog:hover{color:var(--txt)}
 header.top.heroMin{padding-top:10px!important;padding-bottom:10px!important}
 header.top.heroMin .tag,header.top.heroMin .heroChips,header.top.heroMin #appearance,header.top.heroMin .eyebrow{display:none!important}
@@ -5978,7 +5978,7 @@ nav.addEventListener("click",function(){setTimeout(sync,0);});
 window.ccSetLayout=function(v){try{localStorage.setItem(KEY,v);}catch(e){}sync();var c=document.getElementById("ccLayoutCard");if(c)c.querySelectorAll(".lyB button").forEach(function(b){b.classList.toggle("on",b.dataset.ly===v);});};
 var st=document.querySelector('section.tab[data-tab="settings"]');if(st){var card=document.createElement("div");card.className="card";card.id="ccLayoutCard";card.innerHTML='<h2>Layout</h2><div class="muted">Choose how the tabs are organised. You can switch back at any time.</div><div class="lyB"><button type="button" data-ly="v2">New: 7 tabs (Today, Pipeline, Deals, Performance, Team, Assets, Settings)</button><button type="button" data-ly="classic">Classic: all 11 tabs</button></div>';card.addEventListener("click",function(e){var b=e.target.closest("button[data-ly]");if(b)window.ccSetLayout(b.dataset.ly);});st.insertBefore(card,st.firstChild);card.querySelectorAll(".lyB button").forEach(function(b){b.classList.toggle("on",b.dataset.ly===mode());});}
 sync();})();</script>
-<script>(function(){var h=document.querySelector("header.top.hero");if(!h)return;var KEY="ccHero1",b=document.createElement("button");b.id="heroTog";b.type="button";h.insertBefore(b,h.firstChild);
+<script>(function(){var h=document.querySelector("header.top.hero");if(!h)return;var KEY="ccHero1",b=document.createElement("button");b.id="heroTog";b.type="button";var w=document.createElement("div");w.id="heroTogW";w.appendChild(b);h.parentNode.insertBefore(w,h.nextSibling);
 function get(){try{var v=localStorage.getItem(KEY);return v===null?"min":v;}catch(e){return "min";}}
 function apply(){var m=get()==="min";h.classList.toggle("heroMin",m);b.textContent=m?"▸ Show all":"▾ Collapse";b.title=m?"Show the personalize, tour, theme and other header controls":"Collapse the header";}
 b.addEventListener("click",function(){try{localStorage.setItem(KEY,get()==="min"?"full":"min");}catch(e){}apply();});apply();})();</script>
