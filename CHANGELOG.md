@@ -6,7 +6,7 @@ All notable changes to the Architect Command Center. Newest first.
 
 #### Changed (audit, round 2)
 - Classic 11-tab layout retired; the 7-tab layout is the only one.
-- Lazy loading: Scoreboard, Team leaderboard, Deals I may belong on, Time spent and the Settings connection test wait until their tab is opened (or until the page has been idle for 25 to 40 seconds), so Today loads without competing for the connector rate limit.
+- Lazy loading: Scoreboard, Team leaderboard, Deals I may belong on, Time spent and the Settings connection test wait until their tab is opened (or about a minute after the page opens), so Today loads without competing for the connector rate limit.
 - Pipeline has one level of navigation: the welcome screen only picks accounts (first visit), then Pipeline opens on the view you used last. The goal grid is gone; the view bar is the only view picker.
 - Consolidated: Overview is gone. Closing soon, pipeline KPIs and Deal journey moved to Deals; hours against target, time mix, weekly rhythm and capacity moved to Performance > Hours and activity. Deals I may belong on moved from Pipeline to the Deals switch, so every DC-gap view lives under Deals. Today is Briefing plus Mission Control.
 - Scoreboard trimmed: hid Deals closed by quarter (count), Account concentration and the Landing simulator (it had its own separate target); the projected close table shows instead. My 100% TA deals vs support moved to Deals.

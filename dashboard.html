@@ -1509,7 +1509,7 @@ const fmt = n => n >= 1e6 ? "$" + (n/1e6).toFixed(2) + "M" : n >= 1e3 ? "$" + Ma
 
 // Throttled caller: at most 3 requests in flight, with retry/backoff when the Artifact MCP rate limit is hit
 let inflight = 0; const waiters = [];
-const slot = async () => { while (inflight >= 4) await new Promise(r => waiters.push(r)); inflight++; };
+const slot = async () => { while (inflight >= 3) await new Promise(r => waiters.push(r)); inflight++; };
 const release = () => { inflight--; const w = waiters.shift(); if (w) w(); };
 // Lazy loading: heavy sections wait until their tab is opened, or until the page has been idle for a while (so they are ready when needed without competing with Today at startup)
 window.ccWhen = (tabs, ms) => new Promise(res => { const ts = [].concat(tabs), act = () => { const a = document.querySelector("section.tab.active"); return !!(a && ts.includes(a.dataset.tab)); }; if (act()) return res(); let done = false; const fin = () => { if (done) return; done = true; clearTimeout(t); clearInterval(iv); res(); }; const t = setTimeout(fin, ms), iv = setInterval(() => { if (act()) fin(); }, 400); });
@@ -2773,7 +2773,7 @@ window.applyConnGate();
       const FIX = { 3: { "Profile": 0, "Goals and role": 1, "Team structure": 1, "My accounts": 2, "Layout": 0, "Connections": 1 }, 2: { "Profile": 0, "Goals and role": 0, "Team structure": 1, "My accounts": 1, "Layout": 0, "Connections": 1 } }, ttl2 = c => [...(c.querySelector("h3") || { childNodes: [] }).childNodes].filter(x => x.nodeType === 3).map(x => x.textContent).join("").trim();
       cards.forEach((c, i) => { const f = FIX[n] && FIX[n][ttl2(c)]; cs[f != null ? Math.min(f, n - 1) : i % n].appendChild(c); }); });
     window.stLayout(true); try { if (!window.__stRO && window.ResizeObserver) { window.__stRO = new ResizeObserver(() => window.stLayout()); window.__stRO.observe(document.getElementById("settingsView")); } } catch (e) {}
-    window.ccWhen("settings", 30000).then(() => window.runConn(document.getElementById("stConn"))).then(() => window.stLayout(true), () => {});
+    window.ccWhen("settings", 90000).then(() => window.runConn(document.getElementById("stConn"))).then(() => window.stLayout(true), () => {});
     (async () => { const el = document.getElementById("stTeam"); if (!el) return; try { const oc = await window.orgChain(); el.innerHTML = window.teamOptsHtml(oc, localStorage.getItem("teamTop") || oc.auto); window.stLayout(true); } catch (e) { el.textContent = "Could not read your manager chain: " + (e.message || e); } })();
   }
   const rebuilt = () => { try { document.querySelector('#tabs [data-tab="settings"]'); } catch (e) {} };
@@ -3396,7 +3396,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
   { const hi = () => { const el = document.getElementById("hello"); if (!el || !ME.name) return false; const hr = new Date().getHours(); el.textContent = (hr < 12 ? "☀️ Good morning, " : hr < 17 ? "👋 Good afternoon, " : "🌙 Good evening, ") + (PROF.nick || ME.name.split(" ")[0]) + (PROF.fuel ? " " + PROF.fuel : "") + (PROF.mascot ? " " + PROF.mascot : "") + " · " + FQ.fy + " Q" + FQ.q + ", " + FQ.daysLeft + " days left"; return true; }; if (!hi()) { let n = 0; const iv = setInterval(() => { if (hi() || ++n > 60) clearInterval(iv); }, 500); } }
 
   // ---- Team comparison: customer-related hours by architect, scoped to my group, my leader's org, or the whole architect org
-  (async () => { await window.ccWhen("team", 35000); try {
+  (async () => { await window.ccWhen("team", 75000); try {
     const CR_TYPES = TS.TYPES ? Object.keys(TS.TYPES).filter(k => TS.TYPES[k][0] || TS.TYPES[k][1]) : ["Account Planning", "Customer Discovery", "Marketing Support", "RFx", "Workshop", "Consumption Estimation", "Customer Presentation", "Dry Run", "Solution Creation", "Travel", "POC", "Partner Support", "Post Sale Consumption Activation", "Consumption - POC", "Consumption - Workshop", "Consumption - Partner Support", "Post Sale Adoption Support", "Red Account Support", "Post Sale Technical Product Support", "BVS - Business Case", "BVS - Proposal", "BVS - Value Hypothesis", "Business Value Assessment"]; // same customer-related list as Overview and Activity
     const segOf = r => { const t = String(r || "").split(" - "); if (t.includes("HLS")) return t.includes("LS") ? "Life Sciences" : t.includes("PAYER") ? "HLS Payer" : t.includes("PROV") ? "HLS Provider" : "HLS Healthcare"; if (t.includes("FINS")) return t.includes("CAN") ? "FINS Canada" : "FINS"; if (t.includes("CAN")) return "Canada"; if (t.includes("PLAT")) return "Platform"; const VM = { TMT: "TMT", MAE: "PACE", RCG: "PACE", PACE: "PACE", CBS: "CBS", TTHNL: "TTH", TTH: "TTH" }, vk = t.slice(2).map(x => VM[String(x).toUpperCase()]).find(Boolean); if (vk) return vk; return t[t.length - 1] || "Other"; };
     // Leadership chain: my manager, their manager, and theirs
@@ -3599,7 +3599,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
 
 
   // ---- Time spent, last 30 days: by account, deal and activity type, with a copyable summary
-  (async () => { const body = document.getElementById("ts30Body"), cp = document.getElementById("ts30Copy"); if (!body) return; let summary = ""; await window.ccWhen("activity", 30000);
+  (async () => { const body = document.getElementById("ts30Body"), cp = document.getElementById("ts30Copy"); if (!body) return; let summary = ""; await window.ccWhen("activity", 90000);
     try {
       const CRT = ["Account Planning", "Consumption Estimation", "Customer Discovery", "Customer Presentation", "Dry Run", "Marketing Support", "POC", "RFx", "Solution Creation", "Travel", "Workshop"], inT = "('" + CRT.join("','") + "')", base = "FROM Event WHERE OwnerId = '" + USER_ID + "' AND StartDateTime >= LAST_N_DAYS:30 AND StartDateTime <= TODAY AND SE_Task_Type__c IN " + inT;
       const [byA, byO, byT] = await Promise.all([
@@ -3731,7 +3731,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
   })();
 
   // ---- Scoreboard: deals closed (team, me) and HLS Payer projection, from Opportunity data
-  (async () => { await window.ccWhen("score", 25000); try {
+  (async () => { await window.ccWhen("score", 60000); try {
     const TEAMROLE = ME.role;
     const sub = w => "Id IN (SELECT Opportunity__c FROM Deal_Contribution__c WHERE " + w + ")";
     const SC = { payer: sub("SE_Name__r.UserRole.Name LIKE '" + ME.payerPrefix + "%'"), team: sub("SE_Name__r.UserRole.Name = '" + TEAMROLE + "'"), me: sub("SE_Name__c = '" + USER_ID + "'") };
@@ -3945,7 +3945,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
   })();
 
   // ---- Candidate opportunities on my account families
-  (async () => { await window.ccWhen("opps", 40000); try {
+  (async () => { await window.ccWhen("opps", 90000); try {
     let haveOpp;
     // Target account families (Global Ultimate): auto-detected from my logged time in the last 12 months, plus manual adds, minus removals (saved per browser)
     const lsGet = (k, d) => { try { return JSON.parse(localStorage.getItem(k) || "null") || d; } catch (e) { return d; } }, lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
