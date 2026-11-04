@@ -6117,7 +6117,7 @@ run();setInterval(watch,5000);
 var BUILD="1.3-nov4",KEY="ccPrefsSeen";var seen=null,done=null;try{seen=localStorage.getItem(KEY);done=localStorage.getItem("profileDone");}catch(e){}
 if(seen===BUILD)return;if(!done){try{localStorage.setItem(KEY,BUILD);}catch(e){}return;}
 var H=document.documentElement,cur={anim:(function(){try{return localStorage.getItem("nomoMode")==="0"?"on":"off";}catch(e){return "off";}})(),theme:H.dataset.theme==="light"?"light":"dark",hdr:(function(){try{return (localStorage.getItem("ccHero1")||"min")==="min"?"min":"full";}catch(e){return "min";}})(),land:(function(){try{var t=localStorage.getItem("tab")||"briefing";return ["briefing","pipeline","deals","score"].indexOf(t)>=0?t:"briefing";}catch(e){return "briefing";}})(),tour:"no"};
-var Q=[["anim","Animations","Motion effects, glows and the Matrix rain. Off is calmer and lighter on your laptop. Loading spinners always move.",[["off","Off (recommended)"],["on","On"]]],
+var Q=[["anim","Animations","Motion effects and glows. Off is calmer and lighter on your laptop. Loading spinners always move.",[["off","Off (recommended)"],["on","On"]]],
  ["theme","Look","Dark is easier on the eyes; light is better for screen-sharing in a bright room.",[["dark","Dark"],["light","Light"]]],
  ["hdr","Header","Compact keeps the header to the essentials. Full shows every shortcut.",[["min","Compact"],["full","Full"]]],
  ["land","Open on","The tab you land on each time.",[["briefing","Today"],["pipeline","Pipeline"],["deals","Deals"],["score","Performance"]]],
