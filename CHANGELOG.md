@@ -4,6 +4,14 @@ All notable changes to the Architect Command Center. Newest first.
 
 ### v1.3 (Nov 3, 2026)
 
+#### Added (colour themes)
+- Sixteen colour themes in four groups, one list everywhere (Settings > Appearance, Personalize and the setup screen): House (Command); Architect (Blueprint with a faint grid header, Whiteboard, Graphite); Salesforce family (Salesforce re-tuned to Lightning blue, Agentforce, Slack, Tableau, Data 360); Industry (Clinical for HLS, Ledger for FINS, Maple for Canada, Signal for TMT, Ember for PACE, Horizon for TTH, Market for CBS). The Matrix stays hidden until found.
+- Your team's theme is marked "recommended" based on your org62 role, and is offered on the setup screen. New users start on their team's theme.
+- Maple moved from bright red to burgundy, Forest became Market (indigo-led), Sunset became Ember (copper), Violet became Signal (violet and cyan), so accents no longer look like the at-risk, warning or on-track colours.
+- Button text on accent colours picks black or white automatically, whichever is readable (dark-mode buttons failed contrast before).
+- My color nudges the chosen hue until text and buttons are readable, and says so in Settings when it does.
+- The Personalize "scenes" (Aurora, Ocean and so on) are replaced by the same named themes as Settings.
+
 #### Added (design styles)
 - Five design styles, switchable any time: Futuristic (the current look), Simple (flat, calm, one accent), Executive (numbers first, navy and grey, larger headline figures, helper subtitles, the Mission strip and Year in review hidden), Compact (tighter spacing, more rows on screen) and High contrast (stronger text and borders, bigger focus rings, underlined links). Styles sit on top of the colour themes and Dark/Light.
 - The style question is on the one-time setup screen (with live preview; the screen shows once more for this build), in Personalize (the look step) and in Settings > Appearance. Charts pick up a new style's colours on the next load.
