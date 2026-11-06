@@ -9,7 +9,7 @@ All notable changes to the Architect Command Center. Newest first.
 - **"This number looks wrong" flag.** Hover a key number (Pipeline plan tiles, pipe quality, deal rows, KPI cards, Arena lanes) and press ⚑. It pre-fills a report with the tab, view, card, what it shows, the org62 record IDs, quarter and version. Add what you expected, copy it, and paste it into the Feedback form. Account and deal names are left out unless you tick the box.
 
 **Look and feel**
-- The Matrix theme (still hidden until you find it) now looks like a terminal: monospace green-on-black text everywhere, square corners, a prompt and blinking cursor on the title, `$` headings, bracketed tabs, outlined buttons, green icons and faint scanlines. Cards and the header are see-through, so the falling code shows behind the whole page.
+- The Matrix theme (still hidden until you find it) now looks like a terminal: monospace green-on-black text everywhere, square corners, a green line under the active tab, a prompt and blinking cursor on the title, `$` headings, bracketed tabs, outlined buttons, green icons and faint scanlines. Cards and the header are see-through, so the falling code shows behind the whole page.
 
 **Fixes**
 - Every pop-up (tour, What's new, Setup check, Personalize, Log my time, message composer, asset preview, Slack and automation dialogs, pre-meeting brief) fits the window and scrolls inside instead of running off screen.
