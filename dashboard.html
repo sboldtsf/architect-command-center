@@ -1417,7 +1417,7 @@ try { var HID = JSON.parse(localStorage.getItem("hide") || "{}"); if (HID.ticker
   const place = () => { if (picker) return center(); const st = list[i], el = st && st.el && st.el(); if (!el || !el.getBoundingClientRect().width) return center();
     const r = el.getBoundingClientRect(), pad = 8; spot.style.opacity = 1; spot.style.top = (r.top - pad) + "px"; spot.style.left = (r.left - pad) + "px"; spot.style.width = (r.width + pad * 2) + "px"; spot.style.height = (r.height + pad * 2) + "px";
     const ch = tc.offsetHeight, cw = Math.min(420, window.innerWidth - 24); tc.style.transform = "none"; let top = r.bottom + 16; if (top + ch > window.innerHeight - 12) top = r.top - ch - 16; if (top < 12) top = Math.max(12, window.innerHeight - ch - 14);
-    tc.style.top = top + "px"; tc.style.left = Math.max(12, Math.min(window.innerWidth - cw - 12, r.left)) + "px"; };
+    top = Math.max(12, Math.min(top, window.innerHeight - Math.min(ch, window.innerHeight - 24) - 12)); tc.style.top = top + "px"; tc.style.left = Math.max(12, Math.min(window.innerWidth - cw - 12, r.left)) + "px"; };
   const tiers = () => `<div class="tcTop"><span class="tcIco">🧭</span><span class="tcCnt">TAKE THE TOUR</span><button class="tcX" title="Close (Esc)">✕</button></div>${(() => { const p = getP(); if (!p) return ""; const L = p.t === "b" ? BUILD : STEPS.filter(x => x.lv <= +p.t); return `<button class="tier tcRes" data-resume="1"><span class="ti">▶</span><b>Pick up where you left off</b><small>${TN[p.t]} tour · stop ${p.i + 1} of ${L.length}</small></button>`; })()}<div class="tcTitle">How deep do you want to go?</div><div class="tcText">A live, read-only view of your org62 activity, Deal Contribution records and pipeline. Nothing here changes org62: every fix opens a pre-filled form that you save yourself. Pick a tour; you can switch any time.</div>` +
     `<div class="tcTiers">` +
     `<button class="tier" data-t="1"><span class="ti">⚡</span><b>Light</b><small>${cnt(1)} stops · about ${mins(cnt(1))} min</small><em>Ten stops: the tabs, Today, Pipeline, Deals, Performance and setup.</em></button>` +
@@ -6400,6 +6400,11 @@ html[data-palette="matrix"]:not(#_) nav#tabs button::after,html[data-palette="ma
 
 html[data-palette="matrix"]:not(#_) #mxBg{display:block!important;opacity:.6!important;z-index:-1!important}
 html[data-palette="matrix"]:not(#_) :is(.wrap,main,section.tab,nav#tabs,#ccSub){background:transparent!important}
+</style>
+<style id="ccTourFit">
+/* Tour card and other pop-ups never run off the screen: they cap at the window height and scroll inside */
+#tourCard{max-height:calc(100vh - 24px)!important;overflow-y:auto!important;overscroll-behavior:contain}
+#wnO > div,#ckDrawer,.swCard,#swCard,#connPanel{max-height:calc(100vh - 24px)!important;overflow-y:auto!important}
 </style>
 </body>
 </html>
