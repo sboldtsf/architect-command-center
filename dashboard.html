@@ -6355,9 +6355,10 @@ document.addEventListener("click",function(e){if(e.target.closest&&e.target.clos
 /* The Matrix, terminal edition: monospace green-on-black everywhere, square corners, no gradients */
 html[data-palette="matrix"]{--term:"SF Mono","JetBrains Mono",Menlo,Consolas,"Liberation Mono",monospace;--txt:#33ff66;--dim:#1fae45;--line:#0f5c26;--accent:#00ff41;--accent2:#00c832;--bg:#000;--bg2:#000;--panel:#010a03;--onAccent:#000}
 html[data-palette="matrix"]:not(#_) body,html[data-palette="matrix"]:not(#_) body *:not(svg):not(svg *):not(canvas){font-family:var(--term)!important;letter-spacing:0!important}
-html[data-palette="matrix"]:not(#_) body{background:#000!important;background-image:none!important;color:var(--txt)!important}
+html[data-palette="matrix"]:not(#_){background:#000!important}
+html[data-palette="matrix"]:not(#_) body{background:transparent!important;background-image:none!important;color:var(--txt)!important}
 html[data-palette="matrix"]:not(#_) body *{border-radius:0!important;text-shadow:0 0 6px rgba(0,255,65,.35)!important}
-html[data-palette="matrix"]:not(#_) .card,html[data-palette="matrix"]:not(#_) header.top.hero,html[data-palette="matrix"]:not(#_) #scHero,html[data-palette="matrix"]:not(#_) .kgroup,html[data-palette="matrix"]:not(#_) .wlH,html[data-palette="matrix"]:not(#_) #mcStrip,html[data-palette="matrix"]:not(#_) #tbCard .tbHd,html[data-palette="matrix"]:not(#_) .shBox,html[data-palette="matrix"]:not(#_) .sx,html[data-palette="matrix"]:not(#_) .ldF,html[data-palette="matrix"]:not(#_) .plS,html[data-palette="matrix"]:not(#_) .tile,html[data-palette="matrix"]:not(#_) #credit{background:#010a03!important;background-image:none!important;border:1px solid #0f5c26!important;box-shadow:none!important;backdrop-filter:none!important}
+html[data-palette="matrix"]:not(#_) .card,html[data-palette="matrix"]:not(#_) header.top.hero,html[data-palette="matrix"]:not(#_) #scHero,html[data-palette="matrix"]:not(#_) .kgroup,html[data-palette="matrix"]:not(#_) .wlH,html[data-palette="matrix"]:not(#_) #mcStrip,html[data-palette="matrix"]:not(#_) #tbCard .tbHd,html[data-palette="matrix"]:not(#_) .shBox,html[data-palette="matrix"]:not(#_) .sx,html[data-palette="matrix"]:not(#_) .ldF,html[data-palette="matrix"]:not(#_) .plS,html[data-palette="matrix"]:not(#_) .tile,html[data-palette="matrix"]:not(#_) #credit{background:rgba(1,10,3,.62)!important;background-image:none!important;border:1px solid #0f5c26!important;box-shadow:none!important;backdrop-filter:none!important}
 html[data-palette="matrix"]:not(#_) :is(h1,h2,h3,h4,h5,b,strong){color:#7dff9a!important;font-weight:700!important}
 html[data-palette="matrix"]:not(#_) :is(h1,h2,h3,h4,h5) *:not([class*="Mark"]):not(.spin){background:none!important;-webkit-text-fill-color:currentColor!important}
 html[data-palette="matrix"]:not(#_) #appTitle{background:none!important;-webkit-text-fill-color:#7dff9a!important;text-transform:lowercase}
@@ -6396,6 +6397,9 @@ html[data-palette="matrix"]:not(#_) :is(.spin,.tbSp,.shSpin,.cpDot,.ring,.orb) {
 html[data-palette="matrix"]:not(#_) #bootLd .ldR,html[data-palette="matrix"]:not(#_) #bootLd .ldR::after{border-radius:50%!important}
 html[data-palette="matrix"]:not(#_) #wrBtn{border-radius:0!important;background:#000!important;color:#33ff66!important;border:1px solid #00ff41!important}
 html[data-palette="matrix"]:not(#_) nav#tabs button::after,html[data-palette="matrix"]:not(#_) nav#tabs button::before{background:#00ff41!important;background-image:none!important}
+
+html[data-palette="matrix"]:not(#_) #mxBg{display:block!important;opacity:.6!important;z-index:-1!important}
+html[data-palette="matrix"]:not(#_) :is(.wrap,main,section.tab,nav#tabs,#ccSub){background:transparent!important}
 </style>
 </body>
 </html>
