@@ -5,6 +5,11 @@ All notable changes to the Architect Command Center. Newest first.
 ### v2.1 (Nov 6, 2026)
 
 **New**
+- **What changed since your last visit** (Today). Stage, close-date, amount and forecast moves on your DC deals since you last opened the Command Center, who made them, deals you were newly added to, and how much your open pipe moved. The deals that closed or slipped come first.
+- **ⓘ How it's calculated.** Key numbers and card headers explain where a number comes from, what it counts, the amount basis and the period, and list the deals behind it with org62 links. "Still looks wrong?" goes straight to the ⚑ report.
+- **Close-date pushes count in the vetting.** A deal whose close date moved later 2 times this quarter gets +1, and 3 or more gets +1.5. Those deals carry a "pushed 3×" badge. The last-quarter check uses the same rule.
+- **Time with no activity type** (Performance › Hours and activity). Meetings this quarter with no SE Task Type, a suggested type from the subject, how much of it looks customer-related, and a Fix link to each meeting in org62.
+- **Data age on cards.** Each card header shows how old its numbers are (amber after 9 minutes) with a refresh button. It's on card headers only, not on rows.
 - **Update notice.** Once a day the Command Center reads the version on the Install and Updates canvas in #architect-command-center. When a newer one is posted, a banner under the header says how to update. You can snooze it until the next version. (Needs the Slack connector; the installer adds `slack_read_canvas`.)
 - **"This number looks wrong" flag.** Hover a key number (Pipeline plan tiles, pipe quality, deal rows, KPI cards, Arena lanes) and press ⚑. It pre-fills a report with the tab, view, card, what it shows, the org62 record IDs, quarter and version. Add what you expected, copy it, and paste it into the Feedback form. Account and deal names are left out unless you tick the box.
 
