@@ -21,6 +21,7 @@ All notable changes to the Architect Command Center. Newest first.
 - Your team's org tree (used by Team and the leaderboard scopes) is cached for a day, which saves up to four slow org62 reads per visit. Refresh all clears it.
 - What changed compares your open pipe with your previous visit, not the previous reload.
 - Card data-age labels hide on narrow windows and wrap instead of squeezing the title.
+- On narrow windows the last-10-workdays strip on Today wraps instead of running off the edge.
 - The activity heatmap ignores bad dates instead of showing "Invalid Date".
 - Every pop-up (tour, What's new, Setup check, Personalize, Log my time, message composer, asset preview, Slack and automation dialogs, pre-meeting brief) fits the window and scrolls inside instead of running off screen.
 - Setup check lists Tableau Next alongside the other connections.
