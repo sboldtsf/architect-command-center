@@ -10,6 +10,10 @@ All notable changes to the Architect Command Center. Newest first.
 **Fixes**
 - Every pop-up (tour, What's new, Setup check, Personalize, Log my time, message composer, asset preview, Slack and automation dialogs, pre-meeting brief) fits the window and scrolls inside instead of running off screen.
 - Setup check lists Tableau Next alongside the other connections.
+- Sections that load in the background (Scoreboard, Team, Time spent, Deals I may belong on) no longer fail if the Command Center is hidden when they start. They wait and finish when you come back.
+- Team shows a friendly "nobody has logged customer hours yet" message for an empty scope instead of "Team comparison failed".
+- Fixed a duplicate element ID between Mission Control's Launch button and the message composer's Create draft button.
+- Weekly hours chart: bars have screen-reader labels, and a bad date can no longer break the chart.
 - The DC role picker on Today no longer shows a loading message as its value.
 - Setup check points to Deals > Deals I may belong on for adding accounts; What's new lists the v2.1 changes. The cursor stops blinking when animations are off.
 

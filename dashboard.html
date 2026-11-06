@@ -1484,14 +1484,15 @@ let inflight = 0; const waiters = [];
 const slot = async () => { while (inflight >= 3) await new Promise(r => waiters.push(r)); inflight++; };
 const release = () => { inflight--; const w = waiters.shift(); if (w) w(); };
 // Lazy loading: heavy sections wait until their tab is opened, or until the page has been idle for a while (so they are ready when needed without competing with Today at startup)
-window.ccWhen = (tabs, ms) => new Promise(res => { const ts = [].concat(tabs), act = () => { const a = document.querySelector("section.tab.active"); return !!(a && ts.includes(a.dataset.tab)); }; if (act()) return res(); let done = false; const fin = () => { if (done) return; done = true; clearTimeout(t); clearInterval(iv); res(); }; const t = setTimeout(fin, ms), iv = setInterval(() => { if (act()) fin(); }, 400); });
+window.ccWhen = (tabs, ms) => new Promise(res => { const ts = [].concat(tabs), act = () => { const a = document.querySelector("section.tab.active"); return !!(a && ts.includes(a.dataset.tab)); }; if (act()) return res(); let done = false, due = false; const fin = () => { if (done) return; if (document.hidden) { due = true; return; } done = true; clearTimeout(t); clearInterval(iv); res(); }; const t = setTimeout(fin, ms), iv = setInterval(() => { if (act() || (due && !document.hidden)) fin(); }, 400); });
 async function mcp(args) {
   if (BUST && args && args.queryParams && typeof args.queryParams.q === "string") args = Object.assign({}, args, { queryParams: Object.assign({}, args.queryParams, { q: args.queryParams.q + BUST }) });
   for (let attempt = 0; ; attempt++) {
     await slot(); let r, err;
     try { try { r = await window.cowork.callMcpTool(TOOL, args); } catch (e) { err = e; } } finally { release(); }
     const msg = err ? String(err.message || err) : (r.isError ? (r.content?.[0]?.text || "") : "");
-    if ((err || r.isError) && /rate limit|try again shortly|not currently shown/i.test(msg) && attempt < 8) { await new Promise(res => setTimeout(res, 1000 * (attempt + 1) + Math.random() * 700)); continue; }
+    if ((err || r.isError) && /not currently shown/i.test(msg) && attempt < 200) { await new Promise(res => setTimeout(res, 4000 + Math.random() * 1000)); continue; }
+    if ((err || r.isError) && /rate limit|try again shortly/i.test(msg) && attempt < 8) { await new Promise(res => setTimeout(res, 1000 * (attempt + 1) + Math.random() * 700)); continue; }
     if (err) throw err;
     return r;
   }
@@ -1512,10 +1513,11 @@ const FQ = (() => { const n = new Date(), y = n.getFullYear(), m = n.getMonth() 
 // ---- Generate a Google Slides deck from live data (Drive + Slides connectors)
 async function gcall(tool, args) {
   let r;
-  for (let at = 0; at < 6; at++) {
+  for (let at = 0; at < 206; at++) {
     await slot();
-    try { r = await window.cowork.callMcpTool(tool, args); } catch (ex) { if (/not currently shown/i.test(String(ex && ex.message || ex)) && at < 5) { r = { isError: true, content: [{ text: "not currently shown" }] }; } else throw ex; } finally { release(); }
-    if (r.isError && /rate limit|try again shortly|not currently shown/i.test(String(r.content?.[0]?.text || "")) && at < 5) { await new Promise(z => setTimeout(z, 1500 * (at + 1) + Math.random() * 800)); continue; }
+    try { r = await window.cowork.callMcpTool(tool, args); } catch (ex) { if (/not currently shown/i.test(String(ex && ex.message || ex)) && at < 200) { r = { isError: true, content: [{ text: "not currently shown" }] }; } else throw ex; } finally { release(); }
+    if (r.isError && /not currently shown/i.test(String(r.content?.[0]?.text || "")) && at < 200) { await new Promise(z => setTimeout(z, 4000 + Math.random() * 1000)); continue; }
+    if (r.isError && /rate limit|try again shortly/i.test(String(r.content?.[0]?.text || "")) && at < 5) { await new Promise(z => setTimeout(z, 1500 * (at + 1) + Math.random() * 800)); continue; }
     break;
   }
   if (r.isError) throw new Error(r.content?.[0]?.text || "call failed");
@@ -2630,7 +2632,7 @@ const IDENT = (async () => {
     if (st) st.mgrBusy = false; if (root) { paint(); if (st.kind) paintDraft(); } }
   function open(opts) { if (root) return; st = { opts, kind: null, helps: new Set(opts.mode === "mgr" ? ["Logging cadence", "Hours vs target", "DC clean-up", "Deals closing soon"] : []), custom: "", channel: null, text: "", busy: false, mgr: "", mgrBusy: false, mgrErr: "" };
     const o = opts, chips = o.mode === "share" ? ["📣 Goes to a channel you choose", "🔗 Link to this artifact"] : o.mode === "mgr" ? ["💬 A direct message", "📊 Your live hours and DC numbers", "👀 You review it first"] : [`🏢 ${o.deal.acct}`, `💼 ${o.deal.name}`, `💰 ${o.deal.amt}`, `🏁 ${o.deal.stage}`, `📅 closes ${o.deal.close}`];
-    root = document.createElement("div"); root.id = "msgPad"; root.innerHTML = `<div class="lpCard mcCard"><button class="lpX" aria-label="Close">✕</button><h2><span class="slMark xs"></span> ${o.mode === "share" ? "Share it with architects" : o.mode === "mgr" ? "Update my manager" : "Message the team"}</h2><p>${o.mode === "share" ? "Pick a channel and a post style. I write it, you review it, and it is saved as a Slack draft. Nothing is sent for you." : o.mode === "mgr" ? "Choose the kind of note and what it covers. I write it in your voice from your live numbers; you edit it and it is saved as a Slack draft DM. Nothing is sent for you." : "Ask your team about this deal. I draft it with the right context; you review it and send it from Slack."}</p><div class="mcCtx"><b>The draft will include:</b> ${chips.map(c => `<span>${esc(c)}</span>`).join("")}</div><div class="mcBody"></div><div class="mcFoot"><span id="mcMsg" class="mcMsg"></span><button class="stBtn" id="mcCopy" disabled>📋 Copy</button><button class="stBtn pri" id="mcGo" disabled>💬 Create Slack draft</button></div></div>`;
+    root = document.createElement("div"); root.id = "msgPad"; root.innerHTML = `<div class="lpCard mcCard"><button class="lpX" aria-label="Close">✕</button><h2><span class="slMark xs"></span> ${o.mode === "share" ? "Share it with architects" : o.mode === "mgr" ? "Update my manager" : "Message the team"}</h2><p>${o.mode === "share" ? "Pick a channel and a post style. I write it, you review it, and it is saved as a Slack draft. Nothing is sent for you." : o.mode === "mgr" ? "Choose the kind of note and what it covers. I write it in your voice from your live numbers; you edit it and it is saved as a Slack draft DM. Nothing is sent for you." : "Ask your team about this deal. I draft it with the right context; you review it and send it from Slack."}</p><div class="mcCtx"><b>The draft will include:</b> ${chips.map(c => `<span>${esc(c)}</span>`).join("")}</div><div class="mcBody"></div><div class="mcFoot"><span id="mcMsg" class="mcMsg"></span><button class="stBtn" id="mcCopy" disabled>📋 Copy</button><button class="stBtn pri" id="mcpGo" disabled>💬 Create Slack draft</button></div></div>`;
     document.body.appendChild(root); requestAnimationFrame(() => root && root.classList.add("in")); paint(); if (o.mode === "mgr") findMgr();
     root.addEventListener("click", async e => { const q = x => e.target.closest(x), msg = t => { const m = root && root.querySelector("#mcMsg"); if (m) m.innerHTML = t; };
       if (e.target === root || q(".lpX")) return close();
@@ -2641,7 +2643,7 @@ const IDENT = (async () => {
       if (q("[data-h]")) { const h = q("[data-h]").dataset.h; st.helps.has(h) ? st.helps.delete(h) : st.helps.add(h); paint(); if (st.kind && st.kind !== "custom") generate(); return; }
       if (q("#mcRegen")) { if (st.kind === "custom") st.custom = (root.querySelector("#mcCustom") || {}).value || st.custom; generate(); return; }
       if (q("#mcCopy")) { const t = (root.querySelector("#mcText") || {}).value || st.text; try { await navigator.clipboard.writeText(t); msg("Copied ✓"); } catch (x) { msg("Select the text and copy it."); } return; }
-      if (q("#mcGo")) { const t = (root.querySelector("#mcText") || {}).value || st.text; q("#mcGo").disabled = true; msg('<span class="spin"></span>Creating the draft…');
+      if (q("#mcpGo")) { const t = (root.querySelector("#mcText") || {}).value || st.text; q("#mcpGo").disabled = true; msg('<span class="spin"></span>Creating the draft…');
         try { const r = await gcall(SLP + "slack_send_message_draft", { channel_id: st.channel.id, message: t }); if (!st.channel.dm) { const rec = lg(RK, []).filter(c => c.id !== st.channel.id); rec.unshift({ id: st.channel.id, name: st.channel.name, priv: st.channel.priv }); ls(RK, rec.slice(0, 5)); } const link = r.channel_link || (r.result && (String(r.result).match(/https:\/\/app\.slack\.com\S+/) || [])[0]); msg('✅ Draft saved in Slack. ' + (link ? `<a href="${esc(link)}" target="_blank" rel="noopener">${st.channel.dm ? "Open the DM" : "Open #" + esc(st.channel.name)} ↗</a>` : "Open Slack, Drafts & sent.") + " Nothing was sent."); }
         catch (x) { const m = String(x.message || x); msg("⚠️ " + (/not_in_channel/.test(m) ? "You are not a member of #" + esc(st.channel.name) + ", so Slack cannot save a draft there. Join it or pick another channel." : /attached_draft_exists/.test(m) ? "A draft already exists in that channel. Open it in Slack or delete it first." : /channel_not_found/.test(m) ? "Slack could not find or reach that channel." : esc(m).slice(0, 160))); q("#mcGo").disabled = false; } return; } });
     root.addEventListener("input", e => { if (e.target.id === "mcIn") { clearTimeout(tm); const v = e.target.value.trim(); if (v.length < 2) { chanSuggest(); return; } tm = setTimeout(() => chanSearch(v), 300); } else if (e.target.id === "mcCustom") st.custom = e.target.value; else if (e.target.id === "mcText") st.text = e.target.value; });
@@ -3178,14 +3180,14 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
       soql("SELECT DAY_ONLY(StartDateTime), SE_Task_Type__c, COUNT(Id), SUM(DurationInMinutes) " + base + " GROUP BY DAY_ONLY(StartDateTime), SE_Task_Type__c LIMIT 2000"),
       soql("SELECT DAY_ONLY(StartDateTime), SUM(DurationInMinutes) " + base + " AND What.Type = 'Opportunity' GROUP BY DAY_ONLY(StartDateTime) LIMIT 2000")
     ]);
-    const firstMs = weeks[0][0].getTime(), weekIdx = d => Math.min(12, Math.max(0, Math.floor((Date.parse(d + "T00:00:00Z") - firstMs) / (7 * 864e5))));
+    const firstMs = weeks[0][0].getTime(), weekIdx = d => { const v = Math.floor((Date.parse(String(d).slice(0, 10) + "T00:00:00Z") - firstMs) / (7 * 864e5)); return isNaN(v) ? -1 : Math.min(12, Math.max(0, v)); };
     const wk = weeks.map(() => ({ n: 0, tot: 0, onDeals: 0, offDeal: 0, facing: 0, related: 0, non: 0, untyped: 0 }));
     byDayType.records.forEach(r => {
-      const w = wk[weekIdx(r.expr0)], t = r.SE_Task_Type__c, h = (r.expr2 || 0) / 60, c = TYPES[t];
+      const w = wk[weekIdx(r.expr0)]; if (!w) return; const t = r.SE_Task_Type__c, h = (r.expr2 || 0) / 60, c = TYPES[t];
       w.n += r.expr1; w.tot += h;
       if (!t || !c) w.untyped += h; else if (c[1]) { w.facing += h; w.related += h; } else if (c[0]) w.related += h; else w.non += h;
     });
-    oppByDay.records.forEach(r => { wk[weekIdx(r.expr0)].onDeals += (r.expr1 || 0) / 60; });
+    oppByDay.records.forEach(r => { const w = wk[weekIdx(r.expr0)]; if (w) w.onDeals += (r.expr1 || 0) / 60; });
     wk.forEach(w => { w.offDeal = w.tot - w.onDeals; });
     const counts = wk.map(w => w.n);
     // Sparklines + week-over-week change on the KPI cards (last full week vs the week before)
@@ -3246,7 +3248,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
           const chip = (ico, l, v, c) => `<div class="wkSt" style="--c:${c}"><span>${ico}</span><div><b>${v}</b><small>${l}</small></div></div>`;
           let g = ""; for (let v = 0; v <= mx; v += step) g += `<div class="wkG" style="bottom:${H * v / mx}%"><span>${v}h</span></div>`;
           box.innerHTML = `<div class="wkTop">${chip("📈", "average week", dur(avg), "var(--accent)")}${chip("👑", "best week", dur(tots[bi]) + " · " + labels[bi], "var(--warn)")}${chip("🎯", "customer-related", Math.round(100 * cr / (sumAll || 1)) + "%", "var(--good)")}${tr == null ? "" : chip(tr >= 0 ? "▲" : "▼", "last 4 weeks vs the 4 before", (tr >= 0 ? "+" : "−") + Math.abs(tr) + "%", tr >= 0 ? "var(--good)" : "var(--danger)")}</div>` +
-            `<div class="wkPlot">${g}<div class="wkAvg" style="bottom:${H * avg / mx}%"><span>avg ${Math.round(avg)}h</span></div><div class="wkCols">${wk.map((w, i) => { const t = tots[i]; return `<button type="button" class="wkC${i === wk.length - 1 ? " cur" : ""}${i === sel ? " on" : ""}" data-i="${i}">${i === bi ? '<em class="crown">👑</em>' : ""}<span class="t">${t >= 0.5 ? Math.round(t) : ""}</span><span class="stk" style="height:${H * t / mx}%;animation-delay:${i * 45}ms">${vis.map(c => { const v = val(w, c); return v ? `<i style="flex:${v};background:${c[2]}"></i>` : ""; }).join("")}</span></button>`; }).join("")}</div></div>` +
+            `<div class="wkPlot">${g}<div class="wkAvg" style="bottom:${H * avg / mx}%"><span>avg ${Math.round(avg)}h</span></div><div class="wkCols">${wk.map((w, i) => { const t = tots[i]; return `<button type="button" class="wkC${i === wk.length - 1 ? " cur" : ""}${i === sel ? " on" : ""}" data-i="${i}" aria-label="Week ${i + 1} of ${wk.length}: ${Math.round(t * 10) / 10} hours">${i === bi ? '<em class="crown">👑</em>' : ""}<span class="t">${t >= 0.5 ? Math.round(t) : ""}</span><span class="stk" style="height:${H * t / mx}%;animation-delay:${i * 45}ms">${vis.map(c => { const v = val(w, c); return v ? `<i style="flex:${v};background:${c[2]}"></i>` : ""; }).join("")}</span></button>`; }).join("")}</div></div>` +
             `<div class="wkXs">${labels.map((l, i) => `<span class="${i === sel ? "on" : ""}">${l}</span>`).join("")}</div>` +
             `<div class="wkLgs">${CLS.map(c => `<button type="button" class="wkLg${off.has(c[0]) ? " off" : ""}" data-c="${c[0]}"><u style="background:${c[2]}"></u>${c[1]} <b>${dur(wk.reduce((a, w) => a + val(w, c), 0))}</b></button>`).join("")}<span class="muted">tap a class to hide it</span></div><div class="wkRead" id="wkRead"></div>`; paintRead(); };
         const pick = e => { const b = e.target.closest(".wkC"); if (b && +b.dataset.i !== sel) { sel = +b.dataset.i; paintRead(); } };
@@ -3424,7 +3426,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
       if (CH[si]) { const us = await usersUnder(CH[si].id); us.forEach(u => { roleOf[u.Id] = u.UserRole?.Name; }); if (us.length > 1) where = "OwnerId IN ('" + us.map(u => u.Id).join("','") + "')"; }
       const tr = (await soql("SELECT OwnerId, Owner.Name, SE_Task_Type__c, SUM(DurationInMinutes) FROM Event WHERE " + where + " AND StartDateTime = THIS_FISCAL_QUARTER AND StartDateTime <= TODAY AND SE_Task_Type__c IN ('" + CR_TYPES.join("','") + "') GROUP BY OwnerId, Owner.Name, SE_Task_Type__c LIMIT 2000")).records;
       const byOwner = {}; tr.forEach(r => { const o = byOwner[r.OwnerId] || (byOwner[r.OwnerId] = { id: r.OwnerId, name: r.Name, total: 0, parts: [], grp: segOf(roleOf[r.OwnerId] || ME.role) }); const h = (r.expr0 || 0) / 60; o.total += h; o.parts.push({ type: r.SE_Task_Type__c, hrs: h }); });
-      ALL = Object.values(byOwner).sort((a, b) => b.total - a.total); if (!ALL.length) throw new Error("no activity returned for this scope"); ALL.capped = tr.length >= 2000; draw();
+      ALL = Object.values(byOwner).sort((a, b) => b.total - a.total); if (!ALL.length) { const v = document.getElementById("teamViz"); if (v) v.innerHTML = '<div class="muted">Nobody in this scope has logged customer-related hours yet this quarter. Try a wider scope, or check back once people log time.</div>'; const sb = document.getElementById("teamSub"); if (sb) sb.innerHTML = ""; return; } ALL.capped = tr.length >= 2000; draw();
     }
     function draw() {
       const people = ALL.filter(p => grp === "all" || p.grp === grp), n = people.length;
