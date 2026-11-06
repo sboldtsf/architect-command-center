@@ -8,7 +8,10 @@ All notable changes to the Architect Command Center. Newest first.
 - The Matrix theme (still hidden until you find it) now looks like a terminal: monospace green-on-black text everywhere, square corners, a prompt and blinking cursor on the title, `$` headings, bracketed tabs, outlined buttons, green icons and faint scanlines. Cards and the header are see-through, so the falling code shows behind the whole page.
 
 **Fixes**
-- The tour card, What's new, setup check, Personalize and connection panels no longer run off the bottom of the screen. They fit the window and scroll inside. The cursor stops blinking when animations are off.
+- Every pop-up (tour, What's new, Setup check, Personalize, Log my time, message composer, asset preview, Slack and automation dialogs, pre-meeting brief) fits the window and scrolls inside instead of running off screen.
+- Setup check lists Tableau Next alongside the other connections.
+- The DC role picker on Today no longer shows a loading message as its value.
+- Setup check points to Deals > Deals I may belong on for adding accounts; What's new lists the v2.1 changes. The cursor stops blinking when animations are off.
 
 ### v2.0 (Nov 4, 2026): major redesign
 
