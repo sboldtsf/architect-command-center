@@ -2664,7 +2664,7 @@ window.orgChain = (() => { let p = null; return () => p || (p = (async () => {
 })();
 window.teamOptsHtml = (oc, sel) => oc.levels.length ? oc.levels.map(l => `<button type="button" class="tmOpt${l.id === sel ? " on" : ""}" data-top="${l.id}"><span class="tmR"></span><span class="tmTx"><b>${esc(l.name || "Unknown")}</b><small>${l.n}${l.cap ? "+" : ""} people${l.cap ? " (too large)" : ""} \u00b7 ${l.pct}% SE or architect roles</small></span>${l.id === oc.auto ? "<em>Recommended</em>" : ""}</button>`).join("") : '<div class="muted">No manager chain found in org62.</div>';
 // ---- Connector checks (used by the setup wizard and Settings)
-window.CONN_TOOLS = ["mcp__c9ca0c80-35f1-4e87-805b-6d3e181a0d5c__search", "mcp__de4a5a83-ad58-4919-9ad7-8d71f35b0672__dispatch_readonly", "mcp__43020d4d-9bed-4fcc-8683-e12b452cd038__list_events", "mcp__43020d4d-9bed-4fcc-8683-e12b452cd038__create_event", "mcp__c665fdc0-dad7-4320-ae15-c0016bbf8b84__create_file", "mcp__c665fdc0-dad7-4320-ae15-c0016bbf8b84__search_files", "mcp__c665fdc0-dad7-4320-ae15-c0016bbf8b84__get_file_metadata", "mcp__a443376d-0145-4039-ac20-9cb81dc622c7__read_presentation", "mcp__a443376d-0145-4039-ac20-9cb81dc622c7__update_presentation", "mcp__d7f3326f-318e-4f71-a668-caf6a8804ff3__slack_search_users", "mcp__d7f3326f-318e-4f71-a668-caf6a8804ff3__slack_send_message_draft", "mcp__d7f3326f-318e-4f71-a668-caf6a8804ff3__slack_search_public_and_private", "mcp__d7f3326f-318e-4f71-a668-caf6a8804ff3__slack_read_thread", "mcp__d7f3326f-318e-4f71-a668-caf6a8804ff3__slack_search_channels", "mcp__d7f3326f-318e-4f71-a668-caf6a8804ff3__slack_list_user_channels", "mcp__3a223e76-6f88-46aa-83cb-936e00c53f94__search_threads", "mcp__c9ca0c80-35f1-4e87-805b-6d3e181a0d5c__lucid_list_folder_contents"];
+window.CONN_TOOLS = ["mcp__d7f3326f-318e-4f71-a668-caf6a8804ff3__slack_read_canvas", "mcp__c9ca0c80-35f1-4e87-805b-6d3e181a0d5c__search", "mcp__de4a5a83-ad58-4919-9ad7-8d71f35b0672__dispatch_readonly", "mcp__43020d4d-9bed-4fcc-8683-e12b452cd038__list_events", "mcp__43020d4d-9bed-4fcc-8683-e12b452cd038__create_event", "mcp__c665fdc0-dad7-4320-ae15-c0016bbf8b84__create_file", "mcp__c665fdc0-dad7-4320-ae15-c0016bbf8b84__search_files", "mcp__c665fdc0-dad7-4320-ae15-c0016bbf8b84__get_file_metadata", "mcp__a443376d-0145-4039-ac20-9cb81dc622c7__read_presentation", "mcp__a443376d-0145-4039-ac20-9cb81dc622c7__update_presentation", "mcp__d7f3326f-318e-4f71-a668-caf6a8804ff3__slack_search_users", "mcp__d7f3326f-318e-4f71-a668-caf6a8804ff3__slack_send_message_draft", "mcp__d7f3326f-318e-4f71-a668-caf6a8804ff3__slack_search_public_and_private", "mcp__d7f3326f-318e-4f71-a668-caf6a8804ff3__slack_read_thread", "mcp__d7f3326f-318e-4f71-a668-caf6a8804ff3__slack_search_channels", "mcp__d7f3326f-318e-4f71-a668-caf6a8804ff3__slack_list_user_channels", "mcp__3a223e76-6f88-46aa-83cb-936e00c53f94__search_threads", "mcp__c9ca0c80-35f1-4e87-805b-6d3e181a0d5c__lucid_list_folder_contents"];
 window.connRows = () => {
   const CALP = "mcp__43020d4d-9bed-4fcc-8683-e12b452cd038__", SLP = "mcp__d7f3326f-318e-4f71-a668-caf6a8804ff3__", GMP = "mcp__3a223e76-6f88-46aa-83cb-936e00c53f94__", LCP = "mcp__c9ca0c80-35f1-4e87-805b-6d3e181a0d5c__", t0 = new Date(), t1 = new Date(t0.getTime() + 864e5), li = x => ymdL(x) + "T00:00:00";
   return [
@@ -5635,7 +5635,7 @@ const mkImg = u => { const i = new Image(); i.src = u; return i; }, O62C = mkImg
 // ---- Version stamp and What's new
 (function () {
   window.APP_VERSION = "2.1 (Nov 6, 2026)";
-  var NEW = ["Pop-ups (tour, setup check, Personalize, What's new and others) fit the window and scroll inside", "The Connections check and Setup check include Tableau Next, which supplies the OU Fin Plan", "New layout: seven tabs (Today, Pipeline, Deals, Performance, Team, Assets, Settings) with long tabs split into sections", "Pipeline: plan and pipe quality first, Q4 priorities from Slack and Drive, attach plays, white space, account plans and where you fit", "One plan number shared by Pipeline and the Scoreboard, with scope labels on every number", "Prep my 1:1 on Today, next to Update my manager", "Five design styles (Futuristic, Simple, Executive, Compact, High contrast) and 16 colour themes, with your team's theme recommended", "A one-time setup screen for style, theme, animations, header and where to open", "Faster, calmer start: lazy loading, animations off by default, clearer loading messages and plain-language errors"];
+  var NEW = ["Update notice: when a newer version is posted in the Install and Updates canvas, a banner tells you how to update", "A ⚑ flag on key numbers (Pipeline plan tiles, pipe quality, deal rows, KPI cards, Arena lanes) pre-fills a \"number looks wrong\" report for the Feedback form", "Pop-ups (tour, setup check, Personalize, What's new and others) fit the window and scroll inside", "The Connections check and Setup check include Tableau Next, which supplies the OU Fin Plan", "New layout: seven tabs (Today, Pipeline, Deals, Performance, Team, Assets, Settings) with long tabs split into sections", "Pipeline: plan and pipe quality first, Q4 priorities from Slack and Drive, attach plays, white space, account plans and where you fit", "One plan number shared by Pipeline and the Scoreboard, with scope labels on every number", "Prep my 1:1 on Today, next to Update my manager", "Five design styles (Futuristic, Simple, Executive, Compact, High contrast) and 16 colour themes, with your team's theme recommended", "A one-time setup screen for style, theme, animations, header and where to open", "Faster, calmer start: lazy loading, animations off by default, clearer loading messages and plain-language errors"];
   var E = function (t) { return String(t).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }); };
   var host = document.querySelector("#credit .crR"); if (host) { var b = document.createElement("button"); b.type = "button"; b.id = "crVer"; b.textContent = "v" + window.APP_VERSION + " · What's new"; b.style.cssText = "margin-top:6px;border:0;background:transparent;color:var(--dim);font:inherit;font-size:11px;cursor:pointer;text-decoration:underline dotted"; b.onclick = function () { if (document.getElementById("wnO")) return; var o = document.createElement("div"); o.id = "wnO"; o.style.cssText = "position:fixed;inset:0;z-index:100006;display:grid;place-items:center;background:rgba(5,8,20,.6);backdrop-filter:blur(6px)"; o.innerHTML = '<div style="width:min(520px,92vw);max-height:86vh;overflow:auto;padding:22px;border-radius:16px;background:linear-gradient(var(--panel),var(--panel)),#0b1020;border:1px solid var(--line);color:var(--txt);box-shadow:0 30px 80px rgba(0,0,0,.5)"><h2 style="margin:0 0 4px">What\'s new</h2><p style="margin:0 0 10px;color:var(--dim);font-size:13px">Version ' + E(window.APP_VERSION) + '</p><ul style="margin:0 0 14px 18px;padding:0;font-size:14px;line-height:1.6">' + NEW.map(function (x) { return "<li>" + E(x) + "</li>"; }).join("") + '</ul><button class="ckBtn pri" id="wnX">Close</button></div>'; document.body.appendChild(o); o.onclick = function (e) { if (e.target === o || e.target.id === "wnX") o.remove(); }; }; host.appendChild(b); }
   var hd = document.querySelector("#ckDrawer .ckDh b"); if (hd) hd.textContent = "🩺 Setup check · v" + window.APP_VERSION;
@@ -6414,5 +6414,80 @@ html[data-palette="matrix"]:not(#_) :is(.wrap,main,section.tab,nav#tabs,#ccSub){
 #asPrev,#ckDrawer{overflow-y:auto!important;overscroll-behavior:contain}
 #tabTip{max-height:calc(100vh - 24px);overflow:hidden}
 </style>
+<script>
+// ---- v2.1: update-available notice (reads the Install and Updates canvas) and "This number looks wrong" flags
+(function () {
+  var CANVAS = "F0CDMLGD9C6", CH_URL = "https://salesforce.enterprise.slack.com/archives/C0CDK82MA5U";
+  var RC = "mcp__d7f3326f-318e-4f71-a668-caf6a8804ff3__slack_read_canvas";
+  var E = function (t) { return String(t == null ? "" : t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+  var LG = function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, LSet = function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} };
+  var mine = function () { return (String(window.APP_VERSION || "").match(/\d+(?:\.\d+)*/) || ["0"])[0]; };
+  var newer = function (a, b) { a = a.split(".").map(Number); b = b.split(".").map(Number); for (var i = 0; i < Math.max(a.length, b.length); i++) { var x = a[i] || 0, y = b[i] || 0; if (x !== y) return x > y; } return false; };
+  window.ccVerNewer = newer;
+  var st = document.createElement("style");
+  st.textContent = "#ccUpd{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 12px;padding:10px 14px;border-radius:12px;border:1px solid color-mix(in srgb,var(--accent) 45%,var(--line));background:color-mix(in srgb,var(--accent) 10%,var(--panel));color:var(--txt);font-size:13px}#ccUpd b{font-weight:800}#ccUpd .uTx{flex:1;min-width:220px}#ccUpd a{color:var(--accent);font-weight:700}#ccUpd button{border:1px solid var(--line);background:transparent;color:var(--dim);border-radius:8px;padding:4px 10px;font:inherit;font-size:12px;cursor:pointer}"
+    + "#ccFlag{position:absolute;z-index:9000;display:none;border:1px solid var(--line);background:var(--panel);color:var(--dim);border-radius:999px;width:24px;height:24px;padding:0;font-size:12px;line-height:22px;text-align:center;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25);opacity:.85}#ccFlag:hover,#ccFlag:focus-visible{opacity:1;color:var(--txt);border-color:var(--accent)}"
+    + "#nwO{position:fixed;inset:0;z-index:100006;display:grid;place-items:center;background:rgba(5,8,20,.6);backdrop-filter:blur(6px)}#nwO .nwC{width:min(520px,94vw);max-height:90vh;overflow:auto;border-radius:16px;background:var(--panel);border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.5);padding:18px 20px;color:var(--txt)}[data-theme=light] #nwO .nwC{background:#fff}#nwO h2{margin:0 0 4px;font-size:17px}#nwO p{margin:0 0 10px;color:var(--dim);font-size:12.5px}#nwO label{display:block;font-size:12px;font-weight:700;margin:10px 0 4px}#nwO input[type=text],#nwO textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--txt);font:inherit;font-size:13px;padding:7px 9px}#nwO textarea{min-height:150px;font-family:ui-monospace,Menlo,monospace;font-size:12px}#nwO .nwR{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}#nwO .nwR button{border:1px solid var(--line);background:transparent;color:var(--txt);border-radius:8px;padding:7px 12px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}#nwO .nwR button.pri{background:var(--accent);color:var(--onAccent,#fff);border-color:var(--accent)}#nwO .nwM{font-size:12.5px;color:var(--dim);margin-top:8px}#nwO .nwCk{font-weight:500;display:flex;gap:6px;align-items:center}";
+  document.head.appendChild(st);
+
+  // 1) Update available
+  function banner(v) {
+    if (document.getElementById("ccUpd") || LG("ccUpdDismiss") === v) return;
+    var b = document.createElement("div"); b.id = "ccUpd"; b.setAttribute("role", "status");
+    b.innerHTML = '<span aria-hidden="true">⬆️</span><span class="uTx"><b>v' + E(v) + ' is available</b> (you have v' + E(mine()) + '). Download the installer from the <a href="' + CH_URL + '" target="_blank" rel="noopener">Install and Updates canvas in #architect-command-center ↗</a>, add it in Claude, then ask Claude to "Update the Architect Command Center". Your settings carry over.</span><button type="button" id="ccUpdX">Remind me later</button>';
+    var anchor = document.getElementById("slackToast") || document.querySelector("header.top");
+    if (anchor) anchor.insertAdjacentElement("afterend", b); else document.body.prepend(b);
+    b.querySelector("#ccUpdX").onclick = function () { LSet("ccUpdDismiss", v); b.remove(); };
+  }
+  async function check() {
+    var c = null; try { c = JSON.parse(LG("ccUpdChk") || "null"); } catch (e) {}
+    var v = c && Date.now() - c.t < 864e5 ? c.v : null;
+    if (!v) {
+      try { var r = await gcall(RC, { canvas_id: CANVAS }); var md = String((r && (r.markdown_content || r.text)) || ""); var m = md.match(/Current version:?\**\s*:?\s*v?(\d+(?:\.\d+)+)/i); v = m ? m[1] : ""; LSet("ccUpdChk", JSON.stringify({ t: Date.now(), v: v })); }
+      catch (e) { LSet("ccUpdChk", JSON.stringify({ t: Date.now() - 864e5 + 36e5 * 4, v: "" })); return; } // quiet: retry in about 4 hours
+    }
+    if (v && newer(v, mine())) banner(v);
+  }
+  window.ccCheckUpdate = check;
+  var startUpd = function () { setTimeout(check, 8000); };
+  if (window.ccWhen) window.ccWhen([], 8000).then(check, function () {}); else if (document.readyState === "complete") startUpd(); else addEventListener("load", startUpd);
+
+  // 2) "This number looks wrong" flag
+  var SEL = ".ldTn>span,.kpi,.shLane,.plSr,.plR,.plQ,.plVs";
+  var fl = document.createElement("button"); fl.type = "button"; fl.id = "ccFlag"; fl.textContent = "⚑"; fl.title = "This number looks wrong? Report it"; fl.setAttribute("aria-label", "Report a number that looks wrong");
+  document.body.appendChild(fl);
+  var cur = null, hideT = 0;
+  function place(el) { var r = el.getBoundingClientRect(); if (!r.width) return; cur = el; fl.style.left = (r.right + scrollX - 28) + "px"; fl.style.top = (r.top + scrollY + 4) + "px"; fl.style.display = "block"; }
+  document.addEventListener("mouseover", function (e) { if (e.target === fl) { clearTimeout(hideT); return; } var el = e.target.closest && e.target.closest(SEL); if (el && !el.closest("#nwO,#fbO")) { clearTimeout(hideT); if (el !== cur || fl.style.display !== "block") place(el); } else if (cur) { clearTimeout(hideT); hideT = setTimeout(function () { fl.style.display = "none"; cur = null; }, 500); } }, true);
+  document.addEventListener("focusin", function (e) { var el = e.target.closest && e.target.closest(SEL); if (el) place(el); }, true);
+  addEventListener("scroll", function () { if (cur) place(cur); }, true);
+  function ctx(el) {
+    var tb = document.querySelector("#tabs button.active"), tab = tb ? ((tb.querySelector(".tTx b") || tb).textContent || "").replace(/\s+/g, " ").trim() : "unknown";
+    var vw = Array.prototype.filter.call(document.querySelectorAll(".plNb.on"), function (b) { return b.offsetParent !== null && !b.classList.contains("home"); }).map(function (b) { return b.textContent.replace(/\s+/g, " ").trim(); }).join(" › ");
+    var head = "", p = el; while (p && p !== document.body && !head) { var h = p.querySelector && p.querySelector(":scope>h2,:scope>h3,:scope>summary,:scope>.cardH,:scope>header h2,:scope>header h3"); if (h && !el.contains(h)) head = h.textContent; p = p.parentElement; }
+    head = head.replace(/\s+/g, " ").trim().slice(0, 90);
+    var parts = []; (function walk(n) { n.childNodes.forEach(function (k) { if (k.nodeType === 3) { var t = k.textContent.replace(/\s+/g, " ").trim(); if (t && t !== "↗") parts.push(t); } else if (k.nodeType === 1 && !/^(SCRIPT|STYLE|BUTTON|SVG|CANVAS)$/i.test(k.tagName)) walk(k); }); })(el); var shown = parts.join(" · ").slice(0, 300);
+    var ids = [], names = []; el.querySelectorAll("a[href*='/Opportunity/'],a[href*='/Account/'],[data-opp]").forEach(function (a) { var m = (a.getAttribute("href") || "").match(/\/(Opportunity|Account)\/([A-Za-z0-9]{15,18})/); var id = m ? m[1] + " " + m[2] : a.dataset.opp ? "Opportunity " + a.dataset.opp : ""; if (id && ids.indexOf(id) < 0) ids.push(id); var n = (a.dataset.oname || a.textContent || "").replace(/[↗\s]+$/g, "").trim(); if (n && names.indexOf(n) < 0) names.push(n); });
+    var q = "", sa = document.querySelector("section.tab.active") || document.body, qm = String(sa.innerText || sa.textContent || "").match(/FY\d{2}\s*Q[1-4]/); q = qm ? qm[0] : "";
+    return { tab: tab, view: vw, head: head, shown: shown, ids: ids, names: names.slice(0, 4), q: q };
+  }
+  function report(c, exp, note, withNames) {
+    var who = (typeof ME !== "undefined" && ME.name) || "an architect", d = document.documentElement.dataset;
+    return ["Command Center feedback · 🔢 A number looks wrong", "Where: " + c.tab + (c.view ? " › " + c.view : "") + (c.head ? " › " + c.head : ""), "Shown: " + c.shown.replace(/\n/g, " | "), "Expected: " + (exp || "(not given)"), c.ids.length ? "Records: " + c.ids.join(", ") : "", withNames && c.names.length ? "Names: " + c.names.join(", ") : "", note ? "Notes: " + note : "", "Quarter: " + (c.q || "?") + " · Version " + (window.APP_VERSION || "?") + " · style " + (d.style || "futuristic") + " · palette " + (d.palette || "?") + " · from " + who].filter(Boolean).join("\n");
+  }
+  function openFlag(el) {
+    if (document.getElementById("nwO")) return; var c = ctx(el), o = document.createElement("div"); o.id = "nwO"; o.setAttribute("role", "dialog"); o.setAttribute("aria-modal", "true"); o.setAttribute("aria-label", "Report a number that looks wrong");
+    o.innerHTML = '<div class="nwC"><h2>⚑ This number looks wrong</h2><p>We filled in where you are and what the card shows. Add what you expected, then copy the report and paste it into the Feedback form in <a href="' + CH_URL + '" target="_blank" rel="noopener" style="color:var(--accent);font-weight:700">#architect-command-center ↗</a>.</p><label for="nwE">What did you expect?</label><input type="text" id="nwE" placeholder="For example: about $1.2M, or this deal closed last quarter"><label for="nwN">Anything else (optional)</label><input type="text" id="nwN" placeholder="Where you checked, for example the org62 report or Tableau"><label class="nwCk"><input type="checkbox" id="nwK"> Include account and deal names' + (c.names.length ? "" : " (none on this card)") + '</label><label for="nwT">Report preview</label><textarea id="nwT" readonly></textarea><div class="nwR"><button type="button" class="pri" id="nwCp">Copy report</button><a href="' + CH_URL + '" target="_blank" rel="noopener"><button type="button">Open #architect-command-center ↗</button></a><button type="button" id="nwX">Close</button></div><div class="nwM" id="nwM">Record IDs let the team find the deal in org62 without sharing customer names. Names are off unless you tick the box.</div></div>';
+    document.body.appendChild(o);
+    var T = o.querySelector("#nwT"), Ex = o.querySelector("#nwE"), N = o.querySelector("#nwN"), K = o.querySelector("#nwK"), M = o.querySelector("#nwM");
+    var upd = function () { T.value = report(c, Ex.value.trim(), N.value.trim(), K.checked); }; upd(); Ex.oninput = N.oninput = K.onchange = upd; setTimeout(function () { Ex.focus(); }, 30);
+    o.querySelector("#nwCp").onclick = function () { upd(); var done = function () { M.innerHTML = "Copied ✓ Now open #architect-command-center, press <b>Feedback form</b>, pick Bug, and paste it into Details."; }; if (navigator.clipboard) navigator.clipboard.writeText(T.value).then(done, function () { T.select(); try { document.execCommand("copy"); done(); } catch (x) { M.textContent = "Select the report and press Cmd/Ctrl+C."; } }); else { T.select(); try { document.execCommand("copy"); done(); } catch (x) {} } };
+    var close = function () { o.remove(); document.removeEventListener("keydown", esc); }, esc = function (e) { if (e.key === "Escape") close(); };
+    document.addEventListener("keydown", esc); o.querySelector("#nwX").onclick = close; o.onclick = function (e) { if (e.target === o) close(); };
+  }
+  fl.onclick = function (e) { e.preventDefault(); e.stopPropagation(); if (cur) openFlag(cur); fl.style.display = "none"; };
+  window.ccFlagNumber = openFlag;
+})();
+</script>
 </body>
 </html>

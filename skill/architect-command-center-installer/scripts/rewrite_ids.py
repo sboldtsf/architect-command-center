@@ -31,7 +31,7 @@ CONNECTORS = {
 # of truth for the artifact's tool allowlist; keep it in sync when the dashboard adds a tool.
 TOOLS = {
     "org62":    ["dispatch_readonly"],
-    "slack":    ["slack_search_users", "slack_search_public_and_private", "slack_search_public", "slack_read_thread",
+    "slack":    ["slack_search_users", "slack_read_canvas", "slack_search_public_and_private", "slack_search_public", "slack_read_thread",
                  "slack_search_channels", "slack_list_user_channels", "slack_send_message_draft"],
     "tableau":  ["query-datasource", "get-view-data", "get-view-image", "search-content",
                  "list-all-pulse-metric-definitions", "list-pulse-metric-definitions-from-definition-ids"],

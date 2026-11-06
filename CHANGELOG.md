@@ -4,6 +4,10 @@ All notable changes to the Architect Command Center. Newest first.
 
 ### v2.1 (Nov 6, 2026)
 
+**New**
+- **Update notice.** Once a day the Command Center reads the version on the Install and Updates canvas in #architect-command-center. When a newer one is posted, a banner under the header says how to update. You can snooze it until the next version. (Needs the Slack connector; the installer adds `slack_read_canvas`.)
+- **"This number looks wrong" flag.** Hover a key number (Pipeline plan tiles, pipe quality, deal rows, KPI cards, Arena lanes) and press ⚑. It pre-fills a report with the tab, view, card, what it shows, the org62 record IDs, quarter and version. Add what you expected, copy it, and paste it into the Feedback form. Account and deal names are left out unless you tick the box.
+
 **Look and feel**
 - The Matrix theme (still hidden until you find it) now looks like a terminal: monospace green-on-black text everywhere, square corners, a prompt and blinking cursor on the title, `$` headings, bracketed tabs, outlined buttons, green icons and faint scanlines. Cards and the header are see-through, so the falling code shows behind the whole page.
 
