@@ -17,6 +17,11 @@ All notable changes to the Architect Command Center. Newest first.
 - The Matrix theme (still hidden until you find it) now looks like a terminal: monospace green-on-black text everywhere, square corners, a green line under the active tab, a prompt and blinking cursor on the title, `$` headings, bracketed tabs, outlined buttons, green icons and faint scanlines. Cards and the header are see-through, so the falling code shows behind the whole page.
 
 **Fixes**
+- The tour covers What changed, the ⓘ and ⚑ on numbers, and Time with no activity type.
+- Your team's org tree (used by Team and the leaderboard scopes) is cached for a day, which saves up to four slow org62 reads per visit. Refresh all clears it.
+- What changed compares your open pipe with your previous visit, not the previous reload.
+- Card data-age labels hide on narrow windows and wrap instead of squeezing the title.
+- The activity heatmap ignores bad dates instead of showing "Invalid Date".
 - Every pop-up (tour, What's new, Setup check, Personalize, Log my time, message composer, asset preview, Slack and automation dialogs, pre-meeting brief) fits the window and scrolls inside instead of running off screen.
 - Setup check lists Tableau Next alongside the other connections.
 - Sections that load in the background (Scoreboard, Team, Time spent, Deals I may belong on) no longer fail if the Command Center is hidden when they start. They wait and finish when you come back.
