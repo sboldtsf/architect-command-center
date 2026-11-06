@@ -2,6 +2,11 @@
 
 All notable changes to the Architect Command Center. Newest first.
 
+### v2.1 (Nov 6, 2026)
+
+**Look and feel**
+- The Matrix theme (still hidden until you find it) now looks like a terminal: monospace green-on-black text everywhere, square corners, a prompt and blinking cursor on the title, `$` headings, bracketed tabs, outlined buttons, green icons and faint scanlines. The cursor stops blinking when animations are off.
+
 ### v2.0 (Nov 4, 2026): major redesign
 
 **Layout and navigation**

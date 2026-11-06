@@ -5631,7 +5631,7 @@ const mkImg = u => { const i = new Image(); i.src = u; return i; }, O62C = mkImg
 <script>
 // ---- Version stamp and What's new
 (function () {
-  window.APP_VERSION = "2.0 (Nov 4, 2026)";
+  window.APP_VERSION = "2.1 (Nov 6, 2026)";
   var NEW = ["New layout: seven tabs (Today, Pipeline, Deals, Performance, Team, Assets, Settings) with long tabs split into sections", "Pipeline: plan and pipe quality first, Q4 priorities from Slack and Drive, attach plays, white space, account plans and where you fit", "One plan number shared by Pipeline and the Scoreboard, with scope labels on every number", "Prep my 1:1 on Today, next to Update my manager", "Five design styles (Futuristic, Simple, Executive, Compact, High contrast) and 16 colour themes, with your team's theme recommended", "A one-time setup screen for style, theme, animations, header and where to open", "Faster, calmer start: lazy loading, animations off by default, clearer loading messages and plain-language errors"];
   var E = function (t) { return String(t).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }); };
   var host = document.querySelector("#credit .crR"); if (host) { var b = document.createElement("button"); b.type = "button"; b.id = "crVer"; b.textContent = "v" + window.APP_VERSION + " · What's new"; b.style.cssText = "margin-top:6px;border:0;background:transparent;color:var(--dim);font:inherit;font-size:11px;cursor:pointer;text-decoration:underline dotted"; b.onclick = function () { if (document.getElementById("wnO")) return; var o = document.createElement("div"); o.id = "wnO"; o.style.cssText = "position:fixed;inset:0;z-index:100006;display:grid;place-items:center;background:rgba(5,8,20,.6);backdrop-filter:blur(6px)"; o.innerHTML = '<div style="width:min(520px,92vw);max-height:86vh;overflow:auto;padding:22px;border-radius:16px;background:linear-gradient(var(--panel),var(--panel)),#0b1020;border:1px solid var(--line);color:var(--txt);box-shadow:0 30px 80px rgba(0,0,0,.5)"><h2 style="margin:0 0 4px">What\'s new</h2><p style="margin:0 0 10px;color:var(--dim);font-size:13px">Version ' + E(window.APP_VERSION) + '</p><ul style="margin:0 0 14px 18px;padding:0;font-size:14px;line-height:1.6">' + NEW.map(function (x) { return "<li>" + E(x) + "</li>"; }).join("") + '</ul><button class="ckBtn pri" id="wnX">Close</button></div>'; document.body.appendChild(o); o.onclick = function (e) { if (e.target === o || e.target.id === "wnX") o.remove(); }; }; host.appendChild(b); }
@@ -6351,5 +6351,51 @@ async function run(){var t=window.ccBriefText&&window.ccBriefText();
  o.querySelector("#pcSlk").onclick=async function(){var m=o.querySelector("#pcMsg");m.textContent="Saving…";try{if(typeof ME!=="undefined"&&!ME.slackId&&window.resolveSlackSelf){var sid=await window.resolveSlackSelf();if(sid)ME.slackId=sid;}if(typeof ME==="undefined"||!ME.slackId)throw new Error("your Slack ID is not set (Settings > Setup check > Find my Slack ID)");await gcall("mcp__d7f3326f-318e-4f71-a668-caf6a8804ff3__slack_send_message_draft",{channel_id:ME.slackId,message:t});m.textContent="Saved to your Slack drafts (not sent).";}catch(e){m.textContent="Could not save: "+(e.message||e);}};}
 document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#prepBtn"))run();});
 })();</script>
+<style id="ccMatrixTerminal">
+/* The Matrix, terminal edition: monospace green-on-black everywhere, square corners, no gradients */
+html[data-palette="matrix"]{--term:"SF Mono","JetBrains Mono",Menlo,Consolas,"Liberation Mono",monospace;--txt:#33ff66;--dim:#1fae45;--line:#0f5c26;--accent:#00ff41;--accent2:#00c832;--bg:#000;--bg2:#000;--panel:#010a03;--onAccent:#000}
+html[data-palette="matrix"]:not(#_) body,html[data-palette="matrix"]:not(#_) body *:not(svg):not(svg *):not(canvas){font-family:var(--term)!important;letter-spacing:0!important}
+html[data-palette="matrix"]:not(#_) body{background:#000!important;background-image:none!important;color:var(--txt)!important}
+html[data-palette="matrix"]:not(#_) body *{border-radius:0!important;text-shadow:0 0 6px rgba(0,255,65,.35)!important}
+html[data-palette="matrix"]:not(#_) .card,html[data-palette="matrix"]:not(#_) header.top.hero,html[data-palette="matrix"]:not(#_) #scHero,html[data-palette="matrix"]:not(#_) .kgroup,html[data-palette="matrix"]:not(#_) .wlH,html[data-palette="matrix"]:not(#_) #mcStrip,html[data-palette="matrix"]:not(#_) #tbCard .tbHd,html[data-palette="matrix"]:not(#_) .shBox,html[data-palette="matrix"]:not(#_) .sx,html[data-palette="matrix"]:not(#_) .ldF,html[data-palette="matrix"]:not(#_) .plS,html[data-palette="matrix"]:not(#_) .tile,html[data-palette="matrix"]:not(#_) #credit{background:#010a03!important;background-image:none!important;border:1px solid #0f5c26!important;box-shadow:none!important;backdrop-filter:none!important}
+html[data-palette="matrix"]:not(#_) :is(h1,h2,h3,h4,h5,b,strong){color:#7dff9a!important;font-weight:700!important}
+html[data-palette="matrix"]:not(#_) :is(h1,h2,h3,h4,h5) *:not([class*="Mark"]):not(.spin){background:none!important;-webkit-text-fill-color:currentColor!important}
+html[data-palette="matrix"]:not(#_) #appTitle{background:none!important;-webkit-text-fill-color:#7dff9a!important;text-transform:lowercase}
+html[data-palette="matrix"]:not(#_) #appTitle::before{content:"> ";color:#00ff41}
+html[data-palette="matrix"]:not(#_) #appTitle::after{content:"_";color:#00ff41;margin-left:2px;animation:ccBlink 1s steps(1) infinite}
+html.nomo[data-palette="matrix"]:not(#_) #appTitle::after,html.calm[data-palette="matrix"]:not(#_) #appTitle::after{animation:none}
+@keyframes ccBlink{50%{opacity:0}}
+html[data-palette="matrix"]:not(#_) .card>h2::before{content:"$ ";color:#00ff41;font-weight:400}
+html[data-palette="matrix"]:not(#_) .cgH b::before{content:"## ";color:#00ff41}
+html[data-palette="matrix"]:not(#_) .muted,html[data-palette="matrix"]:not(#_) small,html[data-palette="matrix"]:not(#_) .hT small,html[data-palette="matrix"]:not(#_) .note{color:#1fae45!important}
+html[data-palette="matrix"]:not(#_) a{color:#00ff41!important;text-decoration:underline!important}
+html[data-palette="matrix"]:not(#_) button,html[data-palette="matrix"]:not(#_) .stBtn,html[data-palette="matrix"]:not(#_) .tourBtn,html[data-palette="matrix"]:not(#_) .lgBtn,html[data-palette="matrix"]:not(#_) .hbtn,html[data-palette="matrix"]:not(#_) .hchip,html[data-palette="matrix"]:not(#_) .fbtn,html[data-palette="matrix"]:not(#_) .plNb,html[data-palette="matrix"]:not(#_) #ccSub button,html[data-palette="matrix"]:not(#_) select,html[data-palette="matrix"]:not(#_) input{background:#000!important;background-image:none!important;color:#33ff66!important;border:1px solid #00ff41!important;box-shadow:none!important}
+html[data-palette="matrix"]:not(#_) button:hover,html[data-palette="matrix"]:not(#_) .stBtn:hover{background:#00ff41!important;color:#000!important;text-shadow:none!important}
+html[data-palette="matrix"]:not(#_) :is(.stBtn.pri,#ccSub button.on,.plNb.on,.tourBtn:not(.alt),.lgBtn,#tbGo){background:#00ff41!important;color:#000!important;text-shadow:none!important}
+html[data-palette="matrix"]:not(#_) :is(.stBtn.pri,#ccSub button.on,.plNb.on,.tourBtn:not(.alt),.lgBtn,#tbGo) *{color:#000!important}
+html[data-palette="matrix"]:not(#_) nav#tabs button{background:transparent!important;border:0!important;border-bottom:2px solid transparent!important}
+html[data-palette="matrix"]:not(#_) nav#tabs button.active{border-bottom-color:#00ff41!important;color:#7dff9a!important}
+html[data-palette="matrix"]:not(#_) nav#tabs .tIc{display:none!important}
+html[data-palette="matrix"]:not(#_) nav#tabs button .tTx b::before{content:"[";color:#1fae45}html[data-palette="matrix"]:not(#_) nav#tabs button .tTx b::after{content:"]";color:#1fae45}
+html[data-palette="matrix"]:not(#_) table th{color:#1fae45!important;text-transform:uppercase}
+html[data-palette="matrix"]:not(#_) table td,html[data-palette="matrix"]:not(#_) table th{border-color:#0f5c26!important}
+html[data-palette="matrix"]:not(#_) ::selection{background:#00ff41;color:#000}
+html[data-palette="matrix"]:not(#_) .hIco{background:transparent!important;border:0!important;box-shadow:none!important;filter:grayscale(1) brightness(1.4) sepia(1) hue-rotate(70deg) saturate(4)}
+html[data-palette="matrix"]:not(#_) [class*="Mark"]{filter:grayscale(1) brightness(1.2) sepia(1) hue-rotate(70deg) saturate(5)}
+html[data-palette="matrix"]:not(#_) .spin,html[data-palette="matrix"]:not(#_) .tbSp{border-color:#0f5c26!important;border-top-color:#00ff41!important}
+html[data-palette="matrix"]:not(#_) body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:99990;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0,rgba(0,0,0,.18) 1px,transparent 1px,transparent 3px)}
+html[data-palette="matrix"]:not(#_) #ccPrefs .pfC,html[data-palette="matrix"]:not(#_) #ccPrep .pc,html[data-palette="matrix"]:not(#_) #wnO > div{background:#000!important;border:1px solid #00ff41!important}
+
+html[data-palette="matrix"]:not(#_) .shSpin{border-color:#0f5c26!important;border-top-color:#00ff41!important;border-right-color:#00c832!important;box-shadow:none!important}
+html[data-palette="matrix"]:not(#_) #bootLd .ldR::after{border-top-color:#00ff41!important;border-right-color:#00c832!important}
+html[data-palette="matrix"]:not(#_) :is(.shBoot,.shBar,.shBt,.shMeter) i,html[data-palette="matrix"]:not(#_) [class*="Boot"] i{background:#00ff41!important;background-image:none!important;box-shadow:none!important}
+html[data-palette="matrix"]:not(#_) #scHero h3 span,html[data-palette="matrix"]:not(#_) #scHero h3 em,html[data-palette="matrix"]:not(#_) .sxH h3 em{background:none!important;-webkit-text-fill-color:#7dff9a!important;filter:none!important;color:#7dff9a!important}
+html[data-palette="matrix"]:not(#_) .shLane{--c:#00ff41!important}
+
+html[data-palette="matrix"]:not(#_) :is(.spin,.tbSp,.shSpin,.cpDot,.ring,.orb) {border-radius:50%!important}
+html[data-palette="matrix"]:not(#_) #bootLd .ldR,html[data-palette="matrix"]:not(#_) #bootLd .ldR::after{border-radius:50%!important}
+html[data-palette="matrix"]:not(#_) #wrBtn{border-radius:0!important;background:#000!important;color:#33ff66!important;border:1px solid #00ff41!important}
+html[data-palette="matrix"]:not(#_) nav#tabs button::after,html[data-palette="matrix"]:not(#_) nav#tabs button::before{background:#00ff41!important;background-image:none!important}
+</style>
 </body>
 </html>
