@@ -38,3 +38,7 @@ npm test             # smoke tests on dashboard.html
 ```
 
 Release notes and the Slack post for v2.0 are in `docs/release-v2.0.md`.
+
+## Pushing to GitHub
+
+Download the latest `architect-command-center-repo.zip`, then run `bash tools/push-to-github.sh` (or your saved copy of it). It finds the newest zip, unzips it fresh into `~/cc-push`, shows what will be pushed, asks you to confirm, then pushes `main` and the version tag. It never force-pushes `main`.
