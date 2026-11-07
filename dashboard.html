@@ -1309,10 +1309,11 @@ try { var HID = JSON.parse(localStorage.getItem("hide") || "{}"); if (HID.ticker
   let collapsed = []; try { collapsed = JSON.parse(store.get("collapsed") || "[]"); } catch (e) {}
   try { if (!store.get("csInit")) { store.set("csInit", "1"); const k0 = document.querySelector("#closeStatus > h2").textContent.trim(); if (!collapsed.includes(k0)) collapsed.push(k0); store.set("collapsed", JSON.stringify(collapsed)); } } catch (e) {}
   document.querySelectorAll(".card > h2").forEach(h => {
-    const card = h.parentElement, key = h.textContent.trim();
+    const card = h.parentElement, key = h.textContent.trim(); h.dataset.cb = "1";
     if (collapsed.includes(key)) card.classList.add("collapsed");
     h.addEventListener("click", ev => {
       if (ev.target.closest && ev.target.closest("button, a, select, input, label, [data-nocollapse]")) return;
+      if (card.classList.contains("cfold")) { card.classList.remove("collapsed"); return; }
       card.classList.toggle("collapsed");
       collapsed = collapsed.filter(k => k !== key); if (card.classList.contains("collapsed")) collapsed.push(key);
       store.set("collapsed", JSON.stringify(collapsed));
@@ -5949,7 +5950,7 @@ nav#tabs button[data-tab=assets] .tTx,nav#tabs button[data-tab=settings] .tTx{di
 <style id="ccFold">section.tab .cfold>h2{cursor:pointer;display:flex;align-items:center}section.tab .cfold>h2::after{content:"▾";margin-left:auto;padding-left:10px;color:#7dd3fc;font-size:13px}section.tab .cfold.cclosed>h2::after{content:"▸"}section.tab .cfold.cclosed>*:not(h2){display:none!important}</style>
 <script>(function(){var KEY="ccFold1",st={};try{st=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){}
 var TABS=["deals","score","activity"];
-TABS.forEach(function(tab){var first=true;document.querySelectorAll('section[data-tab="'+tab+'"] .card').forEach(function(c,i){var h=c.querySelector(":scope > h2");if(!h||c.querySelector("canvas"))return;var t=((h.querySelector(".hT")||h).textContent||"").trim().slice(0,32),id=tab+":"+(t||i);c.dataset.fid=id;c.classList.add("cfold");var open=id in st?st[id]:(tab==="score"?!/^score:(Win rate|Slippage)/.test(id):first);first=false;if(!open)c.classList.add("cclosed");});});
+TABS.forEach(function(tab){var first=true;document.querySelectorAll('section[data-tab="'+tab+'"] .card').forEach(function(c,i){var h=c.querySelector(":scope > h2");if(!h||c.querySelector("canvas"))return;var t=((h.querySelector(".hT")||h).textContent||"").trim().slice(0,32),id=tab+":"+(t||i);c.dataset.fid=id;c.classList.add("cfold");c.classList.remove("collapsed");var open=id in st?st[id]:(tab==="score"?!/^score:(Win rate|Slippage)/.test(id):first);first=false;if(!open)c.classList.add("cclosed");});});
 document.addEventListener("click",function(e){var h=e.target.closest&&e.target.closest("section.tab .cfold>h2");if(!h||e.target.closest("button,a,input,select,label"))return;var c=h.parentNode;c.classList.toggle("cclosed");st[c.dataset.fid]=!c.classList.contains("cclosed");try{localStorage.setItem(KEY,JSON.stringify(st));}catch(x){}});})();</script>
 <script id="ccMoveOverview">(function(){var ov=document.querySelector('section.tab[data-tab="overview"]'),dl=document.querySelector('section.tab[data-tab="deals"]'),ac=document.querySelector('section.tab[data-tab="activity"]');if(!ov||!dl||!ac)return;
 function first(sec){var k=sec.firstElementChild;while(k&&k.classList.contains("printonly"))k=k.nextElementSibling;return k;}
@@ -6592,6 +6593,12 @@ html[data-palette="matrix"]:not(#_) :is(.wrap,main,section.tab,nav#tabs,#ccSub){
   }
   setTimeout(watch, 1500); setInterval(function () { watch(); document.querySelectorAll(".card[data-cc-t]").forEach(paint); }, 30000);
   window.ccWatchCards = watch;
+  // Cards added after startup (What changed, Time with no activity type, Scoreboard outlook cards) collapse like the others
+  var CK = "ccCol2", ckey = function (c) { var h = c.querySelector(":scope>h2 .hT") || c.querySelector(":scope>h2"), t = h ? h.cloneNode(true) : null; if (t) t.querySelectorAll("small,.ccMeta").forEach(function (x) { x.remove(); }); return c.id || (t ? t.textContent.trim().slice(0, 40) : ""); };
+  var free = function (c) { var h = c && c.querySelector(":scope>h2"); return !!h && !h.dataset.cb && !c.classList.contains("cfold") && c.id !== "capCard"; };
+  document.addEventListener("click", function (e) { var h = e.target.closest && e.target.closest(".card>h2"); if (!h || h.id) return; var c = h.parentElement; if (!free(c) || e.target.closest("button,a,select,input,label,[data-nocollapse],.ccMeta")) return;
+    c.classList.toggle("collapsed"); var S = LG(CK, {}) || {}; S[ckey(c)] = c.classList.contains("collapsed"); LSet(CK, S); });
+  setInterval(function () { var S = LG(CK, {}) || {}; document.querySelectorAll("section.tab .card").forEach(function (c) { if (!free(c) || c.dataset.cr) return; c.dataset.cr = "1"; if (S[ckey(c)]) c.classList.add("collapsed"); }); }, 2000);
 
   // ============ 3) Time with no activity type
   var SUG = [[/dry ?run|rehears/i, "Dry Run"], [/workshop|whiteboard|design session|working session|hackathon/i, "Workshop"], [/rfp|rfi|rfx|questionnaire|security review/i, "RFx"], [/\bpoc\b|proof of concept|pilot/i, "POC"], [/demo|present|readout|exec|briefing|\bebc\b|showcase/i, "Customer Presentation"], [/discovery|intro|kick ?off|requirements|deep dive/i, "Customer Discovery"], [/business case|value hypothesis|\bbvs\b|roi\b/i, "BVS - Business Case"], [/account plan|planning|strategy|pursuit|deal review|win room|forecast|prep\b/i, "Account Planning"], [/architecture|solution|diagram|\bpov\b|blueprint|build/i, "Solution Creation"], [/partner|accenture|deloitte|slalom|\bsi\b/i, "Partner Support"], [/travel|flight|hotel/i, "Travel"], [/1:1|1on1|one on one|team meeting|staff|all hands|town hall|training|learning|enablement|admin|pto|lunch|offsite|onboarding/i, "Admin"]];
