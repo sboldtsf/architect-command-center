@@ -4,33 +4,17 @@ All notable changes to the Architect Command Center. Newest first.
 
 ### v2.1 (Nov 6, 2026)
 
-**New**
-- **What changed since your last visit** (Today). Stage, close-date, amount and forecast moves on your DC deals since you last opened the Command Center, who made them, deals you were newly added to, and how much your open pipe moved. The deals that closed or slipped come first.
-- **ⓘ How it's calculated.** Key numbers and card headers explain where a number comes from, what it counts, the amount basis and the period, and list the deals behind it with org62 links. "Still looks wrong?" goes straight to the ⚑ report.
-- **Close-date pushes count in the vetting.** A deal whose close date moved later 2 times this quarter gets +1, and 3 or more gets +1.5. Those deals carry a "pushed 3×" badge. The last-quarter check uses the same rule.
-- **Time with no activity type** (Performance › Hours and activity). Meetings this quarter with no SE Task Type, a suggested type from the subject, how much of it looks customer-related, and a Fix link to each meeting in org62.
-- **Data age on cards.** Each card header shows how old its numbers are (amber after 9 minutes) with a refresh button. It's on card headers only, not on rows.
-- **Update notice.** Once a day the Command Center reads the version on the Install and Updates canvas in #architect-command-center. When a newer one is posted, a banner under the header says how to update. You can snooze it until the next version. (Needs the Slack connector; the installer adds `slack_read_canvas`.)
-- **"This number looks wrong" flag.** Hover a key number (Pipeline plan tiles, pipe quality, deal rows, KPI cards, Arena lanes) and press ⚑. It pre-fills a report with the tab, view, card, what it shows, the org62 record IDs, quarter and version. Add what you expected, copy it, and paste it into the Feedback form. Account and deal names are left out unless you tick the box.
+**What changed since your last visit.** A new card on Today shows stage, close-date, amount and forecast moves on your DC deals since you last opened the Command Center, who made them, deals you were added to, and how much your open pipe moved.
 
-**Look and feel**
-- The Matrix theme (still hidden until you find it) now looks like a terminal: monospace green-on-black text everywhere, square corners, a green line under the active tab, a prompt and blinking cursor on the title, `$` headings, bracketed tabs, outlined buttons, green icons and faint scanlines. Cards and the header are see-through, so the falling code shows behind the whole page.
+**Check a number, or flag it.** Hover a key number and press ⓘ to see how it's calculated and the deals behind it, or ⚑ if it looks wrong. The ⚑ pre-fills a report for the Feedback form in #architect-command-center. Card headers show how old their data is.
 
-**Fixes**
-- The tour covers What changed, the ⓘ and ⚑ on numbers, and Time with no activity type.
-- Your team's org tree (used by Team and the leaderboard scopes) is cached for a day, which saves up to four slow org62 reads per visit. Refresh all clears it.
-- What changed compares your open pipe with your previous visit, not the previous reload.
-- Card data-age labels hide on narrow windows and wrap instead of squeezing the title.
-- On narrow windows the last-10-workdays strip on Today wraps instead of running off the edge.
-- The activity heatmap ignores bad dates instead of showing "Invalid Date".
-- Every pop-up (tour, What's new, Setup check, Personalize, Log my time, message composer, asset preview, Slack and automation dialogs, pre-meeting brief) fits the window and scrolls inside instead of running off screen.
-- Setup check lists Tableau Next alongside the other connections.
-- Sections that load in the background (Scoreboard, Team, Time spent, Deals I may belong on) no longer fail if the Command Center is hidden when they start. They wait and finish when you come back.
-- Team shows a friendly "nobody has logged customer hours yet" message for an empty scope instead of "Team comparison failed".
-- Fixed a duplicate element ID between Mission Control's Launch button and the message composer's Create draft button.
-- Weekly hours chart: bars have screen-reader labels, and a bad date can no longer break the chart.
-- The DC role picker on Today no longer shows a loading message as its value.
-- Setup check points to Deals > Deals I may belong on for adding accounts; What's new lists the v2.1 changes. The cursor stops blinking when animations are off.
+**Sharper pipe vetting.** Deals whose close date has been pushed two or more times this quarter score lower and carry a "pushed" badge. The last-quarter check uses the same rule.
+
+**Time with no activity type.** Performance › Hours and activity lists meetings with no activity type, suggests a type, and links to each one in org62 so those hours count.
+
+**Update notice.** When a newer version is posted on the Install and Updates canvas, a banner tells you how to update.
+
+**General fixes.** Faster loading, pop-ups that fit the window, Tableau Next in the connection checks, an updated tour, and a round of bug fixes.
 
 ### v2.0 (Nov 4, 2026): major redesign
 
