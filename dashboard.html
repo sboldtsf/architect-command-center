@@ -1417,7 +1417,7 @@ try { var HID = JSON.parse(localStorage.getItem("hide") || "{}"); if (HID.ticker
   const spot = root.querySelector("#tourSpot"), tc = root.querySelector("#tourCard");
   const okS = x => (!x.hls || ME.vert === "HLS") && (!x.only || (x.only === "classic") === !document.body.classList.contains("ccv2")), cnt = lv => STEPS.filter(x => x.lv <= lv && okS(x)).length;
   const mins = n => Math.max(1, Math.round(n * 0.3));
-  const center = () => { spot.style.opacity = 0; tc.style.top = "50%"; tc.style.left = "50%"; tc.style.transform = "translate(-50%,-50%)"; };
+  const center = () => { spot.style.opacity = 0; tc.style.transform = "none"; const ch = Math.min(tc.offsetHeight, window.innerHeight - 24), cw = tc.offsetWidth || Math.min(440, window.innerWidth - 24); tc.style.top = Math.max(12, Math.round((window.innerHeight - ch) / 2)) + "px"; tc.style.left = Math.max(12, Math.round((window.innerWidth - cw) / 2)) + "px"; requestAnimationFrame(() => { const h2 = Math.min(tc.offsetHeight, window.innerHeight - 24); if (Math.abs(h2 - ch) > 4) tc.style.top = Math.max(12, Math.round((window.innerHeight - h2) / 2)) + "px"; }); };
   const place = () => { if (picker) return center(); const st = list[i], el = st && st.el && st.el(); if (!el || !el.getBoundingClientRect().width) return center();
     const r = el.getBoundingClientRect(), pad = 8; spot.style.opacity = 1; spot.style.top = (r.top - pad) + "px"; spot.style.left = (r.left - pad) + "px"; spot.style.width = (r.width + pad * 2) + "px"; spot.style.height = (r.height + pad * 2) + "px";
     const ch = tc.offsetHeight, cw = Math.min(420, window.innerWidth - 24); tc.style.transform = "none"; let top = r.bottom + 16; if (top + ch > window.innerHeight - 12) top = r.top - ch - 16; if (top < 12) top = Math.max(12, window.innerHeight - ch - 14);
@@ -6667,6 +6667,15 @@ html[data-palette="matrix"]:not(#_) :is(.wrap,main,section.tab,nav#tabs,#ccSub){
   window.ccChanges = changes;
   var chStart = function () { var n = 0, iv = setInterval(function () { n++; if (document.getElementById("todayBar") && typeof USER_ID !== "undefined" && USER_ID) { clearInterval(iv); changes(); } else if (n > 120) clearInterval(iv); }, 1000); };
   setTimeout(chStart, 2500);
+})();
+</script>
+<script id="ccTourDrag">
+(function () { var dx = 0, dy = 0, on = false, tc = null;
+  document.addEventListener("mousedown", function (e) { var bar = e.target.closest && e.target.closest("#tourCard .tcTop"); if (!bar || e.target.closest("button")) return; tc = bar.closest("#tourCard"); var r = tc.getBoundingClientRect(); dx = e.clientX - r.left; dy = e.clientY - r.top; on = true; tc.style.transition = "none"; tc.style.transform = "none"; e.preventDefault(); });
+  document.addEventListener("mousemove", function (e) { if (!on || !tc) return; var w = tc.offsetWidth, h = Math.min(tc.offsetHeight, innerHeight - 24); tc.style.left = Math.max(4, Math.min(innerWidth - w - 4, e.clientX - dx)) + "px"; tc.style.top = Math.max(4, Math.min(innerHeight - 40, e.clientY - dy)) + "px"; });
+  document.addEventListener("mouseup", function () { if (on && tc) tc.style.transition = ""; on = false; });
+  addEventListener("resize", function () { var t = document.getElementById("tourCard"); if (!t) return; var r = t.getBoundingClientRect(); if (r.bottom > innerHeight - 4 || r.top < 0 || r.right > innerWidth) { t.style.transform = "none"; t.style.top = Math.max(12, Math.round((innerHeight - Math.min(t.offsetHeight, innerHeight - 24)) / 2)) + "px"; t.style.left = Math.max(12, Math.round((innerWidth - t.offsetWidth) / 2)) + "px"; } });
+  var st = document.createElement("style"); st.textContent = "#tourCard .tcTop{cursor:move;user-select:none}#tourCard .tcTop button{cursor:pointer}"; document.head.appendChild(st);
 })();
 </script>
 </body>
