@@ -7,10 +7,10 @@ const file = process.argv[2] || path.join(__dirname, "..", "dashboard.html");
 const src = fs.readFileSync(file, "utf8").replace(/<script src="https:[^>]*><\/script>/g, "");
 const sl = ms => new Promise(r => setTimeout(r, ms));
 let pass = 0, fail = 0; const ok = (c, msg) => { if (c) { pass++; console.log("  ok   " + msg); } else { fail++; console.log("  FAIL " + msg); } };
-function page(ls) {
+function page(ls, live) {
   return new JSDOM(src, { url: "https://example.com/", runScripts: "dangerously", pretendToBeVisual: true, virtualConsole: vc, beforeParse(w) {
     Object.entries(ls || {}).forEach(([k, v]) => w.localStorage.setItem(k, v));
-    w.cowork = { callMcpTool: async () => ({ isError: true, content: [{ text: "stub" }] }), askClaude: async () => ({ text: "x" }) };
+    w.cowork = { callMcpTool: live ? async (n, a) => { const u = (a && a.url) || ""; const sc = /dispatch_readonly/.test(n) ? (/users\/me/.test(u) ? { status_code: 200, body: { id: "005ME", displayName: "Test A", name: "Test A", email: "t@x.com", managerId: "005MG" } } : { status_code: 200, body: { totalSize: 0, done: true, records: [] } }) : /list_events/.test(n) ? { events: [] } : {}; return { isError: false, structuredContent: sc, content: [{ text: JSON.stringify(sc) }] }; } : async () => ({ isError: true, content: [{ text: "stub" }] }), askClaude: async () => ({ text: "x" }) };
     w.Chart = function () { return { destroy() {}, update() {} }; }; w.Chart.defaults = { font: {}, plugins: { legend: { labels: {} }, tooltip: {} } };
     w.matchMedia = () => ({ matches: false, addListener() {}, addEventListener() {} }); w.HTMLCanvasElement.prototype.getContext = () => null; w.Element.prototype.scrollIntoView = () => {}; w.location.reload = () => {};
   } }).window;
@@ -42,5 +42,13 @@ function page(ls) {
       ok(w.localStorage.getItem("ccStyle") === "simple" && !D.getElementById("ccPrefs"), "setup screen saves the style and closes"); }
   }
   { const w = page({}), D = w.document; await sl(2500); ok(!D.getElementById("ccPrefs"), "new users skip the setup screen (Personalize runs instead)"); }
+  { const w = page({ profileDone: "1", ccPrefsSeen: "x" }, true), D = w.document; await sl(8000);
+    const vis = c => [...c.children].filter(k => k.tagName !== "H2").some(k => w.getComputedStyle(k).display !== "none" && !(k.style && k.style.display === "flex" && c.classList.contains("cclosed"))); const stuck = []; let n = 0;
+    for (const t of ["briefing", "pipeline", "deals", "score", "activity", "team"]) { const b = D.querySelector('#tabs [data-tab="' + t + '"]'); if (!b) continue; b.click(); await sl(600);
+      for (const h of D.querySelectorAll('section.tab[data-tab="' + t + '"] .card>h2')) { const c = h.parentElement; if (w.getComputedStyle(h).display === "none" || ![...c.children].some(k => k.tagName !== "H2")) continue; n++;
+        const v0 = vis(c); h.dispatchEvent(new w.MouseEvent("click", { bubbles: true })); await sl(20); const v1 = vis(c); h.dispatchEvent(new w.MouseEvent("click", { bubbles: true })); await sl(20);
+        if (v0 === v1 || vis(c) !== v0) stuck.push(t + ": " + (h.querySelector(".hT") || h).textContent.trim().slice(0, 30)); } }
+    ok(n > 30 && !stuck.length, "every card opens and closes (" + n + " cards" + (stuck.length ? "; stuck: " + stuck.join(", ") : "") + ")");
+  }
   console.log(pass + " passed, " + fail + " failed"); process.exit(fail ? 1 : 0);
 })();
