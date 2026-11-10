@@ -12,7 +12,7 @@ All notable changes to the Architect Command Center. Newest first.
 
 **Time with no activity type.** Performance › Hours and activity lists meetings with no activity type, suggests a type, and links to each one in org62 so those hours count.
 
-**Logging checklist.** Log my time lists your recent calendar meetings that aren't logged yet, each with its likely opportunity and SE Task Type (from how you logged similar meetings, the attendees and the meeting name). Fix anything that's off, enter them in the Activity Editor, and tick them off. Your changes are remembered. It can also copy one Slackbot prompt with everything filled in.
+**Logging checklist.** Log my time lists your recent calendar meetings that aren't logged yet, each with its likely opportunity and SE Task Type (from how you logged similar meetings, the attendees and the meeting name). Only deals you have a DC on are offered; if you've logged a meeting to a deal you're not on, it says so with an Add my DC link. Fix anything that's off, enter them in the Activity Editor, and tick them off. Your changes are remembered. It can also copy one Slackbot prompt with everything filled in.
 
 **Update notice.** When a newer version is posted on the Install and Updates canvas, a banner tells you how to update.
 
