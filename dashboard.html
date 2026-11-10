@@ -6733,15 +6733,17 @@ html[data-palette="matrix"]:not(#_) :is(.wrap,main,section.tab,nav#tabs,#ccSub){
       var M = [];
       cal.forEach(function (ev) { if (ev.status === "cancelled" || !ev.start || !ev.start.dateTime || (ev.eventType && ev.eventType !== "DEFAULT")) return; var me = (ev.attendees || []).find(function (a) { return a.self; }); if (me && me.responseStatus === "declined") return;
         var s0 = Date.parse(ev.start.dateTime), e0 = Date.parse(ev.end.dateTime); if (e0 - s0 < 10 * 6e4 || e0 > now) return;
-        var ext = (ev.attendees || []).some(function (a) { return a.email && !/@salesforce\.com$|@slack-corp\.com$|@tableau\.com$|@mulesoft\.com$|resource\.calendar/i.test(a.email); });
+        var ext = (ev.attendees || []).some(function (a) { return a.email && !a.resource && !/@salesforce\.com$|calendar\.google\.com$/i.test(a.email); });
         var doms = (ev.attendees || []).map(function (a) { var m2 = String(a.email || "").toLowerCase().match(/@([a-z0-9-]+)\./); return m2 ? m2[1] : ""; }).filter(function (d) { return d && !/^(salesforce|slack-corp|tableau|mulesoft|resource|group)$/.test(d); });
-        M.push({ id: ev.id, s: s0, e: e0, title: ev.summary || "(no title)", ext: ext, doms: doms }); });
+        M.push({ id: ev.id, s: s0, e: e0, title: ev.summary || "(no title)", desc: String(ev.description || "").slice(0, 600), ext: ext, doms: doms }); });
       // already logged? own typed event at the same time, or covered by a typed block you logged
       M.forEach(function (m) { var dur = m.e - m.s, typed = O.filter(function (o) { return o.t; });
         var same = typed.find(function (o) { return Math.abs(o.s - m.s) <= 10 * 6e4; }); var cov = typed.reduce(function (a, o) { return a + Math.max(0, Math.min(o.e, m.e) - Math.max(o.s, m.s)); }, 0);
         m.done = same ? "logged as " + same.t : cov >= dur * 0.6 ? "covered by a logged block" : ""; });
       var todo = M.filter(function (m) { return !m.done; }), doneN = M.length - todo.length, ticks = LG("ccLogTick", {});
-      todo.forEach(function (m) { var g = guess(m.title, m.doms); m.o = g.o; m.nodc = g.nodc && HOPP[g.nodc] ? HOPP[g.nodc] : null; m.t = g.t || (m.ext ? "Customer Discovery" : m.o ? "Account Planning" : ""); m.why = g.why || (m.ext ? "customer attendees" : ""); });
+      todo.forEach(function (m) { var g = guess(m.title, m.doms); m.o = g.o; m.nodc = g.nodc && HOPP[g.nodc] ? HOPP[g.nodc] : null; m.t = g.t || (m.o ? "Account Planning" : ""); m.why = g.why || "";
+        if (m.ext) { var CF = ["Customer Discovery", "Customer Presentation"];
+          if (CF.indexOf(m.t) < 0) { var tx = m.title + " " + m.desc; m.t = /demo|present|readout|read-out|overview|showcase|walk ?through|briefing|\bebc\b|exec|proposal|\bpov\b|point of view|recommendation|architecture review|roadmap|share ?out|playback|show and tell/i.test(tx) ? "Customer Presentation" : "Customer Discovery"; m.why = "customer attendees" + (m.t === "Customer Presentation" ? " and a presentation-style meeting" : ""); } } });
       var types = Object.keys((typeof TS !== "undefined" && TS.TYPES) || {}); if (!types.length) types = ["Account Planning", "Customer Discovery", "Customer Presentation", "Solution Creation", "Workshop", "Dry Run", "RFx", "POC", "Partner Support", "Admin"];
       var dcUrl = function (id) { var org = (function () { try { return ORG; } catch (e) { return "https://org62.lightning.force.com"; } })(), role = (typeof ME !== "undefined" && ME.dcRole) || ""; return org + "/lightning/o/Deal_Contribution__c/new?defaultFieldValues=" + encodeURIComponent("Opportunity__c=" + id + ",SE_Name__c=" + uid + (role ? ",Opportunity_Role__c=" + role : "") + ",Split_Percentage__c=100"); };
       var oppKeys = Object.keys(OPP).sort(function (x, y) { var X = OPP[x], Y = OPP[y]; return (Y.used || 0) - (X.used || 0) || String(X.a).localeCompare(String(Y.a)); });
