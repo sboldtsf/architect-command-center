@@ -14,7 +14,7 @@ All notable changes to the Architect Command Center. Newest first.
 
 **Update notice.** When a newer version is posted on the Install and Updates canvas, a banner tells you how to update.
 
-**General fixes.** Faster loading, pop-ups that fit the window, Tableau Next in the connection checks, an updated tour, and a round of bug fixes.
+**General fixes.** Faster loading, pop-ups that fit the window, Tableau Next in the connection checks, an updated tour, days counted in your own time zone, and a round of bug fixes.
 
 ### v2.0 (Nov 4, 2026): major redesign
 
