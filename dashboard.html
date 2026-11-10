@@ -1838,13 +1838,13 @@ const IDENT = (async () => {
     root.innerHTML = `<div class="lpCard"><button class="lpX" aria-label="Close">✕</button><h2>⏱ Log my time</h2><p>Pick whichever fits how you feel right now.</p><div class="lpGrid">
       <a class="lpOpt" href="${AE}" target="_blank" rel="noopener"><span class="e">✎</span><b>Activity Editor</b><small>The form in org62. Best for a few precise entries.</small></a>
       <button class="lpOpt" data-a="sl" type="button"><span class="e"><span class="slMark" style="width:30px;height:30px;vertical-align:0;animation:none"></span></span><b>Slackbot, in plain English</b><small>Tell it what you did and it fills the entry. Copy the prompt, then open the skill in Slack.</small></button>
-      <button class="lpOpt" data-a="cal" type="button"><span class="e"><span class="caMark" style="width:30px;height:30px;vertical-align:0"></span></span><b>Fill from my calendar</b><small>I pull your recent meetings and write the Slackbot prompt for you.</small></button>
+      <button class="lpOpt" data-a="cal" type="button"><span class="e"><span class="caMark" style="width:30px;height:30px;vertical-align:0"></span></span><b>Logging checklist</b><small>Your recent meetings that aren't logged yet, with the likely opportunity and SE Task Type filled in.</small></button>
       <button class="lpOpt" data-a="deal" type="button"><span class="e">🎯</span><b>Start from a deal</b><small>Jump to deals you are on that have no time logged yet.</small></button></div>
       <div id="lpCal"></div><div class="lpFoot">${f ? esc(f.head) : ""}</div></div>`;
     document.body.appendChild(root); requestAnimationFrame(() => root && root.classList.add("in"));
     root.addEventListener("click", async e => {
       if (e.target === root || e.target.closest(".lpX")) return close();
-      const o = e.target.closest("[data-a]"); if (o) { if (o.dataset.a === "deal") { close(); const tb = document.querySelector('#tabs [data-tab="deals"]'); if (tb) tb.click(); setTimeout(() => { const t = document.getElementById("noAct"); if (t) { t.scrollIntoView({ behavior: "smooth", block: "center" }); const c = t.closest(".card") || t; c.style.outline = "3px solid var(--accent)"; setTimeout(() => { c.style.outline = ""; }, 2200); } }, 300); } else if (o.dataset.a === "sl") { window.slModal('Run the skill "Activity Logging in Org62 for Solution Engineers" for this week.'); } else loadCal(); return; }
+      const o = e.target.closest("[data-a]"); if (o) { if (o.dataset.a === "deal") { close(); const tb = document.querySelector('#tabs [data-tab="deals"]'); if (tb) tb.click(); setTimeout(() => { const t = document.getElementById("noAct"); if (t) { t.scrollIntoView({ behavior: "smooth", block: "center" }); const c = t.closest(".card") || t; c.style.outline = "3px solid var(--accent)"; setTimeout(() => { c.style.outline = ""; }, 2200); } }, 300); } else if (o.dataset.a === "sl") { window.slModal('Run the skill "Activity Logging in Org62 for Solution Engineers" for this week.'); } else if (window.ccLogChecklist) window.ccLogChecklist(root.querySelector("#lpCal")); else loadCal(); return; }
       const cp = e.target.closest("[data-copy]"); if (cp) { let t = decodeURIComponent(cp.dataset.copy); { const sg = cp.closest("details") && cp.closest("details").querySelector(".lpSug"); if (sg && sg.dataset.tot) { const parts = [...sg.querySelectorAll("input:checked")].map(c => c.dataset.n + " " + c.dataset.h + "h"); t += "\nTotal meeting time for the day: " + sg.dataset.tot + "h. Treat this as an estimate and confirm with me."; } } let ok = false; try { const t2 = document.createElement("textarea"); t2.value = t; t2.setAttribute("readonly", ""); t2.style.cssText = "position:fixed;top:0;left:0;opacity:0"; document.body.appendChild(t2); t2.select(); t2.setSelectionRange(0, t.length); ok = document.execCommand("copy"); t2.remove(); } catch (x) {} if (!ok) { try { await navigator.clipboard.writeText(t); ok = true; } catch (x) {} } if (ok) cp.textContent = "Copied ✓"; else { cp.textContent = "Select and copy below"; const ta = document.createElement("textarea"); ta.className = "stTa"; ta.value = t; cp.parentElement.appendChild(ta); ta.select(); } }
     });
   }
@@ -1870,7 +1870,7 @@ const IDENT = (async () => {
       suggestTimes(box, days, by);
     } catch (e) { box.innerHTML = '<span class="muted">Could not read Google Calendar: ' + esc(e.message || e) + ". Approve the Calendar connector and try again.</span>"; }
   }
-  window.openLogPad = open; window.openLogPadCal = () => { open(); loadCal(); };
+  window.openLogPad = open; window.openLogPadCal = () => { open(); if (window.ccLogChecklist) window.ccLogChecklist(root && root.querySelector("#lpCal")); else loadCal(); };
   document.getElementById("logBtn").addEventListener("click", open);
   document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
   const cyc = document.getElementById("apCycle");
@@ -6679,6 +6679,95 @@ html[data-palette="matrix"]:not(#_) :is(.wrap,main,section.tab,nav#tabs,#ccSub){
   document.addEventListener("mouseup", function () { if (on && tc) tc.style.transition = ""; on = false; });
   addEventListener("resize", function () { var t = document.getElementById("tourCard"); if (!t) return; var r = t.getBoundingClientRect(); if (r.bottom > innerHeight - 4 || r.top < 0 || r.right > innerWidth) { t.style.transform = "none"; t.style.top = Math.max(12, Math.round((innerHeight - Math.min(t.offsetHeight, innerHeight - 24)) / 2)) + "px"; t.style.left = Math.max(12, Math.round((innerWidth - t.offsetWidth) / 2)) + "px"; } });
   var st = document.createElement("style"); st.textContent = "#tourCard .tcTop{cursor:move;user-select:none}#tourCard .tcTop button{cursor:pointer}"; document.head.appendChild(st);
+})();
+</script>
+<script id="ccLogChecklist">
+// ---- Logging checklist: recent calendar meetings that aren't logged yet, each with its likely opportunity and SE Task Type
+(function () {
+  var CAL = "mcp__43020d4d-9bed-4fcc-8683-e12b452cd038__list_events", AE = "https://org62.lightning.force.com/lightning/n/ae_prod__Activity_Editor", SLACK = "https://salesforce.enterprise.slack.com/docs/T3X1CSHRN/F0B1S4CLTFS";
+  var E = function (t) { return String(t == null ? "" : t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+  var LG = function (k, d) { try { var v = JSON.parse(localStorage.getItem(k) || "null"); return v == null ? d : v; } catch (e) { return d; } }, LSet = function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  var ymd = function (d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+  var tm = function (d) { return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }); }, dn = function (d) { return d.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" }); };
+  var h1 = function (ms) { return Math.round(ms / 36e5 * 4) / 4; };
+  var STOP = "salesforce sfdc weekly biweekly bi daily monthly sync call meeting meet mtg the and with for of to a an in on re fw fwd fy26 fy27 fy28 q1 q2 q3 q4 steve boldt internal external team update updates discussion review session standing touch base check catch up 1 2 3 4 5 6 7 8 9 0 x vs".split(" ");
+  var toks = function (s) { return String(s || "").toLowerCase().replace(/[^a-z0-9 ]+/g, " ").split(/\s+/).filter(function (w) { return w.length > 1 && STOP.indexOf(w) < 0 && !/^\d+$/.test(w); }); };
+  var norm = function (s) { return toks(s).join(" "); };
+  var SUG = [[/dry ?run|rehears/i, "Dry Run"], [/workshop|whiteboard|design session|working session|hackathon/i, "Workshop"], [/rfp|rfi|rfx|questionnaire|security review/i, "RFx"], [/\bpoc\b|proof of concept|pilot/i, "POC"], [/demo|present|readout|exec|briefing|\bebc\b|showcase/i, "Customer Presentation"], [/discovery|intro|kick ?off|requirements|deep dive/i, "Customer Discovery"], [/business case|value hypothesis|\bbvs\b|roi\b/i, "BVS - Business Case"], [/account plan|account team|planning|strategy|pursuit|deal review|win room|forecast|prep\b/i, "Account Planning"], [/architecture|solution|diagram|\bpov\b|blueprint|build/i, "Solution Creation"], [/partner|accenture|deloitte|slalom/i, "Partner Support"], [/1:1|1on1|one on one|staff|all hands|town hall|training|learning|enablement|onboarding|offsite/i, "Admin"]];
+  var busy = false;
+
+  async function build(box) {
+    if (busy || !box) return; busy = true;
+    box.innerHTML = '<span class="muted"><span class="spin"></span> Reading your calendar, your logged time and your deals…</span>';
+    try {
+      var today = new Date(); today.setHours(0, 0, 0, 0); var days = [new Date(today)], b = new Date(today);
+      while (days.length < 6) { b = new Date(b.getTime() - 864e5); if (b.getDay() !== 0 && b.getDay() !== 6) days.push(new Date(b)); }
+      var first = days[days.length - 1], end = new Date(today.getTime() + 864e5), now = Date.now(), uid = typeof USER_ID !== "undefined" ? USER_ID : "";
+      var iso = function (d) { return d.toISOString().slice(0, 19) + "Z"; };
+      var R = await Promise.all([
+        gcall(CAL, { startTime: ymd(first) + "T00:00:00", endTime: ymd(end) + "T00:00:00", orderBy: "startTime", pageSize: 250 }),
+        soql("SELECT Id, Subject, StartDateTime, EndDateTime, SE_Task_Type__c, WhatId, IsChild FROM Event WHERE OwnerId = '" + uid + "' AND StartDateTime >= " + iso(new Date(first.getTime() - 864e5)) + " AND StartDateTime <= " + iso(end) + " LIMIT 1000"),
+        soql("SELECT Subject, SE_Task_Type__c, WhatId, What.Name, What.Type, StartDateTime FROM Event WHERE OwnerId = '" + uid + "' AND SE_Task_Type__c != null AND StartDateTime = LAST_N_DAYS:180 ORDER BY StartDateTime DESC LIMIT 1500"),
+        soql("SELECT Opportunity__c, Opportunity__r.Name, Opportunity__r.Account.Name, Opportunity_Close_Date__c, Opportunity_Closed__c FROM Deal_Contribution__c WHERE SE_Name__c = '" + uid + "' AND Opportunity_Close_Date__c >= LAST_N_DAYS:90 AND (NOT Opportunity_Stage__c LIKE 'Dead%') ORDER BY Opportunity_Close_Date__c LIMIT 300").catch(function () { return { records: [] }; })
+      ]);
+      var cal = (R[0] && R[0].events) || [], O = (R[1].records || []).map(function (e) { return { s: Date.parse(e.StartDateTime), e: Date.parse(e.EndDateTime), t: e.SE_Task_Type__c, w: e.WhatId, child: e.IsChild, sub: e.Subject }; });
+      var H = R[2].records || [], DC = R[3].records || [];
+      // opportunity names and accounts
+      var OPP = {}; DC.forEach(function (r) { var id = r.Opportunity__c; if (!id) return; OPP[id.slice(0, 15)] = { id: id, n: (r.Opportunity__r && r.Opportunity__r.Name) || id, a: (r.Opportunity__r && r.Opportunity__r.Account && r.Opportunity__r.Account.Name) || "", dc: 1, open: r.Opportunity_Closed__c !== "TRUE" }; });
+      H.forEach(function (h) { if (h.WhatId && h.What && h.What.Type === "Opportunity") { var k = h.WhatId.slice(0, 15); if (!OPP[k]) OPP[k] = { id: h.WhatId, n: h.What.Name || h.WhatId, a: "", dc: 0 }; OPP[k].used = (OPP[k].used || 0) + 1; } });
+      // history: normalized title -> votes; token -> opp/type votes
+      var byTitle = {}, byTok = {};
+      H.forEach(function (h, i) { var wgt = 1 + Math.max(0, 1 - i / H.length), op = h.WhatId && h.What && h.What.Type === "Opportunity" ? h.WhatId.slice(0, 15) : "", n = norm(h.Subject);
+        if (n) { var bt = byTitle[n] || (byTitle[n] = { o: {}, t: {} }); bt.o[op || "-"] = (bt.o[op || "-"] || 0) + wgt; bt.t[h.SE_Task_Type__c] = (bt.t[h.SE_Task_Type__c] || 0) + wgt; }
+        toks(h.Subject).forEach(function (w) { var bk = byTok[w] || (byTok[w] = { o: {}, t: {}, n: 0 }); bk.n++; if (op) bk.o[op] = (bk.o[op] || 0) + wgt; bk.t[h.SE_Task_Type__c] = (bk.t[h.SE_Task_Type__c] || 0) + wgt; }); });
+      var top = function (m) { var k = null, v = 0; Object.keys(m || {}).forEach(function (x) { if (m[x] > v) { v = m[x]; k = x; } }); return k; };
+      var learn = LG("ccLogLearn", {});
+      var guess = function (title, doms) { var n = norm(title), L = learn[n]; if (L) return { o: L.o, t: L.t, why: "what you chose last time" };
+        var bt = byTitle[n]; if (bt) { var o = top(bt.o); return { o: o === "-" ? "" : o, t: top(bt.t), why: "how you logged this meeting before" }; }
+        var ov = {}, tv = {}, hit = 0; toks(title).forEach(function (w) { var bk = byTok[w]; if (!bk || bk.n > 60) return; hit++; var sc = 1 / Math.sqrt(bk.n); Object.keys(bk.o).forEach(function (k) { ov[k] = (ov[k] || 0) + bk.o[k] * sc; }); Object.keys(bk.t).forEach(function (k) { tv[k] = (tv[k] || 0) + bk.t[k] * sc; }); });
+        var o2 = top(ov), t2 = null; for (var i = 0; i < SUG.length; i++) if (SUG[i][0].test(title)) { t2 = SUG[i][1]; break; }
+        if (!o2) { var tl = String(title).toLowerCase() + " " + (doms || []).join(" "); Object.keys(OPP).sort(function (x, y) { return (OPP[y].used || 0) - (OPP[x].used || 0); }).some(function (k) { var a = OPP[k].a.toLowerCase().split(/[\s,.]+/)[0]; if (a && a.length > 3 && tl.indexOf(a) >= 0) { o2 = k; return true; } return false; }); }
+        return { o: o2 || "", t: t2 || top(tv) || "", why: hit ? "similar meetings you logged" : t2 ? "the meeting name" : "" }; };
+      // calendar meetings that ended, not declined, at least 10 minutes
+      var M = [];
+      cal.forEach(function (ev) { if (ev.status === "cancelled" || !ev.start || !ev.start.dateTime || (ev.eventType && ev.eventType !== "DEFAULT")) return; var me = (ev.attendees || []).find(function (a) { return a.self; }); if (me && me.responseStatus === "declined") return;
+        var s0 = Date.parse(ev.start.dateTime), e0 = Date.parse(ev.end.dateTime); if (e0 - s0 < 10 * 6e4 || e0 > now) return;
+        var ext = (ev.attendees || []).some(function (a) { return a.email && !/@salesforce\.com$|@slack-corp\.com$|@tableau\.com$|@mulesoft\.com$|resource\.calendar/i.test(a.email); });
+        var doms = (ev.attendees || []).map(function (a) { var m2 = String(a.email || "").toLowerCase().match(/@([a-z0-9-]+)\./); return m2 ? m2[1] : ""; }).filter(function (d) { return d && !/^(salesforce|slack-corp|tableau|mulesoft|resource|group)$/.test(d); });
+        M.push({ id: ev.id, s: s0, e: e0, title: ev.summary || "(no title)", ext: ext, doms: doms }); });
+      // already logged? own typed event at the same time, or covered by a typed block you logged
+      M.forEach(function (m) { var dur = m.e - m.s, typed = O.filter(function (o) { return o.t; });
+        var same = typed.find(function (o) { return Math.abs(o.s - m.s) <= 10 * 6e4; }); var cov = typed.reduce(function (a, o) { return a + Math.max(0, Math.min(o.e, m.e) - Math.max(o.s, m.s)); }, 0);
+        m.done = same ? "logged as " + same.t : cov >= dur * 0.6 ? "covered by a logged block" : ""; });
+      var todo = M.filter(function (m) { return !m.done; }), doneN = M.length - todo.length, ticks = LG("ccLogTick", {});
+      todo.forEach(function (m) { var g = guess(m.title, m.doms); m.o = g.o; m.t = g.t || (m.ext ? "Customer Discovery" : m.o ? "Account Planning" : ""); m.why = g.why || (m.ext ? "customer attendees" : ""); });
+      var types = Object.keys((typeof TS !== "undefined" && TS.TYPES) || {}); if (!types.length) types = ["Account Planning", "Customer Discovery", "Customer Presentation", "Solution Creation", "Workshop", "Dry Run", "RFx", "POC", "Partner Support", "Admin"];
+      var oppKeys = Object.keys(OPP).sort(function (x, y) { var X = OPP[x], Y = OPP[y]; return (Y.used || 0) - (X.used || 0) || String(X.a).localeCompare(String(Y.a)); });
+      var oppOpts = function (sel) { return '<option value="">No opportunity</option>' + oppKeys.map(function (k) { var o = OPP[k]; return '<option value="' + k + '"' + (k === sel ? " selected" : "") + '>' + E(o.n.length > 58 ? o.n.slice(0, 56) + "…" : o.n) + '</option>'; }).join(""); };
+      var typeOpts = function (sel) { return '<option value="">Pick a type…</option>' + types.map(function (t) { return '<option' + (t === sel ? " selected" : "") + '>' + E(t) + '</option>'; }).join(""); };
+      var totH = todo.reduce(function (a, m) { return a + (m.e - m.s); }, 0);
+      if (!M.length) { box.innerHTML = '<div class="lcE">No finished meetings on your calendar in the last six workdays.</div>'; busy = false; return; }
+      box.innerHTML = '<div class="lcHd"><b>' + (todo.length ? todo.length + " meeting" + (todo.length === 1 ? "" : "s") + " to log · " + h1(totH) + " h" : "Everything on your calendar is logged ✓") + '</b><span class="muted">' + (doneN ? doneN + " already logged or covered by a block you logged" : "") + '</span></div>'
+        + (todo.length ? '<div class="lcHow">Check each row, change anything that\'s off, then enter them in the <b>Activity Editor</b>. Tick a row when it\'s done. Your changes are remembered, so next time the same meeting is filled in the way you set it.</div><div class="lcL">' + todo.map(function (m, i) { var k = m.id + "|" + m.s, d = new Date(m.s);
+          return '<div class="lcR' + (ticks[k] ? " ok" : "") + '" data-i="' + i + '"><label class="lcT"><input type="checkbox" data-tick="' + E(k) + '"' + (ticks[k] ? " checked" : "") + ' aria-label="Done"></label><div class="lcM"><div class="lcN">' + E(m.title) + '</div><div class="lcW">' + E(dn(d)) + " · " + E(tm(d)) + "–" + E(tm(new Date(m.e))) + " · <b>" + h1(m.e - m.s) + " h</b>" + (m.why ? ' · <span title="Where the suggestion came from">from ' + E(m.why) + "</span>" : "") + '</div><div class="lcS"><select data-f="o" aria-label="Opportunity">' + oppOpts(m.o) + '</select><select data-f="t" aria-label="SE Task Type">' + typeOpts(m.t) + "</select></div></div></div>"; }).join("") + "</div>" : "")
+        + '<div class="lcA"><a class="stBtn pri" href="' + AE + '" target="_blank" rel="noopener" style="text-decoration:none">Open the Activity Editor ↗</a>' + (todo.length ? '<button class="stBtn" type="button" data-lc="list">Copy checklist</button><button class="stBtn" type="button" data-lc="slack" title="One prompt with every meeting, opportunity and type filled in, so Slackbot has nothing to ask">Copy Slackbot prompt</button>' : "") + '</div><div class="lcMsg muted"></div>';
+      box._todo = todo; box._OPP = OPP;
+      var rows = function () { return box._todo.map(function (m) { var o = box._OPP[m.o]; return { d: dn(new Date(m.s)), s: tm(new Date(m.s)), e: tm(new Date(m.e)), h: h1(m.e - m.s), title: m.title, opp: o ? o.n : "", oppId: o ? o.id : "", type: m.t }; }); };
+      if (!box.dataset.lcb) { box.dataset.lcb = "1"; box.addEventListener("change", function (ev) { var r = ev.target.closest(".lcR"); if (!r) return; var m = box._todo[+r.dataset.i];
+        if (ev.target.dataset.tick) { var T = LG("ccLogTick", {}); if (ev.target.checked) T[ev.target.dataset.tick] = Date.now(); else delete T[ev.target.dataset.tick]; Object.keys(T).forEach(function (k) { if (Date.now() - T[k] > 14 * 864e5) delete T[k]; }); LSet("ccLogTick", T); r.classList.toggle("ok", ev.target.checked); return; }
+        var f = ev.target.dataset.f; if (!f) return; m[f] = ev.target.value; var Lr = LG("ccLogLearn", {}), n = norm(m.title); if (n) { Lr[n] = { o: m.o, t: m.t }; LSet("ccLogLearn", Lr); } });
+      var copy = async function (t, btn) { var ok = false; try { await navigator.clipboard.writeText(t); ok = true; } catch (x) { try { var ta = document.createElement("textarea"); ta.value = t; ta.style.cssText = "position:fixed;top:0;opacity:0"; document.body.appendChild(ta); ta.select(); ok = document.execCommand("copy"); ta.remove(); } catch (y) {} } btn.textContent = ok ? "Copied ✓" : "Copy blocked"; };
+      box.addEventListener("click", function (ev) { var b2 = ev.target.closest("[data-lc]"); if (!b2) return; var L = rows(), miss = L.filter(function (x) { return !x.type; }).length, msg = box.querySelector(".lcMsg");
+        if (b2.dataset.lc === "list") { copy(L.map(function (x) { return x.d + " " + x.s + "–" + x.e + " (" + x.h + " h): " + x.title + "\n   Opportunity: " + (x.opp || "none") + "\n   SE Task Type: " + (x.type || "?"); }).join("\n"), b2); msg.textContent = miss ? miss + " still need a type." : ""; return; }
+        var p = 'Using the "Activity Logging in Org62 for Solution Engineers" skill, log these ' + L.length + " meetings exactly as listed. Every opportunity and SE Task Type is already decided, so don't ask me about them. Use the opportunity ID where given. If something can't be logged, tell me which one and why, then continue with the rest.\n\n" + L.map(function (x, i) { return (i + 1) + ". " + x.d + ", " + x.s + " to " + x.e + " (" + x.h + " h): " + x.title + "\n   Opportunity: " + (x.opp ? x.opp + " (" + x.oppId + ")" : "none, not tied to a deal") + "\n   SE Task Type: " + (x.type || "ASK ME"); }).join("\n") + "\n\nWhen you're done, list what you logged with the total hours.";
+        copy(p, b2); msg.innerHTML = (miss ? miss + ' meeting' + (miss === 1 ? " has" : "s have") + ' no type yet, so Slackbot will ask about ' + (miss === 1 ? "that one" : "those") + ". " : "") + 'Paste it into <a href="' + SLACK + '" target="_blank" rel="noopener">Slackbot ↗</a>.'; }); }
+    } catch (e) { box.innerHTML = '<div class="lcE">Could not build the checklist: ' + E(String(e.message || e).slice(0, 160)) + ". It needs Google Calendar and org62.</div>"; }
+    busy = false;
+  }
+  window.ccLogChecklist = build;
+  var st = document.createElement("style");
+  st.textContent = ".lcHd{display:flex;gap:10px;flex-wrap:wrap;align-items:baseline;margin:4px 0 8px}.lcHd b{font-size:15px}.lcHow{font-size:12.5px;line-height:1.45;color:var(--dim);margin-bottom:10px}.lcL{display:flex;flex-direction:column;gap:8px}.lcR{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg2)}.lcR.ok{opacity:.5}.lcR.ok .lcN{text-decoration:line-through}.lcT input{width:18px;height:18px;margin-top:2px;cursor:pointer}.lcM{flex:1;min-width:0}.lcN{font-weight:700;font-size:13.5px}.lcW{font-size:12px;color:var(--dim);margin:2px 0 8px}.lcS{display:grid;grid-template-columns:1.4fr 1fr;gap:8px}.lcS select{width:100%;min-width:0;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--txt);font:inherit;font-size:12.5px}.lcA{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.lcMsg{font-size:12.5px;margin-top:8px}.lcMsg a{color:var(--accent);font-weight:700}.lcE{font-size:13px;color:var(--dim);padding:8px 0}@media (max-width:560px){.lcS{grid-template-columns:1fr}}";
+  document.head.appendChild(st);
 })();
 </script>
 </body>
