@@ -6611,7 +6611,8 @@ html[data-palette="matrix"]:not(#_) :is(.wrap,main,section.tab,nav#tabs,#ccSub){
     var B = c.querySelector(".utB");
     try {
       var r = await soql("SELECT Id, Subject, StartDateTime, DurationInMinutes, WhatId, What.Name, IsChild FROM Event WHERE OwnerId = '" + USER_ID + "' AND SE_Task_Type__c = null AND StartDateTime = THIS_FISCAL_QUARTER AND StartDateTime <= TODAY ORDER BY StartDateTime DESC LIMIT 60");
-      var L = (r.records || []).filter(function (e) { return (e.DurationInMinutes || 0) > 0; }); B.classList.remove("muted");
+      var lg = []; try { lg = ((await soql("SELECT StartDateTime FROM Event WHERE OwnerId = '" + USER_ID + "' AND SE_Task_Type__c != null AND StartDateTime = THIS_FISCAL_QUARTER AND StartDateTime <= TODAY LIMIT 2000")).records || []).map(function (x) { return Date.parse(x.StartDateTime); }); } catch (e2) {}
+      var L = (r.records || []).filter(function (e) { if (!((e.DurationInMinutes || 0) > 0)) return false; var t0 = Date.parse(e.StartDateTime); return !lg.some(function (t) { return Math.abs(t - t0) <= 10 * 6e4; }); }); B.classList.remove("muted");
       if (!L.length) { B.innerHTML = '<span class="gd">✓ Every meeting this quarter has an activity type.</span>'; utBusy = false; return; }
       var tot = 0, gain = 0; L.forEach(function (e) { e._s = suggest(e); tot += e.DurationInMinutes; if (CUST.indexOf(e._s) >= 0) gain += e.DurationInMinutes; });
       var AE = O62() + "/lightning/n/ae_prod__Activity_Editor";
