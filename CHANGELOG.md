@@ -16,7 +16,7 @@ All notable changes to the Architect Command Center. Newest first.
 
 **Update notice.** When a newer version is posted on the Install and Updates canvas, a banner tells you how to update.
 
-**Renewals left out.** Architects can't hold a Deal Contribution on a renewal, so renewals no longer appear as deals to add yourself to or log time against (Deals I may belong on, the closing radar, additional DC by account, the logging checklist and duplicate replacements). Time already logged on a renewal shows "Renewal: re-link the time" instead of Add DC.
+**Renewals left out.** Architects can't hold a Deal Contribution on a renewal, so renewals no longer appear as deals to add yourself to or log time against (Deals I may belong on, the closing radar, additional DC by account, the logging checklist, duplicate replacements, and the deals in Mission Control and pre-meeting briefs). Time already logged on a renewal shows "Renewal: re-link the time" instead of Add DC.
 
 **General fixes.** Faster loading, pop-ups that fit the window, Tableau Next in the connection checks, an updated tour, days counted in your own time zone, and a round of bug fixes.
 
