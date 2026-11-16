@@ -1148,7 +1148,7 @@ document.addEventListener("click",function(e){var b=e.target.closest&&e.target.c
 
 <section class="tab" data-tab="pipeline">
   <div class="printonly">Pipeline</div>
-  <div class="card" id="pipeCard"><h2><span class="hIco" style="--c:#f59e0b">🧲</span><span class="hT">Pipeline health<small>Health, shortlist and account plans for the pipeline on my focus accounts</small></span><button class="iconbtn" id="pipeRef" type="button" style="margin-left:auto" title="Reload only the pipeline views">Refresh pipeline</button></h2><div id="pipeBody" class="muted">Loading your accounts' pipeline…</div></div>
+  <div class="card" id="pipeCard"><h2><span class="hIco" style="--c:#f59e0b">🧲</span><span class="hT">Pipeline health<small>Health, shortlist and account plans for the pipeline on my focus accounts</small></span><button class="iconbtn" id="pipeRef" type="button" style="margin-left:auto" title="Reloads the pipeline live from org62, skipping the 10-minute cache. The ↻ on the right reloads the whole page.">Refresh pipeline</button></h2><div id="pipeBody" class="muted">Loading your accounts' pipeline…</div></div>
 </section>
 
 <section class="tab" data-tab="assets">
@@ -1772,7 +1772,7 @@ const ccQLogAdd = t => { const L = window.ccQLog || (window.ccQLog = []); L.push
 async function soql(q) { if (SOQL_INFLIGHT.has(q)) return SOQL_INFLIGHT.get(q); const pr = soql0(q); SOQL_INFLIGHT.set(q, pr); try { return await pr; } finally { SOQL_INFLIGHT.delete(q); } }
 async function soql0(q) {
   const key = "q1:" + q;
-  try { const c = JSON.parse(QC.getItem(key) || "null"); if (c && Date.now() - c.t < CACHE_MS) { OLDEST = Math.min(OLDEST, c.t); ccQLogAdd(c.t); renderToday(); return c.b; } } catch (e) {}
+  try { const c = window.ccBypass ? null : JSON.parse(QC.getItem(key) || "null"); if (c && Date.now() - c.t < CACHE_MS) { OLDEST = Math.min(OLDEST, c.t); ccQLogAdd(c.t); renderToday(); return c.b; } } catch (e) {}
   const r = await mcp({ url: "/services/data/v66.0/query", method: "GET", queryParams: { q } });
   if (r.isError) throw new Error(r.content?.[0]?.text || "query failed");
   const p = r.structuredContent ?? JSON.parse(r.content[0].text);
@@ -2000,7 +2000,7 @@ const IDENT = (async () => {
     if (dc) s += 10; else re.push("no DC from you"); if (mt >= 3) s += 5;
     if (past) re.push("past due"); else s += 10;
     s = Math.max(0, Math.min(100, Math.round(100 * s / 90))); return { s, re, b: s >= 70 ? "ok" : s >= 45 ? "watch" : "risk" }; };
-  const load = async force => { if (busy) return; if (!force && D && D.key === scopeKey() && Date.now() - at < 10 * 6e4) { draw(); return; } busy = true; $r.disabled = true; body.innerHTML = loaderHtml("Reading the pipeline on your focus accounts", LOAD_STEPS, 0, "This takes a moment the first time");
+  const load = async force => { if (busy) return; if (!force && D && D.key === scopeKey() && Date.now() - at < 10 * 6e4) { draw(); return; } busy = true; $r.disabled = true; if (force) { window.ccBypass = (window.ccBypass || 0) + 1; $r.textContent = "Refreshing…"; } body.innerHTML = loaderHtml(force ? "Reloading the pipeline live from org62" : "Reading the pipeline on your focus accounts", LOAD_STEPS, 0, "This takes a moment the first time");
     try { let fams = []; for (let i = 0; i < 60; i++) { fams = (window.getAcctFamilies ? window.getAcctFamilies() : []); if (fams.length || (window.getAcctFamilies && i > 20)) break; await new Promise(r => setTimeout(r, 1000)); }
       if (scopeIds) fams = fams.filter(f => scopeIds.includes(f.id));
       if (!fams.length) { body.innerHTML = '<span class="muted">No focus accounts yet. Add one under Deals I may belong on, or log some customer time and they appear automatically.</span>'; return; }
@@ -2023,7 +2023,7 @@ const IDENT = (async () => {
       D = { fN, rows, own, wsOk, key: scopeKey(), capped: opps.length >= 250 }; at = Date.now(); PUSHK = ""; setTimeout(() => pushFetch(rows), 0);
       const sm = a => a.reduce((t, r) => t + (r.o.Amount || 0), 0); TS.pipe = { amt: sm(rows), n: rows.length, nNew: rows.filter(r => r.isNew).length, mine: rows.filter(r => r.dc).length, helped: rows.filter(r => r.helped).length };
       draw();
-    } catch (e) { body.innerHTML = '<span class="muted">Could not read the pipeline: ' + esc(e.message || e) + "</span>"; } finally { busy = false; $r.disabled = false; } };
+    } catch (e) { body.innerHTML = '<span class="muted">Could not read the pipeline: ' + esc(e.message || e) + "</span>"; } finally { busy = false; $r.disabled = false; if (force) { window.ccBypass = Math.max(0, (window.ccBypass || 1) - 1); $r.textContent = "Refreshed ✓"; setTimeout(() => { $r.textContent = "Refresh pipeline"; }, 2500); } } };
   const sm = a => a.reduce((t, r) => t + (r.o.Amount || 0), 0);
   // ----- charts (plain divs and SVG, no libraries)
   const chStage = R => { const g = {}; R.forEach(r => { const n = stgN(r.o.StageName), k = n + "|" + stg(r.o.StageName); (g[k] = g[k] || []).push(r); }); const ks = Object.keys(g).sort((a, b) => +a.split("|")[0] - +b.split("|")[0]), mx = Math.max(...ks.map(k => sm(g[k])), 1);
